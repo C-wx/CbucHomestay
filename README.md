@@ -1,0 +1,2 @@
+# CbucHomestay
+基于SpringBoot和uniapp搭建的民宿预订管理小程序
