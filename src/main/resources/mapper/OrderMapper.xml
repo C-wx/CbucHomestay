@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cbuc.homestay.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Order">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="RID" jdbcType="BIGINT" property="rid" />
+    <result column="OL_ID" jdbcType="BIGINT" property="olId" />
+    <result column="UNAME" jdbcType="VARCHAR" property="uname" />
+    <result column="UCARDNO" jdbcType="VARCHAR" property="ucardno" />
+    <result column="UPHONE" jdbcType="VARCHAR" property="uphone" />
+    <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
+    <result column="PRICE" jdbcType="REAL" property="price" />
+    <result column="COMMENT" jdbcType="VARCHAR" property="comment" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="PAY_TIME" jdbcType="TIMESTAMP" property="payTime" />
+    <result column="CONFIRM_TIME" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, RID, OL_ID, UNAME, UCARDNO, UPHONE, ORDER_CODE, PRICE, COMMENT, CREATE_TIME, 
+    UPDATE_TIME, PAY_TIME, CONFIRM_TIME, STATUS
+  </sql>
+  <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ms_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ms_order
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ms_order
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.OrderExample">
+    delete from ms_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
+    insert into ms_order (RID, OL_ID, UNAME, 
+      UCARDNO, UPHONE, ORDER_CODE, 
+      PRICE, COMMENT, CREATE_TIME, 
+      UPDATE_TIME, PAY_TIME, CONFIRM_TIME, 
+      STATUS)
+    values (#{rid,jdbcType=BIGINT}, #{olId,jdbcType=BIGINT}, #{uname,jdbcType=VARCHAR}, 
+      #{ucardno,jdbcType=VARCHAR}, #{uphone,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
+      #{price,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
+    insert into ms_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        RID,
+      </if>
+      <if test="olId != null">
+        OL_ID,
+      </if>
+      <if test="uname != null">
+        UNAME,
+      </if>
+      <if test="ucardno != null">
+        UCARDNO,
+      </if>
+      <if test="uphone != null">
+        UPHONE,
+      </if>
+      <if test="orderCode != null">
+        ORDER_CODE,
+      </if>
+      <if test="price != null">
+        PRICE,
+      </if>
+      <if test="comment != null">
+        COMMENT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME,
+      </if>
+      <if test="payTime != null">
+        PAY_TIME,
+      </if>
+      <if test="confirmTime != null">
+        CONFIRM_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rid != null">
+        #{rid,jdbcType=BIGINT},
+      </if>
+      <if test="olId != null">
+        #{olId,jdbcType=BIGINT},
+      </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="ucardno != null">
+        #{ucardno,jdbcType=VARCHAR},
+      </if>
+      <if test="uphone != null">
+        #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null">
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null">
+        #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cbuc.homestay.bean.OrderExample" resultType="java.lang.Long">
+    select count(*) from ms_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ms_order
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.rid != null">
+        RID = #{record.rid,jdbcType=BIGINT},
+      </if>
+      <if test="record.olId != null">
+        OL_ID = #{record.olId,jdbcType=BIGINT},
+      </if>
+      <if test="record.uname != null">
+        UNAME = #{record.uname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ucardno != null">
+        UCARDNO = #{record.ucardno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uphone != null">
+        UPHONE = #{record.uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderCode != null">
+        ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        PRICE = #{record.price,jdbcType=REAL},
+      </if>
+      <if test="record.comment != null">
+        COMMENT = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payTime != null">
+        PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.confirmTime != null">
+        CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ms_order
+    set ID = #{record.id,jdbcType=BIGINT},
+      RID = #{record.rid,jdbcType=BIGINT},
+      OL_ID = #{record.olId,jdbcType=BIGINT},
+      UNAME = #{record.uname,jdbcType=VARCHAR},
+      UCARDNO = #{record.ucardno,jdbcType=VARCHAR},
+      UPHONE = #{record.uphone,jdbcType=VARCHAR},
+      ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
+      PRICE = #{record.price,jdbcType=REAL},
+      COMMENT = #{record.comment,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
+      CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Order">
+    update ms_order
+    <set>
+      <if test="rid != null">
+        RID = #{rid,jdbcType=BIGINT},
+      </if>
+      <if test="olId != null">
+        OL_ID = #{olId,jdbcType=BIGINT},
+      </if>
+      <if test="uname != null">
+        UNAME = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="ucardno != null">
+        UCARDNO = #{ucardno,jdbcType=VARCHAR},
+      </if>
+      <if test="uphone != null">
+        UPHONE = #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null">
+        ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        PRICE = #{price,jdbcType=REAL},
+      </if>
+      <if test="comment != null">
+        COMMENT = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payTime != null">
+        PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmTime != null">
+        CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Order">
+    update ms_order
+    set RID = #{rid,jdbcType=BIGINT},
+      OL_ID = #{olId,jdbcType=BIGINT},
+      UNAME = #{uname,jdbcType=VARCHAR},
+      UCARDNO = #{ucardno,jdbcType=VARCHAR},
+      UPHONE = #{uphone,jdbcType=VARCHAR},
+      ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      PRICE = #{price,jdbcType=REAL},
+      COMMENT = #{comment,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
+      CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

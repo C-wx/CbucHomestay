@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cbuc.homestay.mapper.LogMapper">
+  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Log">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="ACCESS_UNAME" jdbcType="VARCHAR" property="accessUname" />
+    <result column="ACCESS_IP" jdbcType="VARCHAR" property="accessIp" />
+    <result column="ACCESS_CODE" jdbcType="VARCHAR" property="accessCode" />
+    <result column="ACCESS_CNAME" jdbcType="VARCHAR" property="accessCname" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, ACCESS_UNAME, ACCESS_IP, ACCESS_CODE, ACCESS_CNAME, CREATE_TIME, STATUS
+  </sql>
+  <select id="selectByExample" parameterType="cbuc.homestay.bean.LogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ms_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ms_log
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ms_log
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.LogExample">
+    delete from ms_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Log" useGeneratedKeys="true">
+    insert into ms_log (ACCESS_UNAME, ACCESS_IP, ACCESS_CODE, 
+      ACCESS_CNAME, CREATE_TIME, STATUS
+      )
+    values (#{accessUname,jdbcType=VARCHAR}, #{accessIp,jdbcType=VARCHAR}, #{accessCode,jdbcType=VARCHAR}, 
+      #{accessCname,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Log" useGeneratedKeys="true">
+    insert into ms_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="accessUname != null">
+        ACCESS_UNAME,
+      </if>
+      <if test="accessIp != null">
+        ACCESS_IP,
+      </if>
+      <if test="accessCode != null">
+        ACCESS_CODE,
+      </if>
+      <if test="accessCname != null">
+        ACCESS_CNAME,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="accessUname != null">
+        #{accessUname,jdbcType=VARCHAR},
+      </if>
+      <if test="accessIp != null">
+        #{accessIp,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCode != null">
+        #{accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCname != null">
+        #{accessCname,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cbuc.homestay.bean.LogExample" resultType="java.lang.Long">
+    select count(*) from ms_log
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ms_log
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.accessUname != null">
+        ACCESS_UNAME = #{record.accessUname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessIp != null">
+        ACCESS_IP = #{record.accessIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessCode != null">
+        ACCESS_CODE = #{record.accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessCname != null">
+        ACCESS_CNAME = #{record.accessCname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ms_log
+    set ID = #{record.id,jdbcType=BIGINT},
+      ACCESS_UNAME = #{record.accessUname,jdbcType=VARCHAR},
+      ACCESS_IP = #{record.accessIp,jdbcType=VARCHAR},
+      ACCESS_CODE = #{record.accessCode,jdbcType=VARCHAR},
+      ACCESS_CNAME = #{record.accessCname,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Log">
+    update ms_log
+    <set>
+      <if test="accessUname != null">
+        ACCESS_UNAME = #{accessUname,jdbcType=VARCHAR},
+      </if>
+      <if test="accessIp != null">
+        ACCESS_IP = #{accessIp,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCode != null">
+        ACCESS_CODE = #{accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCname != null">
+        ACCESS_CNAME = #{accessCname,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Log">
+    update ms_log
+    set ACCESS_UNAME = #{accessUname,jdbcType=VARCHAR},
+      ACCESS_IP = #{accessIp,jdbcType=VARCHAR},
+      ACCESS_CODE = #{accessCode,jdbcType=VARCHAR},
+      ACCESS_CNAME = #{accessCname,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

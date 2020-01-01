@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cbuc.homestay.mapper.AuditMapper">
+  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Audit">
+    <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="UID" jdbcType="BIGINT" property="uid" />
+    <result column="MNAME" jdbcType="VARCHAR" property="mname" />
+    <result column="MPHONE" jdbcType="VARCHAR" property="mphone" />
+    <result column="MCARDNO" jdbcType="VARCHAR" property="mcardno" />
+    <result column="MADDR" jdbcType="VARCHAR" property="maddr" />
+    <result column="MLICENSE" jdbcType="VARCHAR" property="mlicense" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, UID, MNAME, MPHONE, MCARDNO, MADDR, MLICENSE, CREATE_TIME, REMARK, STATUS
+  </sql>
+  <select id="selectByExample" parameterType="cbuc.homestay.bean.AuditExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from ms_audit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ms_audit
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from ms_audit
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.AuditExample">
+    delete from ms_audit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Audit" useGeneratedKeys="true">
+    insert into ms_audit (UID, MNAME, MPHONE, 
+      MCARDNO, MADDR, MLICENSE, 
+      CREATE_TIME, REMARK, STATUS
+      )
+    values (#{uid,jdbcType=BIGINT}, #{mname,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
+      #{mcardno,jdbcType=VARCHAR}, #{maddr,jdbcType=VARCHAR}, #{mlicense,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Audit" useGeneratedKeys="true">
+    insert into ms_audit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        UID,
+      </if>
+      <if test="mname != null">
+        MNAME,
+      </if>
+      <if test="mphone != null">
+        MPHONE,
+      </if>
+      <if test="mcardno != null">
+        MCARDNO,
+      </if>
+      <if test="maddr != null">
+        MADDR,
+      </if>
+      <if test="mlicense != null">
+        MLICENSE,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="mname != null">
+        #{mname,jdbcType=VARCHAR},
+      </if>
+      <if test="mphone != null">
+        #{mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="mcardno != null">
+        #{mcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="maddr != null">
+        #{maddr,jdbcType=VARCHAR},
+      </if>
+      <if test="mlicense != null">
+        #{mlicense,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cbuc.homestay.bean.AuditExample" resultType="java.lang.Long">
+    select count(*) from ms_audit
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ms_audit
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.uid != null">
+        UID = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.mname != null">
+        MNAME = #{record.mname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mphone != null">
+        MPHONE = #{record.mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mcardno != null">
+        MCARDNO = #{record.mcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maddr != null">
+        MADDR = #{record.maddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mlicense != null">
+        MLICENSE = #{record.mlicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ms_audit
+    set ID = #{record.id,jdbcType=BIGINT},
+      UID = #{record.uid,jdbcType=BIGINT},
+      MNAME = #{record.mname,jdbcType=VARCHAR},
+      MPHONE = #{record.mphone,jdbcType=VARCHAR},
+      MCARDNO = #{record.mcardno,jdbcType=VARCHAR},
+      MADDR = #{record.maddr,jdbcType=VARCHAR},
+      MLICENSE = #{record.mlicense,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Audit">
+    update ms_audit
+    <set>
+      <if test="uid != null">
+        UID = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="mname != null">
+        MNAME = #{mname,jdbcType=VARCHAR},
+      </if>
+      <if test="mphone != null">
+        MPHONE = #{mphone,jdbcType=VARCHAR},
+      </if>
+      <if test="mcardno != null">
+        MCARDNO = #{mcardno,jdbcType=VARCHAR},
+      </if>
+      <if test="maddr != null">
+        MADDR = #{maddr,jdbcType=VARCHAR},
+      </if>
+      <if test="mlicense != null">
+        MLICENSE = #{mlicense,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Audit">
+    update ms_audit
+    set UID = #{uid,jdbcType=BIGINT},
+      MNAME = #{mname,jdbcType=VARCHAR},
+      MPHONE = #{mphone,jdbcType=VARCHAR},
+      MCARDNO = #{mcardno,jdbcType=VARCHAR},
+      MADDR = #{maddr,jdbcType=VARCHAR},
+      MLICENSE = #{mlicense,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

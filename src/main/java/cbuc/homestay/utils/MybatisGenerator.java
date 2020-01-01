@@ -15,7 +15,7 @@ import java.util.List;
  * @ClassName: MybatisGenerator
  * @ClassDesp: MyBatis逆向工程生成类
  * @Author: Cbuc
- * @Date: 2019/10/29
+ * @Date: 2020/1/1
  */
 public class MybatisGenerator {
     public static void main(String[] args) throws Exception {
