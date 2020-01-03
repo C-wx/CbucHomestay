@@ -22,7 +22,7 @@ import java.util.Objects;
 @Slf4j
 public class UploadUtil {
     public static List<String> upload_image(MultipartFile[] files) {
-        String prefix = "file:D://Cbuc-Blog/upload/";
+        String prefix = "file:D://Cbuc-homestay/upload/";
         List<String> list_image = new ArrayList<String>();
         for (int i = 0; i < files.length; i++) {
             if (!files[i].isEmpty()) {

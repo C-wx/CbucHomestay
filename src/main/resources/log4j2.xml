@@ -20,10 +20,10 @@
             <patternLayout pattern="${FORMAT}"/>
         </console>
         <!-- 常用于开发环境,把日志记录到文件中,默认追加 -->
-        <file name="db_log" fileName="${LOG_HOME}/cbuc-blog-db.log" append="true">
+        <file name="db_log" fileName="${LOG_HOME}/cbuc_homestay_db_info.log" append="true">
             <patternLayout pattern="${FORMAT}"/>
         </file>
-        <file name="service_log" fileName="${LOG_HOME}/cbuc-blog-info.log" append="true">
+        <file name="service_log" fileName="${LOG_HOME}/cbuc_homestay_info.log" append="true">
             <patternLayout pattern="${FORMAT}"/>
         </file>
     </appenders>
@@ -47,14 +47,14 @@
 
         <!-- 对包进行更详细的配置 -->
         <!-- additivity表示是否追加,防止重复,因为root已经接收过一次了 -->
-        <logger name="cbuc.blog.mapper" level="DEBUG" additivity="true">
+        <logger name="cbuc.homestay.mapper" level="DEBUG" additivity="true">
             <appender-ref ref="db_log"/>
             <appender-ref ref="console"/>
         </logger>
-        <logger name="cbuc.blog.controller" level="DEBUG" additivity="false">
+        <logger name="cbuc.homestay.controller" level="DEBUG" additivity="false">
             <appender-ref ref="service_log"/>
         </logger>
-        <logger name="cbuc.blog.service" level="DEBUG" additivity="false">
+        <logger name="cbuc.homestay.service" level="DEBUG" additivity="false">
             <appender-ref ref="service_log"/>
         </logger>
         <!-- root logger,一般用于放置所有的appender -->

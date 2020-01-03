@@ -36,6 +36,12 @@ public class Result<T> implements Serializable {
         result.setMsg(s);
         return result;
     }
+    public static Result error(Integer code,String s) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(s);
+        return result;
+    }
     public static Result error() {
         Result result = new Result();
         result.setCode(501);

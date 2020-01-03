@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ProjectName: Cbuc-Blog
- * @Package: cbuc.blog.utils
+ * @ProjectName: Cbuc-homestay
+ * @Package: cbuc.homestay.utils
  * @ClassName: MybatisGenerator
  * @ClassDesp: MyBatis逆向工程生成类
  * @Author: Cbuc

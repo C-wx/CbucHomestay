@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @Explain:   通过Map实现缓存
+ * @Explain:   通过Map实现缓存 TODO 后期可使用 Redis 等缓存中间件
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2019/11/6
