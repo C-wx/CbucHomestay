@@ -21,4 +21,9 @@ public class PageController {
         return "login";
     }
 
+    @ApiOperation("跳转到管理主页")
+    @GetMapping("/admin/")
+    public String toIndex() {
+        return "home";
+    }
 }

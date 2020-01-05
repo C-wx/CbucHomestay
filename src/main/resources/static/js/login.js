@@ -23,38 +23,57 @@ $(window, document, undefined).ready(function () {
         $(this).removeClass('is-active');
     });
 });
-$(()=> {
-    $("body").on("click",".button",()=> {
+$(() => {
+    $("body").on("click", ".button", () => {
         let account = $("#maccount").val();
         let pwd = $("#mpwd").val();
         let code = $("#verifyCode").val();
         if (!account) {
             $("#maccount").focus();
-            Base.openError("请输入账号","#maccount"); return
-        }else if (!pwd) {
+            Base.openError("请输入账号", "#maccount");
+            return
+        } else if (!pwd) {
             $("#mpwd").focus();
-            Base.openError("请输入密码","#mpwd"); return
-        }else if (!code) {
+            Base.openError("请输入密码", "#mpwd");
+            return
+        } else if (!code) {
             $("#verifyCode").focus();
-            Base.openError("请输入验证码","#verifyCode"); return
-        }else {
-            Base.ajax('/doLogin', 'POST', $(".formDate").serialize(), (e)=>{
-                if (e.data.code == Base.status.success) {
-                    layer.msg() // TODO
+            Base.openError("请输入验证码", "#verifyCode");
+            return
+        } else {
+            Base.ajax('/doLogin', 'POST', $(".formDate").serialize(), (e) => {
+                if (e.code == Base.status.success) {
+                    layer.msg("登录成功", {icon: 6, time: 800, anim: 1});
+                    setTimeout(()=>{
+                        location.href = "/admin/";
+                    },1000);
+                }else {
+                    layer.msg(e.msg,{icon: 5, time: 800, anim: 1});
+                    setTimeout(function () {
+                        $("#verifyCode").val("");
+                        captchaRefresh($("#vercode"));
+                    }, 1000);
                 }
             })
         }
     });
-    $("body").on("change","#maccount",()=> {
-        layer.close(errorPrompt)
+    $("body").on("change", "#maccount", () => {
+        try{
+            layer.close(errorPrompt);
+        }catch(e){}
     });
-    $("body").on("change","#mpwd",()=> {
-        layer.close(errorPrompt)
+    $("body").on("change", "#mpwd", () => {
+        try{
+            layer.close(errorPrompt);
+        }catch(e){}
     });
-    $("body").on("change","#verifyCode",()=> {
-        layer.close(errorPrompt)
+    $("body").on("change", "#verifyCode", () => {
+        try{
+            layer.close(errorPrompt);
+        }catch(e){}
     })
 })
+
 function captchaRefresh(img) {
     $(img).attr("src", "/image/code?t=" + Math.random());
 }
