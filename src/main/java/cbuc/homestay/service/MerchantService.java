@@ -7,6 +7,7 @@ import cbuc.homestay.evt.LoginUser;
 import cbuc.homestay.mapper.MerchantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -17,17 +18,17 @@ import java.util.List;
  * @Date: 2020/1/2
  */
 @Service
-public class MerchantServie {
+public class MerchantService {
     @Autowired
     private MerchantMapper merchantMapper;
 
-    public Boolean verify(LoginUser loginUser) {
+    public Merchant queryDetail(LoginUser loginUser) {
         MerchantExample merchantExample = new MerchantExample();
         merchantExample.createCriteria()
                 .andMaccountEqualTo(loginUser.getMaccount())
                 .andMpwdEqualTo(loginUser.getMpwd())
                 .andStatusNotEqualTo(StatusEnum.D.getValue());
         List<Merchant> merchants = merchantMapper.selectByExample(merchantExample);
-        return merchants.size() > 0 ? true : false;
+        return CollectionUtils.isEmpty(merchants)?null:merchants.get(0);
     }
 }

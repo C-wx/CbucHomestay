@@ -1,7 +1,7 @@
 package cbuc.homestay.exception;
 
 /**
- * @Explain:  自定义缓存
+ * @Explain:  自定义异常
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/1

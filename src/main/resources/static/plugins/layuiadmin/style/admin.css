@@ -328,7 +328,6 @@ html {
 
 .layadmin-side-shrink .layui-layout-admin .layui-logo {
     width: 60px;
-    background-image: url(res/logo.png)
 }
 
 .layadmin-side-shrink .layui-layout-admin .layui-logo span {
@@ -586,11 +585,15 @@ html {
     padding: 0 15px;
     box-sizing: border-box;
     overflow: hidden;
-    font-weight: 300;
-    background-color: #20222A;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .15);
-    color: #76cdff;
+    font-weight: 800;
+    color: #C2BE9E;
     font-size: 30px;
+    font-family: 'kaiti';
+}
+
+.layui-layout-admin .layui-logo span{
+    font-style: initial;!important;
+    margin-left: 5px;
 }
 
 .layui-side-menu {
@@ -1284,7 +1287,7 @@ html {
 
 @-webkit-keyframes layui-lr {
     from {
-        -webkit-transform: translate3d(0 0, 0);
+        -webkit-transform: translate3d(0, 0, 0);
         opacity: 1
     }
     to {

@@ -77,3 +77,9 @@ $(() => {
 function captchaRefresh(img) {
     $(img).attr("src", "/image/code?t=" + Math.random());
 }
+
+$(document).keyup(function(event){
+    if(event.keyCode ==13){
+        $(".button").click();
+    }
+});

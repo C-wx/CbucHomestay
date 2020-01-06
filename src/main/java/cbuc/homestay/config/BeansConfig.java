@@ -9,16 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
- * @Explain:
+ * @Explain:    验证码配置
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/2
  */
 @Configuration
 public class BeansConfig {
-    /**
-     * 验证码配置
-     */
     @Bean("captchaProducer")
     public DefaultKaptcha kaptcha() {
         DefaultKaptcha kaptcha = new DefaultKaptcha();
