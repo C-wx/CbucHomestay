@@ -41,9 +41,40 @@
             </div>
         </div>
     </div>
-    <button type="button" class="button buttonBlue">登录
+    <button type="button" class="button buttonBlue" id="login">登录
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
+    <h4 class="forget">忘记密码</h4>
+</form>
+<form class="forgetForm" style="display: none">
+    <div class="group">
+        <input type="text" name="mphone" id="for_phone" maxlength="11"><span class="highlight"></span><span class="bar"></span>
+        <label>手机号码</label>
+    </div>
+    <div class="group">
+        <input type="password" name="npwd" id="for_new_pwd" maxlength="11"><span class="highlight"></span><span class="bar"></span>
+        <label>新密码</label>
+    </div>
+    <div class="group">
+        <input type="password" id="for_old_pwd" maxlength="11"><span class="highlight"></span><span class="bar"></span>
+        <label>确认密码</label>
+    </div>
+    <div class="group">
+        <div class="row">
+            <div class="layui-col-xs8">
+                <input type="text" name="msgCode" id="for_Code"><span class="highlight"></span><span
+                    class="bar"></span>
+                <label>短信验证码</label>
+            </div>
+            <div class="layui-col-xs4">
+                <input class="layui-btn layui-btn-radius" type="button" value="获取验证码" id="getCode">
+            </div>
+        </div>
+    </div>
+    <button type="button" class="button buttonBlue" id="forget">提交
+        <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+    </button>
+    <h4 class="re_login">返回登录</h4>
 </form>
 </body>
 </html>

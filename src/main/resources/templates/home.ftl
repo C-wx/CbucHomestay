@@ -10,6 +10,7 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <!-- layui -->
     <script src="${base}/plugins/layui/layui.all.js" type="application/javascript"></script>
+    <script src="${base}/plugins/layui/layui.js"></script>
     <link rel="stylesheet" href="${base}/plugins/layui/css/layui.css">
     <!-- 客户端-->
     <link rel="stylesheet" href="${base}/plugins/layuiadmin/style/admin.css" media="all">
@@ -38,7 +39,7 @@
 
                 <li class="layui-nav-item" lay-unselect>
                     <a lay-href="/admin/contact" layadmin-event="message" lay-text="用户留言">
-                        <i class="fa fa-bell"></i>
+                        <i class="fa fa-bell"></i>  12
                     <#-- <#if (contactNum > 0)>
                      <span class="layui-badge-dot"></span>
                      </#if>
@@ -52,11 +53,12 @@
                 <li class="layui-nav-item" lay-unselect style="margin-right: 40px">
                     <a href="javascript:;">
                         <cite style="font-size: 20px">
-                        ${LOGIN_MERCHANT.mname!}
+                        <i class="fa fa-user"></i>&nbsp;&nbsp;${LOGIN_MERCHANT.mname!}
                         </cite>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a href="/logout"><i class="fa fa-sign-out"></i> 退出</a></dd>
+                        <dd><a lay-href="/toModPwd"><i class="fa fa-unlock"></i> 修改密码</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
@@ -86,13 +88,11 @@
                             <cite>商户中心</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd data-name="articleAdd">
-                                <a lay-href="/admin/articleAdd">商户审核</a>
+                            <dd data-name="merchantAudit">
+                                <a lay-href="/admin/merchantAudit">商户审核</a>
                             </dd>
-                        </dl>
-                        <dl class="layui-nav-child">
-                            <dd data-name="articleAdd">
-                                <a lay-href="/admin/articleAdd">商户管理</a>
+                            <dd data-name="merchantManage">
+                                <a lay-href="/admin/merchantManage">商户管理</a>
                             </dd>
                         </dl>
                     </li>
@@ -102,8 +102,11 @@
                             <cite>房源中心</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd data-name="articleAdd">
-                                <a lay-href="/admin/articleAdd">房源审核</a>
+                            <dd data-name="homeAudit">
+                                <a lay-href="/admin/homeAudit">房源审核</a>
+                            </dd>
+                            <dd data-name="homeManage">
+                                <a lay-href="/admin/homeManage">房源管理</a>
                             </dd>
                         </dl>
                     </li>
@@ -113,11 +116,11 @@
                             <cite>资讯中心</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd data-name="manaArticle">
-                                <a lay-href="/admin/manaArticle">资讯审核</a>
+                            <dd data-name="infoAudit">
+                                <a lay-href="/admin/infoAudit">资讯审核</a>
                             </dd>
-                            <dd data-name="manaTag">
-                                <a lay-href="/admin/manaTag">资讯管理</a>
+                            <dd data-name="infoManage">
+                                <a lay-href="/admin/infoManage">资讯管理</a>
                             </dd>
                         </dl>
                     </li>
@@ -127,11 +130,11 @@
                             <cite>评论中心</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd data-name="comment">
-                                <a lay-href="/admin/comment">评论审核</a>
+                            <dd data-name="commentAudit">
+                                <a lay-href="/admin/commentAudit">评论审核</a>
                             </dd>
-                            <dd data-name="contact">
-                                <a lay-href="/admin/contact">评论管理</a>
+                            <dd data-name="commentManage">
+                                <a lay-href="/admin/commentManage">评论管理</a>
                             </dd>
                         </dl>
                     </li>
@@ -141,11 +144,11 @@
                             <cite>公告中心</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd data-name="comment">
-                                <a lay-href="/admin/comment">公告审核</a>
+                            <dd data-name="bulletinAudit">
+                                <a lay-href="/admin/bulletinAudit">公告审核</a>
                             </dd>
-                            <dd data-name="contact">
-                                <a lay-href="/admin/contact">公告管理</a>
+                            <dd data-name="bulletinManage">
+                                <a lay-href="/admin/bulletinManage">公告管理</a>
                             </dd>
                         </dl>
                     </li>
@@ -175,7 +178,6 @@
         <div class="layadmin-body-shade" layadmin-event="shade"></div>
     </div>
 </div>
-<script src="/plugins/layui/layui.js"></script>
 <script>
     layui.config({
         base: '/plugins/layuiadmin/' //静态资源所在路径

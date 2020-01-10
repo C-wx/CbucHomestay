@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,5 +34,11 @@ public class PageController {
         Merchant login_merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
         model.addAttribute("LOGIN_MERCHANT",login_merchant);
         return "home";
+    }
+
+    @ApiOperation("跳转到修改密码页面")
+    @RequestMapping("/toModPwd")
+    public String toModPwd() {
+        return "modPwd";
     }
 }

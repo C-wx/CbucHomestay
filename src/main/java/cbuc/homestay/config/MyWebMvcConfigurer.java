@@ -49,7 +49,7 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/toLogin", "/image/code", "/doLogin")
+                .excludePathPatterns("/toLogin", "/image/code", "/doLogin", "/getMsgCode", "/doForget")
                 .excludePathPatterns("/static/**", "/js/**", "/css/**", "/img/**", "/plugins/**", "/vendor/**", "/error/**", "/image/**", "/upfiles/**");
     }
 }

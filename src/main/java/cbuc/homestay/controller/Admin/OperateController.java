@@ -22,6 +22,6 @@ public class OperateController {
     @ApiOperation("跳转数据统计页面")
     @GetMapping("/dataStatistic")
     public String dataStatisticList() {
-        return "";
+        return null;
     }
 }

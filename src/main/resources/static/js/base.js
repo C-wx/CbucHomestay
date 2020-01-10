@@ -1,11 +1,23 @@
 /**
- * Copyright:CBUC
+ * Copyright:Cbuc
  */
 var Base = {
+    /**
+     * 响应状态吗
+     * 200  请求成功
+     * 501  请求错误
+     */
     status: {
         success: 200,
         error: 501
     }
+    /**
+     * 发送AJAX请求(封装)
+     * @param url       请求地址
+     * @param type      请求类型    (GET/POST/PUT/DELETE)
+     * @param data      请求数据    (JSON)
+     * @param success   请求成功回调函数
+     */
     , ajax: function (url, type, data, success) {
         $.ajax({
             type: type
@@ -18,24 +30,29 @@ var Base = {
             }
         })
     }
+    /**
+     * 日期格式化
+     * @param date      日期
+     * @param format    日期格式    (yyyy-mm-dd)
+     * @returns         格式化后的日期
+     */
     , formatDate: function (date, format) {
         return new Date(date).format(format);
     }
-    , isEnable: function (data) {
-        if (data.status == 'D') {
-            return "(已删除)";
-        } else if (Base.formatDate(data.endTime, 'yyyy-MM-dd HH:mm:ss') < Base.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss')) {
-            return "(已失效)";
-        } else {
-            return "(生效中)";
-        }
-    }
+    /**
+     *
+     * @param msg
+     * @param target
+     */
     , openError: function (msg, target) {
         errorPrompt = layer.tips('<span style="font-size: 14px">' + msg + '</span>', target, {
             tips: [1, '#aaa7b2'],
             time: 30000
         });
     }
+    /**
+     * 校验邮箱地址
+     */
     , verifyEmail: function () {
         var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
         if (!reg.test($("#email").val())) {
@@ -46,19 +63,31 @@ var Base = {
             layer.close(errorPrompt);
         }
     }
-    , verifyNull: function (value, target) {
-        if (!value) {
-            $(target).css("border", "1px orange solid");
-            return false
-        } else {
-            return true;
-        }
-    }
+    /**
+     * 页面重载
+     */
     , loadPage: function () {
         location.reload();
     }
+    /**
+     * 校验电话号码
+     * @param phone
+     * @returns {boolean}
+     */
+    , checkPhone(phone){
+        if(!(/^1(3|4|5|7|8)\d{9}$/.test(phone))){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
 };
+/**
+ * 日期格式化
+ * @param format
+ * @returns {*}
+ */
 Date.prototype.format = function (format) {
     var date = {
         "M+": this.getMonth() + 1,

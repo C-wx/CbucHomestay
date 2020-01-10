@@ -46,13 +46,10 @@ public class KaptchaController {
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
-
         String capText = captchaProducer.createText();
         session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
-
         String code = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         log.info("输出验证码：[{}]", code);
-
         BufferedImage bi = captchaProducer.createImage(capText);
         ServletOutputStream out = response.getOutputStream();
         ImageIO.write(bi, "jpg", out);
