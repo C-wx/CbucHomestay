@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cbuc.homestay.mapper.BulletinMapper">
-  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Bulletin">
+<mapper namespace="cbuc.homestay.mapper.AuditLogMapper">
+  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.AuditLog">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
-    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="BEGIN_TIME" jdbcType="TIMESTAMP" property="beginTime" />
-    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="PARENT_ID" jdbcType="BIGINT" property="parentId" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
     <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="AUDIT_REMARK" jdbcType="VARCHAR" property="auditRemark" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,16 +69,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, CONTENT, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, AUDIT_STATUS, STATUS
+    ID, PARENT_ID, TYPE, AUDIT_STATUS, AUDIT_REMARK, CREATE_TIME, STATUS
   </sql>
-  <select id="selectByExample" parameterType="cbuc.homestay.bean.BulletinExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cbuc.homestay.bean.AuditLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from ms_bulletin
+    from ms_audit_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,105 +89,96 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ms_bulletin
+    from ms_audit_log
     where ID = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ms_bulletin
+    delete from ms_audit_log
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.BulletinExample">
-    delete from ms_bulletin
+  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.AuditLogExample">
+    delete from ms_audit_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Bulletin" useGeneratedKeys="true">
-    insert into ms_bulletin (CONTENT, CREATE_TIME, UPDATE_TIME, 
-      BEGIN_TIME, END_TIME, AUDIT_STATUS, 
-      STATUS)
-    values (#{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.AuditLog" useGeneratedKeys="true">
+    insert into ms_audit_log (PARENT_ID, TYPE, AUDIT_STATUS, 
+      AUDIT_REMARK, CREATE_TIME, STATUS
+      )
+    values (#{parentId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{auditRemark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Bulletin" useGeneratedKeys="true">
-    insert into ms_bulletin
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.AuditLog" useGeneratedKeys="true">
+    insert into ms_audit_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="content != null">
-        CONTENT,
+      <if test="parentId != null">
+        PARENT_ID,
       </if>
-      <if test="createTime != null">
-        CREATE_TIME,
-      </if>
-      <if test="updateTime != null">
-        UPDATE_TIME,
-      </if>
-      <if test="beginTime != null">
-        BEGIN_TIME,
-      </if>
-      <if test="endTime != null">
-        END_TIME,
+      <if test="type != null">
+        TYPE,
       </if>
       <if test="auditStatus != null">
         AUDIT_STATUS,
+      </if>
+      <if test="auditRemark != null">
+        AUDIT_REMARK,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
       </if>
       <if test="status != null">
         STATUS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="beginTime != null">
-        #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
       <if test="auditStatus != null">
         #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRemark != null">
+        #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cbuc.homestay.bean.BulletinExample" resultType="java.lang.Long">
-    select count(*) from ms_bulletin
+  <select id="countByExample" parameterType="cbuc.homestay.bean.AuditLogExample" resultType="java.lang.Long">
+    select count(*) from ms_audit_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ms_bulletin
+    update ms_audit_log
     <set>
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.content != null">
-        CONTENT = #{record.content,jdbcType=VARCHAR},
+      <if test="record.parentId != null">
+        PARENT_ID = #{record.parentId,jdbcType=BIGINT},
       </if>
-      <if test="record.createTime != null">
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null">
-        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.beginTime != null">
-        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null">
-        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      <if test="record.type != null">
+        TYPE = #{record.type,jdbcType=VARCHAR},
       </if>
       <if test="record.auditStatus != null">
         AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditRemark != null">
+        AUDIT_REMARK = #{record.auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
@@ -199,39 +189,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ms_bulletin
+    update ms_audit_log
     set ID = #{record.id,jdbcType=BIGINT},
-      CONTENT = #{record.content,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
-      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
-      BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
-      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      PARENT_ID = #{record.parentId,jdbcType=BIGINT},
+      TYPE = #{record.type,jdbcType=VARCHAR},
       AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
+      AUDIT_REMARK = #{record.auditRemark,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Bulletin">
-    update ms_bulletin
+  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.AuditLog">
+    update ms_audit_log
     <set>
-      <if test="content != null">
-        CONTENT = #{content,jdbcType=VARCHAR},
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=BIGINT},
       </if>
-      <if test="createTime != null">
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="beginTime != null">
-        BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      <if test="type != null">
+        TYPE = #{type,jdbcType=VARCHAR},
       </if>
       <if test="auditStatus != null">
         AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="auditRemark != null">
+        AUDIT_REMARK = #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
@@ -239,14 +225,13 @@
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Bulletin">
-    update ms_bulletin
-    set CONTENT = #{content,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
-      BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
-      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.AuditLog">
+    update ms_audit_log
+    set PARENT_ID = #{parentId,jdbcType=BIGINT},
+      TYPE = #{type,jdbcType=VARCHAR},
       AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      AUDIT_REMARK = #{auditRemark,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>

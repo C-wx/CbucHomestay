@@ -48,7 +48,7 @@ $(() => {
                 if (e.code == Base.status.success) {
                     layer.msg("登录成功", {icon: 6, time: 800, anim: 1});
                     setTimeout(() => {
-                        location.href = "/admin/";
+                        location.href = "/home/"+e.data.mlevel;
                     }, 1000);
                 } else {
                     layer.msg(e.msg, {icon: 5, time: 800, anim: 1});

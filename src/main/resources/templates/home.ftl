@@ -39,7 +39,7 @@
 
                 <li class="layui-nav-item" lay-unselect>
                     <a lay-href="/admin/contact" layadmin-event="message" lay-text="用户留言">
-                        <i class="fa fa-bell"></i>  12
+                        <i class="fa fa-bell"></i> 12
                     <#-- <#if (contactNum > 0)>
                      <span class="layui-badge-dot"></span>
                      </#if>
@@ -53,7 +53,7 @@
                 <li class="layui-nav-item" lay-unselect style="margin-right: 40px">
                     <a href="javascript:;">
                         <cite style="font-size: 20px">
-                        <i class="fa fa-user"></i>&nbsp;&nbsp;${LOGIN_MERCHANT.mname!}
+                            <i class="fa fa-user"></i>&nbsp;&nbsp;${LOGIN_MERCHANT.mname!}
                         </cite>
                     </a>
                     <dl class="layui-nav-child">
@@ -77,40 +77,52 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
                     <li data-name="dataStatistic" class="layui-nav-item layui-this" style="padding-top: 45px">
-                        <a href="javascript:;" lay-href="/admin/dataStatistic" lay-tips="数据统计" lay-direction="2">
+                        <a href="javascript:;" lay-href=${(MLEVEL == 'ADMIN')?string('/admin/dataStatistic','/merchant/dataStatistic')} lay-tips="数据统计" lay-direction="2">
                             <i class="layui-icon layui-icon-tabs"></i>
                             <cite>数据统计</cite>
                         </a>
                     </li>
-                    <li data-name="content" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="商户中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-survey"></i>
-                            <cite>商户中心</cite>
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd data-name="merchantAudit">
-                                <a lay-href="/admin/merchantAudit">商户审核</a>
-                            </dd>
-                            <dd data-name="merchantManage">
-                                <a lay-href="/admin/merchantManage">商户管理</a>
-                            </dd>
-                        </dl>
-                    </li>
-                    <li data-name="content" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="房源中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-survey"></i>
-                            <cite>房源中心</cite>
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd data-name="homeAudit">
-                                <a lay-href="/admin/homeAudit">房源审核</a>
-                            </dd>
-                            <dd data-name="homeManage">
-                                <a lay-href="/admin/homeManage">房源管理</a>
-                            </dd>
-                        </dl>
-                    </li>
-                    <li data-name="contentManage" class="layui-nav-item">
+                    <#if MLEVEL == 'ADMIN'>
+                        <li data-name="merchant" class="layui-nav-item">
+                            <a href="javascript:;" lay-tips="商户中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-survey"></i>
+                                <cite>商户中心</cite>
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd data-name="merchantAudit">
+                                    <a lay-href="/admin/merchantAudit">商户审核</a>
+                                </dd>
+                                <dd data-name="merchantManage">
+                                    <a lay-href="/admin/merchantManage">商户管理</a>
+                                </dd>
+                            </dl>
+                        </li>
+                    </#if>
+                    <#if MLEVEL == 'ADMIN'>
+                        <li data-name="home" class="layui-nav-item">
+                            <a href="javascript:;" lay-tips="房源中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-survey"></i>
+                                <cite>房源中心</cite>
+                            </a>
+                            <dl class="layui-nav-child">
+                                <dd data-name="homeAudit">
+                                    <a lay-href="/admin/homeAudit">房源审核</a>
+                                </dd>
+                                <dd data-name="homeManage">
+                                    <a lay-href="/admin/homeManage">房源管理</a>
+                                </dd>
+                            </dl>
+                        </li>
+                    <#else >
+                        <li data-name="home" class="layui-nav-item">
+                            <a lay-href="/merchant/homeManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-link"></i>
+                                <cite>房源管理</cite>
+                            </a>
+                        </li>
+                    </#if>
+                    <#if MLEVEL == 'ADMIN'>
+                    <li data-name="info" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="资讯中心" lay-direction="2">
                             <i class="layui-icon layui-icon-template"></i>
                             <cite>资讯中心</cite>
@@ -124,7 +136,16 @@
                             </dd>
                         </dl>
                     </li>
-                    <li data-name="dictionary" class="layui-nav-item">
+                    <#else >
+                        <li data-name="info" class="layui-nav-item">
+                            <a lay-href="/merchant/infoManage" href="javascript:;" lay-tips="资讯管理" lay-direction="2">
+                                <i class="layui-icon layui-icon-link"></i>
+                                <cite>资讯管理</cite>
+                            </a>
+                        </li>
+                    </#if>
+                    <#if MLEVEL == 'ADMIN'>
+                    <li data-name="comment" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="评论中心" lay-direction="2">
                             <i class="layui-icon layui-icon-reply-fill"></i>
                             <cite>评论中心</cite>
@@ -138,6 +159,15 @@
                             </dd>
                         </dl>
                     </li>
+                    <#else >
+                        <li data-name="comment" class="layui-nav-item">
+                            <a lay-href="/merchant/commentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
+                                <i class="layui-icon layui-icon-link"></i>
+                                <cite>评论管理</cite>
+                            </a>
+                        </li>
+                    </#if>
+                    <#if MLEVEL == 'ADMIN'>
                     <li data-name="bulletin" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="公告中心" lay-direction="2">
                             <i class="layui-icon layui-icon-reply-fill"></i>
@@ -152,6 +182,14 @@
                             </dd>
                         </dl>
                     </li>
+                    <#else >
+                        <li data-name="bulletin" class="layui-nav-item">
+                            <a lay-href="/merchant/bulletinManage" href="javascript:;" lay-tips="公告管理" lay-direction="2">
+                                <i class="layui-icon layui-icon-link"></i>
+                                <cite>公告管理</cite>
+                            </a>
+                        </li>
+                    </#if>
                 </ul>
             </div>
         </div>

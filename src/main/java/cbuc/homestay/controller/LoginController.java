@@ -74,7 +74,7 @@ public class LoginController {
                 session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
                 session.setAttribute("LOGIN_MERCHANT", merchant);
                 session.setMaxInactiveInterval(30 * 60);
-                return Result.success();
+                return Result.success(merchant);
             }
         } catch (Exception e) {
             e.printStackTrace();

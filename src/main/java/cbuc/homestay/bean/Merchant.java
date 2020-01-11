@@ -31,4 +31,8 @@ public class Merchant {
     private Date updateTime;
 
     private String status;
+
+    /**--------非表字段----------*/
+    private Apply apply;
+    /**-------------------------*/
 }

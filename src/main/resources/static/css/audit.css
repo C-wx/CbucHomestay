@@ -1,0 +1,16 @@
+body {
+    background-color: rgba(194, 194, 194, 0.3);
+}
+.modPwdTitle {
+    text-align: center;
+    font-size: 30px;
+    font-family: 'kaiti';
+    letter-spacing: 2px
+}
+.prompt,em{
+    font-size: 16px;
+    color: #fe2b26;
+}
+form{
+    font-size: 16px;
+}

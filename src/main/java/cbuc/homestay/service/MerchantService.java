@@ -1,5 +1,6 @@
 package cbuc.homestay.service;
 
+import cbuc.homestay.CommonEnum.LevelEnum;
 import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.bean.MerchantExample;
@@ -48,5 +49,20 @@ public class MerchantService {
         }
         merchant.builder();
         return merchantMapper.updateByPrimaryKeySelective(merchant);
+    }
+
+    public int doAdd(Merchant merchant) {
+        return merchantMapper.insertSelective(merchant);
+    }
+
+    public List<Merchant> queryList(String title) {
+        MerchantExample merchantExample = new MerchantExample();
+        MerchantExample.Criteria criteria = merchantExample.createCriteria();
+        if (StringUtils.isNotBlank(title)) {
+            criteria.andMnameLike("%" + title + "%");
+        }
+        criteria.andMlevelNotEqualTo(LevelEnum.ADMIN.getValue());
+        merchantExample.setOrderByClause("id desc");
+        return merchantMapper.selectByExample(merchantExample);
     }
 }

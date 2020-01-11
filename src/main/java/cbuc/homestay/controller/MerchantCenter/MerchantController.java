@@ -1,4 +1,4 @@
-package cbuc.homestay.controller.Merchant;
+package cbuc.homestay.controller.MerchantCenter;
 
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Explain:
  * @Author: Cbuc
  * @Version: 1.0
- * @Date: 2020/1/6
+ * @Date: 2020/1/11
  */
 @Slf4j
-@Api(value = "商家操作控制器",description = "处理商家相关操作")
+@Api(value = "商户控制器",description = "商户处理相关操作")
 @Controller
 @RequestMapping("/merchant")
-public class OperaController {
+public class MerchantController {
 }

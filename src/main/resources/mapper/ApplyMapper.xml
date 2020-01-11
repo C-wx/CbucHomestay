@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cbuc.homestay.mapper.AuditMapper">
-  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Audit">
+<mapper namespace="cbuc.homestay.mapper.ApplyMapper">
+  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Apply">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="UID" jdbcType="BIGINT" property="uid" />
     <result column="MNAME" jdbcType="VARCHAR" property="mname" />
@@ -11,6 +11,7 @@
     <result column="MLICENSE" jdbcType="VARCHAR" property="mlicense" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,16 +73,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, UID, MNAME, MPHONE, MCARDNO, MADDR, MLICENSE, CREATE_TIME, REMARK, STATUS
+    ID, UID, MNAME, MPHONE, MCARDNO, MADDR, MLICENSE, CREATE_TIME, REMARK, AUDIT_STATUS, 
+    STATUS
   </sql>
-  <select id="selectByExample" parameterType="cbuc.homestay.bean.AuditExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cbuc.homestay.bean.ApplyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from ms_audit
+    from ms_apply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,31 +94,31 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ms_audit
+    from ms_apply
     where ID = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ms_audit
+    delete from ms_apply
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.AuditExample">
-    delete from ms_audit
+  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.ApplyExample">
+    delete from ms_apply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Audit" useGeneratedKeys="true">
-    insert into ms_audit (UID, MNAME, MPHONE, 
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Apply" useGeneratedKeys="true">
+    insert into ms_apply (UID, MNAME, MPHONE, 
       MCARDNO, MADDR, MLICENSE, 
-      CREATE_TIME, REMARK, STATUS
-      )
+      CREATE_TIME, REMARK, AUDIT_STATUS, 
+      STATUS)
     values (#{uid,jdbcType=BIGINT}, #{mname,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
       #{mcardno,jdbcType=VARCHAR}, #{maddr,jdbcType=VARCHAR}, #{mlicense,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Audit" useGeneratedKeys="true">
-    insert into ms_audit
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Apply" useGeneratedKeys="true">
+    insert into ms_apply
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
         UID,
@@ -141,6 +143,9 @@
       </if>
       <if test="remark != null">
         REMARK,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
       </if>
       <if test="status != null">
         STATUS,
@@ -171,19 +176,22 @@
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cbuc.homestay.bean.AuditExample" resultType="java.lang.Long">
-    select count(*) from ms_audit
+  <select id="countByExample" parameterType="cbuc.homestay.bean.ApplyExample" resultType="java.lang.Long">
+    select count(*) from ms_apply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ms_audit
+    update ms_apply
     <set>
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
@@ -212,6 +220,9 @@
       <if test="record.remark != null">
         REMARK = #{record.remark,jdbcType=VARCHAR},
       </if>
+      <if test="record.auditStatus != null">
+        AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
       </if>
@@ -221,7 +232,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ms_audit
+    update ms_apply
     set ID = #{record.id,jdbcType=BIGINT},
       UID = #{record.uid,jdbcType=BIGINT},
       MNAME = #{record.mname,jdbcType=VARCHAR},
@@ -231,13 +242,14 @@
       MLICENSE = #{record.mlicense,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       REMARK = #{record.remark,jdbcType=VARCHAR},
+      AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
       STATUS = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Audit">
-    update ms_audit
+  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Apply">
+    update ms_apply
     <set>
       <if test="uid != null">
         UID = #{uid,jdbcType=BIGINT},
@@ -263,14 +275,17 @@
       <if test="remark != null">
         REMARK = #{remark,jdbcType=VARCHAR},
       </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Audit">
-    update ms_audit
+  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Apply">
+    update ms_apply
     set UID = #{uid,jdbcType=BIGINT},
       MNAME = #{mname,jdbcType=VARCHAR},
       MPHONE = #{mphone,jdbcType=VARCHAR},
@@ -279,6 +294,7 @@
       MLICENSE = #{mlicense,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       REMARK = #{remark,jdbcType=VARCHAR},
+      AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>

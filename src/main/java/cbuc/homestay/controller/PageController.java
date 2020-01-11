@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
@@ -29,10 +30,11 @@ public class PageController {
     }
 
     @ApiOperation("跳转到管理主页")
-    @GetMapping("/admin/")
-    public String toIndex(HttpSession session, Model model) {
+    @GetMapping("/home/{mlevel}")
+    public String toIndex(@PathVariable("mlevel") String mlevel, HttpSession session, Model model) {
         Merchant login_merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
         model.addAttribute("LOGIN_MERCHANT",login_merchant);
+        model.addAttribute("MLEVEL",mlevel);
         return "home";
     }
 

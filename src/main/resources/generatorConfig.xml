@@ -58,7 +58,7 @@
             selectByExampleQueryId:Select单个对象语句中加入where条件查询，默认为true开启
         -->
 
-        <table tableName="ms_audit" domainObjectName="Audit" enableCountByExample="true"
+        <table tableName="ms_apply" domainObjectName="Apply" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>
@@ -74,6 +74,7 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 
+<!--
         <table tableName="ms_comment" domainObjectName="Comment" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -105,6 +106,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
+-->
 
         <table tableName="ms_news" domainObjectName="News" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
@@ -114,7 +116,15 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 
-        <table tableName="ms_order" domainObjectName="Order" enableCountByExample="true"
+        <table tableName="ms_audit_log" domainObjectName="AuditLog" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <property name="my.isgen.usekeys" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>
+
+<!--        <table tableName="ms_order" domainObjectName="Order" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>
@@ -152,6 +162,6 @@
             <property name="useActualColumnNames" value="false"/>
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>
+        </table>-->
     </context>
 </generatorConfiguration>

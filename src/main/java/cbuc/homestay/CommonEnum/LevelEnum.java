@@ -1,20 +1,32 @@
 package cbuc.homestay.CommonEnum;
 
 /**
- * @Explain:
+ * @Explain:    商户等级枚举
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/2
  */
 public enum LevelEnum {
     /**
-     * @Explain
-     * GOLD：    金牌商家
-     * SLIVER：  银牌商家
-     * COPPER：  铜牌商家
-     * NORMAL：  普通商家
+     * 超级管理员
      */
-    GOLD("GOLD"), SLIVER("SLIVER"), COPPER("COPPER"), NORMAL("NORMAL");
+    ADMIN("ADMIN"),
+    /**
+     * 金牌商家
+     */
+    GOLD("GOLD"),
+    /**
+     * 银牌商家
+     */
+    SLIVER("SLIVER"),
+    /**
+     * 铜牌商家
+     */
+    COPPER("COPPER"),
+    /**
+     * 普通商家
+     */
+    NORMAL("NORMAL");
     private String value;
     LevelEnum(String value) {this.value = value;}
     public String getValue() {return value;}

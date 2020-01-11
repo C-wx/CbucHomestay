@@ -475,6 +475,76 @@ public class NewsExample {
             return (Criteria) this;
         }
 
+        public Criteria andAuditStatusIsNull() {
+            addCriterion("AUDIT_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNotNull() {
+            addCriterion("AUDIT_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusEqualTo(String value) {
+            addCriterion("AUDIT_STATUS =", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotEqualTo(String value) {
+            addCriterion("AUDIT_STATUS <>", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThan(String value) {
+            addCriterion("AUDIT_STATUS >", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("AUDIT_STATUS >=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThan(String value) {
+            addCriterion("AUDIT_STATUS <", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThanOrEqualTo(String value) {
+            addCriterion("AUDIT_STATUS <=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLike(String value) {
+            addCriterion("AUDIT_STATUS like", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotLike(String value) {
+            addCriterion("AUDIT_STATUS not like", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIn(List<String> values) {
+            addCriterion("AUDIT_STATUS in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotIn(List<String> values) {
+            addCriterion("AUDIT_STATUS not in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusBetween(String value1, String value2) {
+            addCriterion("AUDIT_STATUS between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotBetween(String value1, String value2) {
+            addCriterion("AUDIT_STATUS not between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("STATUS is null");
             return (Criteria) this;

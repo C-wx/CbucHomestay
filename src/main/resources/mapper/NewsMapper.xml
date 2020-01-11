@@ -8,6 +8,7 @@
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="BEGIN_TIME" jdbcType="TIMESTAMP" property="beginTime" />
     <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cbuc.homestay.bean.News">
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, TITLE, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, STATUS
+    ID, TITLE, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, AUDIT_STATUS, STATUS
   </sql>
   <sql id="Blob_Column_List">
     CONTENT
@@ -129,11 +130,11 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.News" useGeneratedKeys="true">
     insert into ms_news (TITLE, CREATE_TIME, UPDATE_TIME, 
-      BEGIN_TIME, END_TIME, STATUS, 
-      CONTENT)
+      BEGIN_TIME, END_TIME, AUDIT_STATUS, 
+      STATUS, CONTENT)
     values (#{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.News" useGeneratedKeys="true">
     insert into ms_news
@@ -152,6 +153,9 @@
       </if>
       <if test="endTime != null">
         END_TIME,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
       </if>
       <if test="status != null">
         STATUS,
@@ -175,6 +179,9 @@
       </if>
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -211,6 +218,9 @@
       <if test="record.endTime != null">
         END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.auditStatus != null">
+        AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
       </if>
@@ -230,6 +240,7 @@
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
       STATUS = #{record.status,jdbcType=VARCHAR},
       CONTENT = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -244,6 +255,7 @@
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
       STATUS = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -267,6 +279,9 @@
       <if test="endTime != null">
         END_TIME = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
@@ -283,6 +298,7 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=BIGINT}
@@ -294,6 +310,7 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>

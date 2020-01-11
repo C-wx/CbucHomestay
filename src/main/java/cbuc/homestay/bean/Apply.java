@@ -11,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Audit {
+public class Apply {
     private Long id;
 
     private Long uid;
@@ -30,6 +30,11 @@ public class Audit {
 
     private String remark;
 
+    private String auditStatus;
+
     private String status;
 
+    /**---------非表字段---------*/
+    private String licenseUrl;
+    /**-------------------------*/
 }
