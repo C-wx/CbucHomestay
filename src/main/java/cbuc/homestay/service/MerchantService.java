@@ -41,13 +41,19 @@ public class MerchantService {
         return CollectionUtils.isEmpty(merchants)?null:merchants.get(0);
     }
 
+    public Merchant queryDetail(Long id) {
+        return merchantMapper.selectByPrimaryKey(id);
+    }
+
     public int doEdit(UserEvt userEvt) {
         Merchant merchant = new Merchant();
         merchant.setId(userEvt.getId());
         if (StringUtils.isNotBlank(userEvt.getNpwd())) {
             merchant.setMpwd(userEvt.getNpwd());
         }
-        merchant.builder();
+        if (StringUtils.isNotBlank(userEvt.getStatus())) {
+            merchant.setStatus(userEvt.getStatus());
+        }
         return merchantMapper.updateByPrimaryKeySelective(merchant);
     }
 

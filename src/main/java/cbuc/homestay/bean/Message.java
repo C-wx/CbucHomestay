@@ -1,7 +1,16 @@
 package cbuc.homestay.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Message {
     private Long id;
 
@@ -11,7 +20,11 @@ public class Message {
 
     private Long receiveId;
 
+    private String receiveType;
+
     private String content;
+
+    private String readStatus;
 
     private Date createTime;
 
@@ -51,6 +64,14 @@ public class Message {
         this.receiveId = receiveId;
     }
 
+    public String getReceiveType() {
+        return receiveType;
+    }
+
+    public void setReceiveType(String receiveType) {
+        this.receiveType = receiveType == null ? null : receiveType.trim();
+    }
+
     public String getContent() {
         return content;
     }
@@ -59,6 +80,16 @@ public class Message {
         this.content = content == null ? null : content.trim();
     }
 
+    public String getReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(String readStatus) {
+        this.readStatus = readStatus == null ? null : readStatus.trim();
+    }
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     public Date getCreateTime() {
         return createTime;
     }

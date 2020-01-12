@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -42,14 +41,14 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
     }
 
     /**
-     * @Explain 添加拦截器链
+     * @Explain 添加拦截器链      //TODO   开发接口未测试接口暂时关闭该拦截器，上线后请开启
      * @param registry
      */
-    @Override
+    /*@Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/toLogin", "/image/code", "/doLogin", "/getMsgCode", "/doForget")
                 .excludePathPatterns("/static/**", "/js/**", "/css/**", "/img/**", "/plugins/**", "/vendor/**", "/error/**", "/image/**", "/upfiles/**");
-    }
+    }*/
 }

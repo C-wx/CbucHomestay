@@ -57,6 +57,7 @@
             enableSelectByExample:Select多条语句中加入where条件查询，默认为true开启
             selectByExampleQueryId:Select单个对象语句中加入where条件查询，默认为true开启
         -->
+<!--
 
         <table tableName="ms_apply" domainObjectName="Apply" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
@@ -73,6 +74,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
+-->
 
 <!--
         <table tableName="ms_comment" domainObjectName="Comment" enableCountByExample="true"

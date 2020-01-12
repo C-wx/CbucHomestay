@@ -36,7 +36,7 @@
                 <div class="layui-form-item">
                     <label><em>*</em>&nbsp;&nbsp;审核时间：</label><br>
                     <div style="margin-left: 85px">
-                        <input type="text" name="createTime" id="date" lay-verify="datetime" placeholder="yyyy-MM-dd mm:HH:ss"
+                        <input type="text" name="createTime" id="date" lay-verify="datetime" placeholder="yyyy-MM-dd HH:mm:ss"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -69,9 +69,9 @@
             , left: '200'
             , btns: ['now', 'confirm']
             , theme: '#393D49'
+            , trigger: 'click'
         });
         form.on('submit(auditSumbit)', function(data){
-            debugger
             Base.ajax("/admin/doAudit","POST",data.field,(res)=>{
                 if (res.code === Base.status.success) {
                     layer.msg("操作成功",{icon:6,time:800});
@@ -80,7 +80,6 @@
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         parent.layer.close(index)
                     },800)
-
                 }else{
                     layer.msg(res.msg,{icon:5,time:800});
                 }

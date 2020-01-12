@@ -23,4 +23,5 @@ public class UserEvt {
     private String verifyCode;
     private String mphone;
     private String msgCode;
+    private String status;
 }

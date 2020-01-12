@@ -6,7 +6,9 @@
     <result column="SEND_ID" jdbcType="BIGINT" property="sendId" />
     <result column="SEND_TYPE" jdbcType="VARCHAR" property="sendType" />
     <result column="RECEIVE_ID" jdbcType="BIGINT" property="receiveId" />
+    <result column="RECEIVE_TYPE" jdbcType="VARCHAR" property="receiveType" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="READ_STATUS" jdbcType="VARCHAR" property="readStatus" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -70,7 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, SEND_ID, SEND_TYPE, RECEIVE_ID, CONTENT, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, SEND_ID, SEND_TYPE, RECEIVE_ID, RECEIVE_TYPE, CONTENT, READ_STATUS, CREATE_TIME, 
+    UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.MessageExample" resultMap="BaseResultMap">
     select
@@ -105,11 +108,13 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Message" useGeneratedKeys="true">
     insert into ms_message (SEND_ID, SEND_TYPE, RECEIVE_ID, 
-      CONTENT, CREATE_TIME, UPDATE_TIME, 
-      STATUS)
+      RECEIVE_TYPE, CONTENT, READ_STATUS, 
+      CREATE_TIME, UPDATE_TIME, STATUS
+      )
     values (#{sendId,jdbcType=BIGINT}, #{sendType,jdbcType=VARCHAR}, #{receiveId,jdbcType=BIGINT}, 
-      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{receiveType,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{readStatus,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Message" useGeneratedKeys="true">
     insert into ms_message
@@ -123,8 +128,14 @@
       <if test="receiveId != null">
         RECEIVE_ID,
       </if>
+      <if test="receiveType != null">
+        RECEIVE_TYPE,
+      </if>
       <if test="content != null">
         CONTENT,
+      </if>
+      <if test="readStatus != null">
+        READ_STATUS,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -146,8 +157,14 @@
       <if test="receiveId != null">
         #{receiveId,jdbcType=BIGINT},
       </if>
+      <if test="receiveType != null">
+        #{receiveType,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="readStatus != null">
+        #{readStatus,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -181,8 +198,14 @@
       <if test="record.receiveId != null">
         RECEIVE_ID = #{record.receiveId,jdbcType=BIGINT},
       </if>
+      <if test="record.receiveType != null">
+        RECEIVE_TYPE = #{record.receiveType,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null">
         CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readStatus != null">
+        READ_STATUS = #{record.readStatus,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -204,7 +227,9 @@
       SEND_ID = #{record.sendId,jdbcType=BIGINT},
       SEND_TYPE = #{record.sendType,jdbcType=VARCHAR},
       RECEIVE_ID = #{record.receiveId,jdbcType=BIGINT},
+      RECEIVE_TYPE = #{record.receiveType,jdbcType=VARCHAR},
       CONTENT = #{record.content,jdbcType=VARCHAR},
+      READ_STATUS = #{record.readStatus,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -224,8 +249,14 @@
       <if test="receiveId != null">
         RECEIVE_ID = #{receiveId,jdbcType=BIGINT},
       </if>
+      <if test="receiveType != null">
+        RECEIVE_TYPE = #{receiveType,jdbcType=VARCHAR},
+      </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="readStatus != null">
+        READ_STATUS = #{readStatus,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -244,7 +275,9 @@
     set SEND_ID = #{sendId,jdbcType=BIGINT},
       SEND_TYPE = #{sendType,jdbcType=VARCHAR},
       RECEIVE_ID = #{receiveId,jdbcType=BIGINT},
+      RECEIVE_TYPE = #{receiveType,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=VARCHAR},
+      READ_STATUS = #{readStatus,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

@@ -355,6 +355,76 @@ public class MessageExample {
             return (Criteria) this;
         }
 
+        public Criteria andReceiveTypeIsNull() {
+            addCriterion("RECEIVE_TYPE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeIsNotNull() {
+            addCriterion("RECEIVE_TYPE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeEqualTo(String value) {
+            addCriterion("RECEIVE_TYPE =", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeNotEqualTo(String value) {
+            addCriterion("RECEIVE_TYPE <>", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeGreaterThan(String value) {
+            addCriterion("RECEIVE_TYPE >", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("RECEIVE_TYPE >=", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeLessThan(String value) {
+            addCriterion("RECEIVE_TYPE <", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeLessThanOrEqualTo(String value) {
+            addCriterion("RECEIVE_TYPE <=", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeLike(String value) {
+            addCriterion("RECEIVE_TYPE like", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeNotLike(String value) {
+            addCriterion("RECEIVE_TYPE not like", value, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeIn(List<String> values) {
+            addCriterion("RECEIVE_TYPE in", values, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeNotIn(List<String> values) {
+            addCriterion("RECEIVE_TYPE not in", values, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeBetween(String value1, String value2) {
+            addCriterion("RECEIVE_TYPE between", value1, value2, "receiveType");
+            return (Criteria) this;
+        }
+
+        public Criteria andReceiveTypeNotBetween(String value1, String value2) {
+            addCriterion("RECEIVE_TYPE not between", value1, value2, "receiveType");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("CONTENT is null");
             return (Criteria) this;
@@ -422,6 +492,76 @@ public class MessageExample {
 
         public Criteria andContentNotBetween(String value1, String value2) {
             addCriterion("CONTENT not between", value1, value2, "content");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusIsNull() {
+            addCriterion("READ_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusIsNotNull() {
+            addCriterion("READ_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusEqualTo(String value) {
+            addCriterion("READ_STATUS =", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotEqualTo(String value) {
+            addCriterion("READ_STATUS <>", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusGreaterThan(String value) {
+            addCriterion("READ_STATUS >", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("READ_STATUS >=", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusLessThan(String value) {
+            addCriterion("READ_STATUS <", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusLessThanOrEqualTo(String value) {
+            addCriterion("READ_STATUS <=", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusLike(String value) {
+            addCriterion("READ_STATUS like", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotLike(String value) {
+            addCriterion("READ_STATUS not like", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusIn(List<String> values) {
+            addCriterion("READ_STATUS in", values, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotIn(List<String> values) {
+            addCriterion("READ_STATUS not in", values, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusBetween(String value1, String value2) {
+            addCriterion("READ_STATUS between", value1, value2, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotBetween(String value1, String value2) {
+            addCriterion("READ_STATUS not between", value1, value2, "readStatus");
             return (Criteria) this;
         }
 

@@ -8,6 +8,7 @@ import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.AuditLog;
 import cbuc.homestay.bean.Image;
 import cbuc.homestay.bean.Merchant;
+import cbuc.homestay.evt.UserEvt;
 import cbuc.homestay.service.ApplyService;
 import cbuc.homestay.service.AuditLogService;
 import cbuc.homestay.service.ImageService;
@@ -23,10 +24,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -172,5 +170,20 @@ public class AdminController {
             log.error("查询结果异常");
             return Result.error("查询结果异常");
         }
+    }
+
+    @ApiOperation("禁用/启用商户")
+    @ResponseBody
+    @PostMapping("/opeMerchant")
+    public Object opeMerchant(UserEvt evt) {
+        try {
+            int res = merchantService.doEdit(evt);
+            return res>0?Result.success(): Result.error("操作失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("操作商户异常");
+            return Result.error("操作商户");
+        }
+
     }
 }

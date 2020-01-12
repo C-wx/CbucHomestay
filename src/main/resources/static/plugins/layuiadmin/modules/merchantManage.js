@@ -105,8 +105,10 @@ layui.define(["form", "table", "element"], function (exports) {
                 , templet: (d) => {
                     var html = '';
                     d.status == 'E' ? html+='<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>'
-                                    : html+='<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable">启用</a>'
-                    return '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="notify">通知</a>' + html;
+                                    : html+='<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>'
+                    return '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="notify">通知</a>'
+                            + '<a class="layui-btn layui-btn-sm" lay-event="msgHistory">查看</a>'
+                            + html;
                 }
             }
         ]]
@@ -135,7 +137,7 @@ layui.define(["form", "table", "element"], function (exports) {
         reload: function () {                           //重置页面重载
             $('#titleKeyword').val("");
             const titleSearch = $('#titleKeyword');
-            table.reload('article-table', {
+            table.reload('merchantTable', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
@@ -163,11 +165,53 @@ layui.define(["form", "table", "element"], function (exports) {
                 , anim: 5
             });
         }else if (obj.event == 'disable') {
-            //TODO
+            layer.confirm('是否禁用该商户?', {icon: 3, title:'提示'}, function(index){
+                Base.ajax("/admin/opeMerchant","POST",{'id':data.id,'status':'D'},(res)=>{
+                    if (res.code === Base.status.success) {
+                        layer.msg("操作成功",{icon:6,time:800});
+                        setTimeout(()=>{
+                            layer.close(index);
+                            $(".layui-icon-refresh").click();
+                        },800)
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:500});
+                    }
+                })
+            });
         }else if (obj.event == 'enable') {
-
+            layer.confirm('是否启用该商户?', {icon: 3, title:'提示'}, function(index){
+                Base.ajax("/admin/opeMerchant","POST",{'id':data.id,'status':'E'},(res)=>{
+                    if (res.code === Base.status.success) {
+                        layer.msg("操作成功",{icon:6,time:800});
+                        setTimeout(()=>{
+                            layer.close(index);
+                            $(".layui-icon-refresh").click();
+                        },800)
+                    }else{
+                        layer.msg(res.msg,{icon:5,time:500});
+                    }
+                })
+            });
         }else if (obj.event == 'notify') {
-
+            layer.open({
+                type: 2
+                , title: '消息中心'
+                , shadeClose: true
+                , shade: 0.2
+                , area: ['396px', '505px']
+                , offset: 'auto'
+                , content: '/sendMsg?receiveId=' + data.id + '&sendType=ADMIN' + '&mName=' + data.mname + '&receiveType=MERCHANT'
+            });
+        }else if (obj.event == 'msgHistory') {
+            layer.open({
+                type: 2
+                , title: '消息中心'
+                , shadeClose: true
+                , shade: 0.2
+                , area: ['742px', '350px']
+                , offset: 'auto'
+                , content: '/toMsgHistory?receiveId=' + data.id + '&sendType=ADMIN' + '&mName=' + data.mname + '&receiveType=MERCHANT'
+            });
         }
     });
 
