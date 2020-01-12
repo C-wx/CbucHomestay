@@ -1,5 +1,6 @@
 /**
- * Copyright:Cbuc
+ * @author   Caiwx
+ * @Explain  基本组件脚本
  */
 var Base = {
     /**

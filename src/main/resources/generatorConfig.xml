@@ -107,7 +107,7 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 -->
-
+<!--
         <table tableName="ms_news" domainObjectName="News" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -117,6 +117,14 @@
         </table>
 
         <table tableName="ms_audit_log" domainObjectName="AuditLog" enableCountByExample="true"
+               enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
+               selectByExampleQueryId="true">
+            <property name="useActualColumnNames" value="false"/>
+            <property name="my.isgen.usekeys" value="true"/>
+            <generatedKey column="id" sqlStatement="JDBC"/>
+        </table>-->
+
+        <table tableName="ms_message" domainObjectName="Message" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>

@@ -2,6 +2,7 @@ package cbuc.homestay.controller.MerchantCenter;
 
 import cbuc.homestay.CommonEnum.LevelEnum;
 import cbuc.homestay.CommonEnum.OriginEnum;
+import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.AuditLog;
@@ -109,16 +110,18 @@ public class AdminController {
                     Apply apply = applyService.queryDetail(auditLog.getParentId());
                     apply.setAuditStatus(auditLog.getAuditStatus());
                     applyService.doEdit(apply);
-                    Merchant merchant = new Merchant();
-                    BeanUtils.copyProperties(apply,merchant);
-                    String maccount = SendMessageUtil.getRandomCode(4)+"66";
-                    String mpwd = SendMessageUtil.getRandomCode(6);
-                    merchant.setAuditId(apply.getId());
-                    merchant.setMaccount(maccount);
-                    merchant.setMpwd(mpwd);
-                    merchant.setMlevel(LevelEnum.NORMAL.getValue());
-                    merchant.setCreateTime(new Date());
-                    merchantService.doAdd(merchant);
+                    if (StatusEnum.SA.getValue().equals(auditLog.getAuditStatus())) {   //审核通过才建立商户信息
+                        Merchant merchant = new Merchant();
+                        BeanUtils.copyProperties(apply,merchant);
+                        String maccount = SendMessageUtil.getRandomCode(4)+"66";
+                        String mpwd = SendMessageUtil.getRandomCode(6);
+                        merchant.setAuditId(apply.getId());
+                        merchant.setMaccount(maccount);
+                        merchant.setMpwd(mpwd);
+                        merchant.setMlevel(LevelEnum.NORMAL.getValue());
+                        merchant.setCreateTime(new Date());
+                        merchantService.doAdd(merchant);
+                    }
                     break;
             }
             if (res > 0) {

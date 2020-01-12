@@ -1,8 +1,18 @@
-layui.use(["form", "table", "element"], function (exports) {
+
+/**
+ *  @author   Caiwx
+ *  @Explain  商户审核脚本
+ */
+
+layui.define(["form", "table", "element"], function (exports) {
     var $ = layui.$,
         table = layui.table
         , element = layui.element;
     element.render();
+
+    /**
+     * 初始化表格
+     */
     var merchantApplyTable = table.render({
         elem: '#merchantApplyTable'
         , url: '/admin/merchantApplyPage'
@@ -81,12 +91,15 @@ layui.use(["form", "table", "element"], function (exports) {
         ]]
     });
 
+    /**
+     * 监听事件
+     */
     $('button[data-type]').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
     var active = {
-        keyLike: function () {
+        keyLike: function () {                          //关键词模糊搜索
             const mNameKey = $('#mNameKey');
             //执行重载
             table.reload('merchantApplyTable', {
@@ -98,7 +111,7 @@ layui.use(["form", "table", "element"], function (exports) {
                 }
             });
         },
-        reload: function () {
+        reload: function () {                           //重置加载页面
             $('#mNameKey').val("");
             table.reload('merchantApplyTable', {
                 page: {
@@ -111,9 +124,12 @@ layui.use(["form", "table", "element"], function (exports) {
         }
     };
 
+    /**
+     * 创建监听工具
+     */
     table.on('tool(merchantApplyTable)', function (obj) {
         var data = obj.data;
-        if (obj.event === 'lookImg') {
+        if (obj.event === 'lookImg') {                          //点击查看大图
             var imgHtml = "<img src='" + data.licenseUrl + "' width='600px' height='550px'/>";
             layer.open({
                 type: 1,
@@ -126,7 +142,7 @@ layui.use(["form", "table", "element"], function (exports) {
                 content: imgHtml,
                 resize: false
             });
-        } else if (obj.event.indexOf('detail') != -1) {
+        } else if (obj.event.indexOf('detail') != -1) {         //点击查看内容详情
             var flag = obj.event.split("_")[0];
             var html = '';
             if (flag == 'addr') {
@@ -144,7 +160,7 @@ layui.use(["form", "table", "element"], function (exports) {
                 , shade: 0.3
                 , anim: 5
             });
-        } else if (obj.event == 'audit') {
+        } else if (obj.event == 'audit') {                       //点击审核商家
             layer.open({
                 type: 2
                 , title: '审核'
@@ -154,7 +170,7 @@ layui.use(["form", "table", "element"], function (exports) {
                 , offset: 'auto'
                 , content: '/admin/toAudit?parentId=' + data.id + '&type=MERCHANT'
             });
-        } else if (obj.event == 'lookHis') {
+        } else if (obj.event == 'lookHis') {                    //点击查看审核历史
             layer.open({
                 type: 2
                 , title: '审核历史'
@@ -166,6 +182,10 @@ layui.use(["form", "table", "element"], function (exports) {
             });
         }
     });
+
+    /**
+     * 按照创建时间排序
+     */
     table.on('sort(merchantApplyTable)', function (obj) {
         var sort;
         if (obj.field == "createTime") {

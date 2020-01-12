@@ -1,5 +1,5 @@
 
-<!--管理员之商家审核界面-->
+<!--管理员之商家管理界面-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,27 +20,25 @@
 <div class="layui-fluid layui-anim layui-anim-scale" style="padding: 30px;">
     <div class="layui-card">
         <div class="layui-card-header">
-            <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">商户审核</strong>
+            <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">商户管理</strong>
         </div>
         <div class="layui-card-body">
             <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                 <div id="search_area">
-                    <label>商户名称：</label>
+                    商户名称：
                     <div class="layui-inline">
-                        <input class="layui-input" id="mNameKey" autocomplete="off">
+                        <input class="layui-input" id="titleKeyword" autocomplete="off">
                     </div>
-                    <span style="margin-left: 50px">
-                        <button class="layui-btn layuiadmin-btn-forum-list" data-type="keyLike">
-                            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                        </button>
-                        <button class="layui-btn layui-btn-primary" data-type="reload">
-                            <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
-                        </button>
-                    </span>
+                    <button class="layui-btn layuiadmin-btn-forum-list" data-type="keyLike">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                    <button class="layui-btn layui-btn-primary" data-type="reload">
+                        <i class="layui-icon layui-icon-refresh layuiadmin-button-btn"></i>
+                    </button>
                 </div>
             </div>
             <div class="layui-card-body">
-                <table id="merchantApplyTable" lay-filter="merchantApplyTable"></table>
+                <table id="merchantTable" lay-filter="merchantTable"></table>
             </div>
         </div>
     </div>
@@ -50,10 +48,10 @@
         base: '/plugins/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'merchantAudit']);
+    }).use(['index', 'merchantManage']);
 </script>
 <style>
-    .look {
+    .look{
         cursor: pointer;
         color: #d8d694;
     }

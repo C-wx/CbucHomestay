@@ -1,5 +1,6 @@
 package cbuc.homestay.service;
 
+import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.ApplyExample;
 import cbuc.homestay.mapper.ApplyMapper;
@@ -27,6 +28,7 @@ public class ApplyService {
         if (StringUtils.isNotBlank(title)) {
             criteria.andMnameLike("%" + title + "%");
         }
+        criteria.andStatusEqualTo(StatusEnum.E.getValue());
         applyExample.setOrderByClause("id desc");
         return applyMapper.selectByExample(applyExample);
     }
