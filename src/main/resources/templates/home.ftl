@@ -38,16 +38,16 @@
             <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
                 <li class="layui-nav-item" lay-unselect>
-                    <a lay-href="/admin/contact" layadmin-event="message" lay-text="用户留言">
-                        <i class="fa fa-bell"></i> 12
-                    <#-- <#if (contactNum > 0)>
+                    <a lay-href='/toMessageCenter' layadmin-event="message" lay-text="消息中心">
+                        <i class="fa fa-bell"></i>
+                     <#if (msgNum > 0)>
                      <span class="layui-badge-dot"></span>
                      </#if>
                      <span id="msgNum" style="color: darkred;">
-                     <#if (contactNum > 0)>
-                         ${contactNum}
+                     <#if (msgNum > 0)>
+                         ${msgNum}
                      </#if>
-                     </span>-->
+                     </span>
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect style="margin-right: 40px">
@@ -190,6 +190,12 @@
                             </a>
                         </li>
                     </#if>
+                    <li data-name="message" class="layui-nav-item">
+                        <a lay-href='/toMessageCenter' href="javascript:;" lay-tips="消息中心" lay-direction="2">
+                            <i class="layui-icon layui-icon-link"></i>
+                            <cite>消息中心</cite>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

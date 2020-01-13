@@ -42,8 +42,19 @@ public class MessageService {
         if (StringUtils.isNotBlank(message.getReceiveType())) {
             criteria.andReceiveTypeEqualTo(message.getReceiveType());
         }
+        if (StringUtils.isNotBlank(message.getReadStatus())) {
+            criteria.andReadStatusEqualTo(message.getReadStatus());
+        }
         criteria.andStatusNotEqualTo(StatusEnum.D.getValue());
         messageExample.setOrderByClause("id desc");
         return messageMapper.selectByExample(messageExample);
+    }
+
+    public int doEdit(Message message) {
+        return messageMapper.updateByPrimaryKeySelective(message);
+    }
+
+    public Message queryDetail(Long id) {
+        return messageMapper.selectByPrimaryKey(id);
     }
 }

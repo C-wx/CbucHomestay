@@ -32,6 +32,11 @@ public class Message {
 
     private String status;
 
+    /**----------非表字段-----------*/
+    private String sendName;
+    private String receiveName;
+    /**----------------------------*/
+
     public Long getId() {
         return id;
     }
@@ -112,5 +117,21 @@ public class Message {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public String getSendName() {
+        return sendName;
+    }
+
+    public void setSendName(String sendName) {
+        this.sendName = sendName;
+    }
+
+    public String getReceiveName() {
+        return receiveName;
+    }
+
+    public void setReceiveName(String receiveName) {
+        this.receiveName = receiveName;
     }
 }
