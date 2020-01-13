@@ -87,13 +87,13 @@ public class BaseController {
                                     @RequestParam(value = "sort", defaultValue = "id") String sort,
                                     @RequestParam(value = "order", defaultValue = "desc") String order,
                                     HttpSession session,
-                                    String sendId) {
+                                    String content) {
         try {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             String receiveType = merchant.getMlevel().equals(LevelEnum.ADMIN.getValue())?LevelEnum.ADMIN.getValue():"MERCHANT";
             Message message = Message.builder().receiveId(merchant.getId()).receiveType(receiveType).build();
-            if (StringUtils.isNotBlank(sendId)) {
-                message.setSendId(Long.valueOf(sendId));
+            if (StringUtils.isNotBlank(content)) {
+                message.setContent(content);
             }
             PageHelper.startPage(pn, size, sort + " " + order);
             List<Message> messageList = messageService.queryList(message);

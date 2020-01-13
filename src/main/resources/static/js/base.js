@@ -82,6 +82,27 @@ var Base = {
             return true;
         }
     }
+    /**
+     * 校验是否生效
+     * @param data
+     * @returns {string}
+     */
+    , isEnable: function (data) {
+        var delHtml = '&nbsp;&nbsp;<i class="fa fa-trash-o" onclick="delBulletin('+data.id+')" style="cursor: pointer;color: #ff8686;font-size: 20px"></i>';
+        if (data.status == 'E') {
+            if (data.auditStatus == 'WA') {
+                return "(待审核)"+delHtml;
+            } else if (data.auditStatus == 'SA') {
+                return "(审核通过)"+delHtml;
+            } else if(data.auditStatus == 'FA') {
+                return "(审核不通过)"+delHtml;
+            } else if(Base.formatDate(data.endTime, 'yyyy-MM-dd HH:mm:ss') < Base.formatDate(new Date(), 'yyyy-MM-dd HH:mm:ss')) {
+                return "(已失效)";
+            }
+        }else{
+            return "(已删除)";
+        }
+    }
 
 };
 /**

@@ -4,15 +4,9 @@ import cbuc.homestay.CommonEnum.LevelEnum;
 import cbuc.homestay.CommonEnum.OriginEnum;
 import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
-import cbuc.homestay.bean.Apply;
-import cbuc.homestay.bean.AuditLog;
-import cbuc.homestay.bean.Image;
-import cbuc.homestay.bean.Merchant;
+import cbuc.homestay.bean.*;
 import cbuc.homestay.evt.UserEvt;
-import cbuc.homestay.service.ApplyService;
-import cbuc.homestay.service.AuditLogService;
-import cbuc.homestay.service.ImageService;
-import cbuc.homestay.service.MerchantService;
+import cbuc.homestay.service.*;
 import cbuc.homestay.utils.SendMessageUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -39,7 +33,7 @@ import java.util.List;
 @Api(value = "管理员商户控制器", description = "管理员处理商户相关操作")
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminMerchantController {
 
     @Autowired
     private ApplyService applyService;
@@ -52,6 +46,9 @@ public class AdminController {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired
+    private BulletinService bulletinService;
 
     @ApiOperation("跳转数据统计页面")
     @GetMapping("/dataStatistic")
@@ -121,6 +118,9 @@ public class AdminController {
                         merchantService.doAdd(merchant);
                     }
                     break;
+                case "BULLETIN":
+                    Bulletin bulletin = Bulletin.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
+                    bulletinService.doEdit(bulletin);
             }
             if (res > 0) {
                 return Result.success();
@@ -182,7 +182,7 @@ public class AdminController {
         } catch (Exception e) {
             e.printStackTrace();
             log.error("操作商户异常");
-            return Result.error("操作商户");
+            return Result.error("操作商户异常");
         }
 
     }

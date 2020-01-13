@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @Explain:
+ * @Explain:   消息处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/12
@@ -44,6 +44,9 @@ public class MessageService {
         }
         if (StringUtils.isNotBlank(message.getReadStatus())) {
             criteria.andReadStatusEqualTo(message.getReadStatus());
+        }
+        if (StringUtils.isNotBlank(message.getContent())) {
+            criteria.andContentLike("%"+message.getContent()+"%");
         }
         criteria.andStatusNotEqualTo(StatusEnum.D.getValue());
         messageExample.setOrderByClause("id desc");

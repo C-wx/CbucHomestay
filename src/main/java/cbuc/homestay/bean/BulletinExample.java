@@ -165,6 +165,66 @@ public class BulletinExample {
             return (Criteria) this;
         }
 
+        public Criteria andPublishIdIsNull() {
+            addCriterion("PUBLISH_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdIsNotNull() {
+            addCriterion("PUBLISH_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdEqualTo(Long value) {
+            addCriterion("PUBLISH_ID =", value, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdNotEqualTo(Long value) {
+            addCriterion("PUBLISH_ID <>", value, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdGreaterThan(Long value) {
+            addCriterion("PUBLISH_ID >", value, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("PUBLISH_ID >=", value, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdLessThan(Long value) {
+            addCriterion("PUBLISH_ID <", value, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdLessThanOrEqualTo(Long value) {
+            addCriterion("PUBLISH_ID <=", value, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdIn(List<Long> values) {
+            addCriterion("PUBLISH_ID in", values, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdNotIn(List<Long> values) {
+            addCriterion("PUBLISH_ID not in", values, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdBetween(Long value1, Long value2) {
+            addCriterion("PUBLISH_ID between", value1, value2, "publishId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPublishIdNotBetween(Long value1, Long value2) {
+            addCriterion("PUBLISH_ID not between", value1, value2, "publishId");
+            return (Criteria) this;
+        }
+
         public Criteria andContentIsNull() {
             addCriterion("CONTENT is null");
             return (Criteria) this;

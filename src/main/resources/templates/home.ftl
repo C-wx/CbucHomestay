@@ -178,7 +178,7 @@
                                 <a lay-href="/admin/bulletinAudit">公告审核</a>
                             </dd>
                             <dd data-name="bulletinManage">
-                                <a lay-href="/admin/bulletinManage">公告管理</a>
+                                <a lay-href="/admin/bulletinPublish">公告发布</a>
                             </dd>
                         </dl>
                     </li>

@@ -3,6 +3,7 @@
 <mapper namespace="cbuc.homestay.mapper.BulletinMapper">
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Bulletin">
     <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="PUBLISH_ID" jdbcType="BIGINT" property="publishId" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, CONTENT, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, AUDIT_STATUS, STATUS
+    ID, PUBLISH_ID, CONTENT, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, AUDIT_STATUS, 
+    STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.BulletinExample" resultMap="BaseResultMap">
     select
@@ -104,16 +106,19 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Bulletin" useGeneratedKeys="true">
-    insert into ms_bulletin (CONTENT, CREATE_TIME, UPDATE_TIME, 
-      BEGIN_TIME, END_TIME, AUDIT_STATUS, 
-      STATUS)
-    values (#{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR})
+    insert into ms_bulletin (PUBLISH_ID, CONTENT, CREATE_TIME, 
+      UPDATE_TIME, BEGIN_TIME, END_TIME, 
+      AUDIT_STATUS, STATUS)
+    values (#{publishId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{auditStatus,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Bulletin" useGeneratedKeys="true">
     insert into ms_bulletin
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="publishId != null">
+        PUBLISH_ID,
+      </if>
       <if test="content != null">
         CONTENT,
       </if>
@@ -137,6 +142,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="publishId != null">
+        #{publishId,jdbcType=BIGINT},
+      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
@@ -172,6 +180,9 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.publishId != null">
+        PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
+      </if>
       <if test="record.content != null">
         CONTENT = #{record.content,jdbcType=VARCHAR},
       </if>
@@ -201,6 +212,7 @@
   <update id="updateByExample" parameterType="map">
     update ms_bulletin
     set ID = #{record.id,jdbcType=BIGINT},
+      PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
       CONTENT = #{record.content,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -215,6 +227,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Bulletin">
     update ms_bulletin
     <set>
+      <if test="publishId != null">
+        PUBLISH_ID = #{publishId,jdbcType=BIGINT},
+      </if>
       <if test="content != null">
         CONTENT = #{content,jdbcType=VARCHAR},
       </if>
@@ -241,7 +256,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Bulletin">
     update ms_bulletin
-    set CONTENT = #{content,jdbcType=VARCHAR},
+    set PUBLISH_ID = #{publishId,jdbcType=BIGINT},
+      CONTENT = #{content,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},

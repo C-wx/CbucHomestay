@@ -92,25 +92,25 @@ layui.define(["form", "table", "element"], function (exports) {
     });
     var active = {
         keyLike: function () {                          //关键词模糊搜索
-            const mNameKey = $('#mNameKey');
+            const mAddrKey = $('#content');
             //执行重载
             table.reload('msgCenterTable', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    sendId: mNameKey.val()
+                    content: mAddrKey.val()
                 }
             });
         },
         reload: function () {                           //重置加载页面
-            $('#mNameKey').val("");
+            $('#content').val("");
             table.reload('msgCenterTable', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
                 , where: {
-                    sendId: $('#mNameKey').val()
+                    content: $('#content').val()
                 }
             });
         }

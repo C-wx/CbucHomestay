@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @Explain:
+ * @Explain:   商家申请处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/10

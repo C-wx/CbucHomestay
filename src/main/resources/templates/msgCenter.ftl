@@ -25,9 +25,9 @@
         <div class="layui-card-body">
             <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                 <div id="search_area">
-                    <label>发送人名称：</label>
+                    <label>消息内容：</label>
                     <div class="layui-inline">
-                        <input class="layui-input" id="mNameKey" autocomplete="off">
+                        <input class="layui-input" id="content" autocomplete="off">
                     </div>
                     <span style="margin-left: 50px">
                         <button class="layui-btn layuiadmin-btn-forum-list" data-type="keyLike">

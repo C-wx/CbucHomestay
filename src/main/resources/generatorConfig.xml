@@ -66,7 +66,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
         <table tableName="ms_bulletin" domainObjectName="Bulletin" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -74,7 +74,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
--->
+
 
 <!--
         <table tableName="ms_comment" domainObjectName="Comment" enableCountByExample="true"
@@ -126,6 +126,7 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>-->
 
+<!--
         <table tableName="ms_message" domainObjectName="Message" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -133,6 +134,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
+-->
 
 <!--        <table tableName="ms_order" domainObjectName="Order" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
