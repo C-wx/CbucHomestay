@@ -1,5 +1,5 @@
 
-<!--管理员之公告审核界面-->
+<!--管理员之评论管理界面-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,12 +20,12 @@
 <div class="layui-fluid layui-anim layui-anim-scale" style="padding: 30px;">
     <div class="layui-card">
         <div class="layui-card-header">
-            <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">公告审核</strong>
+            <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">评论管理</strong>
         </div>
         <div class="layui-card-body">
             <div class="layui-form layui-card-header layuiadmin-card-header-auto">
                 <div id="search_area">
-                    <label>公告内容：</label>
+                    <label>评论内容：</label>
                     <div class="layui-inline">
                         <input class="layui-input" id="content" autocomplete="off">
                     </div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="layui-card-body">
-                <table id="bulletinAuditTable" lay-filter="bulletinAuditTable"></table>
+                <table id="commentManageTable" lay-filter="commentManageTable"></table>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
         base: '/plugins/layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'bulletinAudit']);
+    }).use(['index', 'commentManage']);
 </script>
 </body>
 </html>

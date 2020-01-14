@@ -1,6 +1,5 @@
 package cbuc.homestay.controller.BulletinCenter;
 
-import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Bulletin;
 import cbuc.homestay.bean.Merchant;
@@ -46,7 +45,7 @@ public class AdminBulletinController {
         return "admin/bulletinAudit";
     }
 
-    @ApiOperation("获取商户审核列表")
+    @ApiOperation("获取公告审核列表")
     @ResponseBody
     @GetMapping("/bulletinAuditPage")
     public Object bulletinAuditPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
@@ -56,7 +55,7 @@ public class AdminBulletinController {
                                String content) {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
-            Bulletin bulletin = Bulletin.builder().auditStatus(StatusEnum.WA.getValue()).build();
+            Bulletin bulletin = new Bulletin();
             if (StringUtils.isNotBlank(content)) {
                 bulletin.setContent(content);
             }
@@ -88,7 +87,6 @@ public class AdminBulletinController {
             log.error("操作公告异常");
             return Result.error("操作公告异常");
         }
-
     }
 
     @ApiOperation("跳转发布公告界面")

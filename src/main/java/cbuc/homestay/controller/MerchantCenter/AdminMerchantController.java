@@ -50,6 +50,12 @@ public class AdminMerchantController {
     @Autowired
     private BulletinService bulletinService;
 
+    @Autowired
+    private NewsService newsService;
+
+    @Autowired
+    private RoomInfoService roomInfoService;
+
     @ApiOperation("跳转数据统计页面")
     @GetMapping("/dataStatistic")
     public String dataStatisticList() {
@@ -121,6 +127,12 @@ public class AdminMerchantController {
                 case "BULLETIN":
                     Bulletin bulletin = Bulletin.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
                     bulletinService.doEdit(bulletin);
+                case "NEWS":
+                    News news = News.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
+                    newsService.doEdit(news);
+                case "ROOM":
+                    RoomInfo roomInfo = RoomInfo.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
+                    roomInfoService.doEdit(roomInfo);
             }
             if (res > 0) {
                 return Result.success();

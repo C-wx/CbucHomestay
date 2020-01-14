@@ -100,45 +100,37 @@
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
                         <li data-name="home" class="layui-nav-item">
-                            <a href="javascript:;" lay-tips="房源中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-survey"></i>
-                                <cite>房源中心</cite>
+                            <a lay-href="/admin/roomManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-link"></i>
+                                <cite>房源管理</cite>
                             </a>
-                            <dl class="layui-nav-child">
-                                <dd data-name="homeAudit">
-                                    <a lay-href="/admin/homeAudit">房源审核</a>
-                                </dd>
-                                <dd data-name="homeManage">
-                                    <a lay-href="/admin/homeManage">房源管理</a>
-                                </dd>
-                            </dl>
                         </li>
                     <#else >
                         <li data-name="home" class="layui-nav-item">
-                            <a lay-href="/merchant/homeManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
+                            <a lay-href="/merchant/roomManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
                                 <i class="layui-icon layui-icon-link"></i>
                                 <cite>房源管理</cite>
                             </a>
                         </li>
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
-                    <li data-name="info" class="layui-nav-item">
+                    <li data-name="news" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="资讯中心" lay-direction="2">
                             <i class="layui-icon layui-icon-template"></i>
                             <cite>资讯中心</cite>
                         </a>
                         <dl class="layui-nav-child">
-                            <dd data-name="infoAudit">
-                                <a lay-href="/admin/infoAudit">资讯审核</a>
+                            <dd data-name="newsManage">
+                                <a lay-href="/admin/newsManage">资讯管理</a>
                             </dd>
-                            <dd data-name="infoManage">
-                                <a lay-href="/admin/infoManage">资讯管理</a>
+                            <dd data-name="newsPublish">
+                                <a lay-href="/admin/newPublish">资讯发布</a>
                             </dd>
                         </dl>
                     </li>
                     <#else >
-                        <li data-name="info" class="layui-nav-item">
-                            <a lay-href="/merchant/infoManage" href="javascript:;" lay-tips="资讯管理" lay-direction="2">
+                        <li data-name="news" class="layui-nav-item">
+                            <a lay-href="/merchant/newsManage" href="javascript:;" lay-tips="资讯管理" lay-direction="2">
                                 <i class="layui-icon layui-icon-link"></i>
                                 <cite>资讯管理</cite>
                             </a>
@@ -146,18 +138,10 @@
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
                     <li data-name="comment" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="评论中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-reply-fill"></i>
-                            <cite>评论中心</cite>
+                        <a lay-href="/admin/commentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
+                            <i class="layui-icon layui-icon-link"></i>
+                            <cite>评论管理</cite>
                         </a>
-                        <dl class="layui-nav-child">
-                            <dd data-name="commentAudit">
-                                <a lay-href="/admin/commentAudit">评论审核</a>
-                            </dd>
-                            <dd data-name="commentManage">
-                                <a lay-href="/admin/commentManage">评论管理</a>
-                            </dd>
-                        </dl>
                     </li>
                     <#else >
                         <li data-name="comment" class="layui-nav-item">

@@ -3,6 +3,7 @@
 <mapper namespace="cbuc.homestay.mapper.NewsMapper">
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.News">
     <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="PUBLISH_ID" jdbcType="BIGINT" property="publishId" />
     <result column="TITLE" jdbcType="VARCHAR" property="title" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
@@ -73,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, TITLE, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, AUDIT_STATUS, STATUS
+    ID, PUBLISH_ID, TITLE, CREATE_TIME, UPDATE_TIME, BEGIN_TIME, END_TIME, AUDIT_STATUS, 
+    STATUS
   </sql>
   <sql id="Blob_Column_List">
     CONTENT
@@ -129,16 +131,21 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.News" useGeneratedKeys="true">
-    insert into ms_news (TITLE, CREATE_TIME, UPDATE_TIME, 
-      BEGIN_TIME, END_TIME, AUDIT_STATUS, 
-      STATUS, CONTENT)
-    values (#{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+    insert into ms_news (PUBLISH_ID, TITLE, CREATE_TIME, 
+      UPDATE_TIME, BEGIN_TIME, END_TIME, 
+      AUDIT_STATUS, STATUS, CONTENT
+      )
+    values (#{publishId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{auditStatus,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.News" useGeneratedKeys="true">
     insert into ms_news
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="publishId != null">
+        PUBLISH_ID,
+      </if>
       <if test="title != null">
         TITLE,
       </if>
@@ -165,6 +172,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="publishId != null">
+        #{publishId,jdbcType=BIGINT},
+      </if>
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
@@ -203,6 +213,9 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.publishId != null">
+        PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
+      </if>
       <if test="record.title != null">
         TITLE = #{record.title,jdbcType=VARCHAR},
       </if>
@@ -235,6 +248,7 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update ms_news
     set ID = #{record.id,jdbcType=BIGINT},
+      PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
       TITLE = #{record.title,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -250,6 +264,7 @@
   <update id="updateByExample" parameterType="map">
     update ms_news
     set ID = #{record.id,jdbcType=BIGINT},
+      PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
       TITLE = #{record.title,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
@@ -264,6 +279,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.News">
     update ms_news
     <set>
+      <if test="publishId != null">
+        PUBLISH_ID = #{publishId,jdbcType=BIGINT},
+      </if>
       <if test="title != null">
         TITLE = #{title,jdbcType=VARCHAR},
       </if>
@@ -293,7 +311,8 @@
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="cbuc.homestay.bean.News">
     update ms_news
-    set TITLE = #{title,jdbcType=VARCHAR},
+    set PUBLISH_ID = #{publishId,jdbcType=BIGINT},
+      TITLE = #{title,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
@@ -305,7 +324,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.News">
     update ms_news
-    set TITLE = #{title,jdbcType=VARCHAR},
+    set PUBLISH_ID = #{publishId,jdbcType=BIGINT},
+      TITLE = #{title,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},

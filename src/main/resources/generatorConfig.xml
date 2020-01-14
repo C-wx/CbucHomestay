@@ -67,6 +67,7 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 -->
+<!--
         <table tableName="ms_bulletin" domainObjectName="Bulletin" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -75,6 +76,7 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 
+-->
 
 <!--
         <table tableName="ms_comment" domainObjectName="Comment" enableCountByExample="true"
@@ -84,7 +86,8 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
+<!--
         <table tableName="ms_image" domainObjectName="Image" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -92,7 +95,8 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
+<!--
         <table tableName="ms_log" domainObjectName="Log" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -100,7 +104,8 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
+<!--
         <table tableName="ms_merchant" domainObjectName="Merchant" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -117,7 +122,8 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
+<!--
         <table tableName="ms_audit_log" domainObjectName="AuditLog" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -143,7 +149,8 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
+<!--
         <table tableName="ms_order_log" domainObjectName="OrderLog" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -151,7 +158,8 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
+<!--
         <table tableName="ms_property" domainObjectName="Property" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -159,7 +167,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+-->
         <table tableName="ms_roominfo" domainObjectName="RoomInfo" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -167,7 +175,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
+<!--
         <table tableName="ms_user" domainObjectName="User" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">

@@ -30,4 +30,9 @@ public class Comment {
 
     private String status;
 
+    /**--------非表字段-----------*/
+    private String publishName;
+    private String origin;
+    /**--------------------------*/
+
 }

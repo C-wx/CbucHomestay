@@ -29,39 +29,39 @@ layui.define(["form", "table", "element"], function (exports) {
                 field: 'mname'
                 , title: '商户名称'
                 , align: 'center'
-                , Width: 242
+                , Width: 217
             }
             , {
                 field: 'mphone'
                 , title: '联系电话'
                 , align: 'center'
-                , width: 172
+                , width: 173
             }
             , {
                 field: 'mcardno'
                 , title: '身份证'
                 , align: 'center'
-                , width: 181
+                , width: 182
             }
             , {
                 field: 'maddr'
                 , title: '商家地址'
                 , align: 'center'
-                , width: 232
+                , width: 266
                 , event: 'addr_detail'
             }
             , {
                 field: 'remark'
                 , title: '申请说明'
                 , align: 'center'
-                , width: 224
+                , width: 225
                 , event: 'remark_detail'
             }
             , {
                 field: 'mlicense'
                 , title: '营业执照'
                 , align: 'center'
-                , width: 128
+                , width: 129
                 , event: 'lookImg'
                 , templet: function () {
                     return '<span class="look">查看大图</span>';
@@ -71,7 +71,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 field: 'createTime'
                 , title: '申请时间'
                 , align: 'center'
-                , Width: 200
+                , Width: 218
                 , sort: true
                 , templet: (d) => {
                     return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
@@ -79,7 +79,7 @@ layui.define(["form", "table", "element"], function (exports) {
             }
             , {
                 title: '操作'
-                , width: 200
+                , width: 169
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
