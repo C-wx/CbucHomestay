@@ -95,7 +95,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from ms_order
     where ID = #{id,jdbcType=BIGINT}
@@ -213,7 +213,26 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="querySalesData" resultType="java.util.Map">
+      SELECT
+      DATE_FORMAT(t1.create_time, '%m-%d') AS name,
+      count(DISTINCT(t1.ID)) AS value
+      FROM
+      ms_order t1
+      WHERE
+      (
+      t1.CREATE_TIME <![CDATA[>=]]> #{beginTime}
+      AND t1.CREATE_TIME <![CDATA[<=]]> #{endTime}
+      )
+      GROUP BY
+      DATE_FORMAT(t1.create_time, '%Y-%m-%d'),DATE_FORMAT(create_time, '%m-%d')
+    </select>
+    <select id="queryLast" resultType="cbuc.homestay.bean.Order">
+      SELECT  *  FROM ms_order t1
+      ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
+      limit 1;
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update ms_order
     <set>
       <if test="record.id != null">

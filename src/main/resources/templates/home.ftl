@@ -77,7 +77,7 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
                     <li data-name="dataStatistic" class="layui-nav-item layui-this" style="padding-top: 45px">
-                        <a href="javascript:;" lay-href=${(MLEVEL == 'ADMIN')?string('/admin/dataStatistic','/merchant/dataStatistic')} lay-tips="数据统计" lay-direction="2">
+                        <a href="javascript:;" lay-href=${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/merchant/dataCenter')} lay-tips="数据统计" lay-direction="2">
                             <i class="layui-icon layui-icon-tabs"></i>
                             <cite>数据统计</cite>
                         </a>
@@ -197,7 +197,7 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe id="LAY_content_iframe" src="/admin/dataStatistic" frameborder="0"
+                <iframe id="LAY_content_iframe" src="${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/merchant/dataCenter')}" frameborder="0"
                         class="layadmin-iframe"></iframe>
             </div>
         </div>

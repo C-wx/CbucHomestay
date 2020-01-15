@@ -38,4 +38,8 @@ public class CommentService {
     public int doEdit(Comment comment) {
         return commentMapper.updateByPrimaryKeySelective(comment);
     }
+
+    public Comment queryLast() {
+        return commentMapper.queryLast();
+    }
 }

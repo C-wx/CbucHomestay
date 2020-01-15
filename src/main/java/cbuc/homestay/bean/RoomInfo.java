@@ -6,11 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoomInfo {
     private Long id;
 
@@ -36,5 +37,12 @@ public class RoomInfo {
 
     private Date updateTime;
 
+    private String auditStatus;
+
     private String status;
+
+    /**---------非表字段---------*/
+    private String publishName;
+    private List images;
+    /**-------------------------*/
 }

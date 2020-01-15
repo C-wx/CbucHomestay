@@ -173,7 +173,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="queryLast" resultType="cbuc.homestay.bean.Comment">
+      SELECT  *  FROM ms_comment t1
+      where t1.type = 1
+      ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
+      limit 1;
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update ms_comment
     <set>
       <if test="record.id != null">

@@ -2,8 +2,9 @@ package cbuc.homestay.mapper;
 
 import cbuc.homestay.bean.Comment;
 import cbuc.homestay.bean.CommentExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CommentMapper {
     long countByExample(CommentExample example);
@@ -27,4 +28,6 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
+
+    Comment queryLast();
 }

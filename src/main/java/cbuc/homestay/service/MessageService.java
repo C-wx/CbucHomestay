@@ -60,4 +60,8 @@ public class MessageService {
     public Message queryDetail(Long id) {
         return messageMapper.selectByPrimaryKey(id);
     }
+
+    public Message queryLast() {
+        return messageMapper.queryLast();
+    }
 }

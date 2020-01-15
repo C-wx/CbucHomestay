@@ -3,6 +3,7 @@ package cbuc.homestay.service;
 import cbuc.homestay.bean.Image;
 import cbuc.homestay.bean.ImageExample;
 import cbuc.homestay.mapper.ImageMapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,17 @@ public class ImageService {
                 .andOriginEqualTo(value);
         List<Image> images = imageMapper.selectByExample(imageExample);
         return images.size() == 0 ? null : images.get(0);
+    }
+
+    public List<Image> queryList(Image image) {
+        ImageExample imageExample = new ImageExample();
+        ImageExample.Criteria criteria = imageExample.createCriteria();
+        if (image.getParentId() != null) {
+            criteria.andParentIdEqualTo(image.getParentId());
+        }
+        if (StringUtils.isNotBlank(image.getOrigin())) {
+            criteria.andOriginEqualTo(image.getOrigin());
+        }
+        return imageMapper.selectByExample(imageExample);
     }
 }

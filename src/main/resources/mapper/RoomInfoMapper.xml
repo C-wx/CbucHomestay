@@ -14,6 +14,7 @@
     <result column="COMMENT_COUNT" jdbcType="INTEGER" property="commentCount" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="AUDIT_STATUS" jdbcType="VARCHAR" property="auditStatus" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     ID, MID, TITLE, DES, PRICE, IS_ACTIVE, SALES, TYPE, LIKE_COUNT, COMMENT_COUNT, CREATE_TIME, 
-    UPDATE_TIME, STATUS
+    UPDATE_TIME, AUDIT_STATUS, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.RoomInfoExample" resultMap="BaseResultMap">
     select
@@ -113,13 +114,13 @@
     insert into ms_roominfo (MID, TITLE, DES, 
       PRICE, IS_ACTIVE, SALES, 
       TYPE, LIKE_COUNT, COMMENT_COUNT, 
-      CREATE_TIME, UPDATE_TIME, STATUS
-      )
+      CREATE_TIME, UPDATE_TIME, AUDIT_STATUS, 
+      STATUS)
     values (#{mid,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{des,jdbcType=VARCHAR}, 
       #{price,jdbcType=REAL}, #{isActive,jdbcType=VARCHAR}, #{sales,jdbcType=INTEGER}, 
       #{type,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.RoomInfo" useGeneratedKeys="true">
     insert into ms_roominfo
@@ -156,6 +157,9 @@
       </if>
       <if test="updateTime != null">
         UPDATE_TIME,
+      </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS,
       </if>
       <if test="status != null">
         STATUS,
@@ -194,6 +198,9 @@
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -245,6 +252,9 @@
       <if test="record.updateTime != null">
         UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.auditStatus != null">
+        AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
       </if>
@@ -267,6 +277,7 @@
       COMMENT_COUNT = #{record.commentCount,jdbcType=INTEGER},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      AUDIT_STATUS = #{record.auditStatus,jdbcType=VARCHAR},
       STATUS = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -308,6 +319,9 @@
       <if test="updateTime != null">
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="auditStatus != null">
+        AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
@@ -327,6 +341,7 @@
       COMMENT_COUNT = #{commentCount,jdbcType=INTEGER},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      AUDIT_STATUS = #{auditStatus,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>

@@ -39,4 +39,8 @@ public class Order {
     private Date confirmTime;
 
     private String status;
+
+    /**----------非表字段---------*/
+    private String rName;
+    /**--------------------------*/
 }
