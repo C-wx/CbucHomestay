@@ -58,7 +58,6 @@
             selectByExampleQueryId:Select单个对象语句中加入where条件查询，默认为true开启
         -->
 <!--
-
         <table tableName="ms_apply" domainObjectName="Apply" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -168,6 +167,7 @@
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
 -->
+<!--
         <table tableName="ms_roominfo" domainObjectName="RoomInfo" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
@@ -175,6 +175,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
+-->
 <!--
         <table tableName="ms_user" domainObjectName="User" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
@@ -182,6 +183,7 @@
             <property name="useActualColumnNames" value="false"/>
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
-        </table>-->
+        </table>
+-->
     </context>
 </generatorConfiguration>

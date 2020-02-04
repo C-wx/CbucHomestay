@@ -3,7 +3,7 @@
 <mapper namespace="cbuc.homestay.mapper.ApplyMapper">
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Apply">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="UID" jdbcType="BIGINT" property="uid" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="MNAME" jdbcType="VARCHAR" property="mname" />
     <result column="MPHONE" jdbcType="VARCHAR" property="mphone" />
     <result column="MCARDNO" jdbcType="VARCHAR" property="mcardno" />
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, UID, MNAME, MPHONE, MCARDNO, MADDR, MLICENSE, CREATE_TIME, REMARK, AUDIT_STATUS, 
+    ID, OPEN_ID, MNAME, MPHONE, MCARDNO, MADDR, MLICENSE, CREATE_TIME, REMARK, AUDIT_STATUS, 
     STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.ApplyExample" resultMap="BaseResultMap">
@@ -108,11 +108,11 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Apply" useGeneratedKeys="true">
-    insert into ms_apply (UID, MNAME, MPHONE, 
+    insert into ms_apply (OPEN_ID, MNAME, MPHONE, 
       MCARDNO, MADDR, MLICENSE, 
       CREATE_TIME, REMARK, AUDIT_STATUS, 
       STATUS)
-    values (#{uid,jdbcType=BIGINT}, #{mname,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
+    values (#{openId,jdbcType=VARCHAR}, #{mname,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
       #{mcardno,jdbcType=VARCHAR}, #{maddr,jdbcType=VARCHAR}, #{mlicense,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
       #{status,jdbcType=VARCHAR})
@@ -120,8 +120,8 @@
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Apply" useGeneratedKeys="true">
     insert into ms_apply
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="uid != null">
-        UID,
+      <if test="openId != null">
+        OPEN_ID,
       </if>
       <if test="mname != null">
         MNAME,
@@ -152,8 +152,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="uid != null">
-        #{uid,jdbcType=BIGINT},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="mname != null">
         #{mname,jdbcType=VARCHAR},
@@ -196,8 +196,8 @@
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.uid != null">
-        UID = #{record.uid,jdbcType=BIGINT},
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
       <if test="record.mname != null">
         MNAME = #{record.mname,jdbcType=VARCHAR},
@@ -234,7 +234,7 @@
   <update id="updateByExample" parameterType="map">
     update ms_apply
     set ID = #{record.id,jdbcType=BIGINT},
-      UID = #{record.uid,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       MNAME = #{record.mname,jdbcType=VARCHAR},
       MPHONE = #{record.mphone,jdbcType=VARCHAR},
       MCARDNO = #{record.mcardno,jdbcType=VARCHAR},
@@ -251,8 +251,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Apply">
     update ms_apply
     <set>
-      <if test="uid != null">
-        UID = #{uid,jdbcType=BIGINT},
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="mname != null">
         MNAME = #{mname,jdbcType=VARCHAR},
@@ -286,7 +286,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Apply">
     update ms_apply
-    set UID = #{uid,jdbcType=BIGINT},
+    set OPEN_ID = #{openId,jdbcType=VARCHAR},
       MNAME = #{mname,jdbcType=VARCHAR},
       MPHONE = #{mphone,jdbcType=VARCHAR},
       MCARDNO = #{mcardno,jdbcType=VARCHAR},

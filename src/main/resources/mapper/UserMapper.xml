@@ -3,7 +3,7 @@
 <mapper namespace="cbuc.homestay.mapper.UserMapper">
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.User">
     <id column="ID" jdbcType="BIGINT" property="id" />
-    <result column="OPEN_ID" jdbcType="BIGINT" property="openId" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="UNAME" jdbcType="VARCHAR" property="uname" />
     <result column="UPHONE" jdbcType="VARCHAR" property="uphone" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
@@ -106,7 +106,7 @@
     insert into ms_user (OPEN_ID, UNAME, UPHONE, 
       CREATE_TIME, UPDATE_TIME, STATUS
       )
-    values (#{openId,jdbcType=BIGINT}, #{uname,jdbcType=VARCHAR}, #{uphone,jdbcType=VARCHAR}, 
+    values (#{openId,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{uphone,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
       )
   </insert>
@@ -134,7 +134,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="openId != null">
-        #{openId,jdbcType=BIGINT},
+        #{openId,jdbcType=VARCHAR},
       </if>
       <if test="uname != null">
         #{uname,jdbcType=VARCHAR},
@@ -166,7 +166,7 @@
         ID = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.openId != null">
-        OPEN_ID = #{record.openId,jdbcType=BIGINT},
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
       <if test="record.uname != null">
         UNAME = #{record.uname,jdbcType=VARCHAR},
@@ -191,7 +191,7 @@
   <update id="updateByExample" parameterType="map">
     update ms_user
     set ID = #{record.id,jdbcType=BIGINT},
-      OPEN_ID = #{record.openId,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       UNAME = #{record.uname,jdbcType=VARCHAR},
       UPHONE = #{record.uphone,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -205,7 +205,7 @@
     update ms_user
     <set>
       <if test="openId != null">
-        OPEN_ID = #{openId,jdbcType=BIGINT},
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
       <if test="uname != null">
         UNAME = #{uname,jdbcType=VARCHAR},
@@ -227,7 +227,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.User">
     update ms_user
-    set OPEN_ID = #{openId,jdbcType=BIGINT},
+    set OPEN_ID = #{openId,jdbcType=VARCHAR},
       UNAME = #{uname,jdbcType=VARCHAR},
       UPHONE = #{uphone,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},

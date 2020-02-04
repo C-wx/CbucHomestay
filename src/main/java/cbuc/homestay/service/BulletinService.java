@@ -45,4 +45,8 @@ public class BulletinService {
     public Bulletin queryDetail(Long id) {
         return bulletinMapper.selectByPrimaryKey(id);
     }
+
+    public Bulletin getLastBulletin() {
+        return bulletinMapper.getLastBulletin();
+    }
 }

@@ -213,7 +213,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <update id="updateByExampleSelective" parameterType="map">
     update ms_roominfo
     <set>
       <if test="record.id != null">
@@ -345,4 +345,8 @@
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryTopRoom" resultType="cbuc.homestay.bean.RoomInfo">
+     SELECT * FROM ms_roominfo ORDER BY SALES limit 0,5;
+  </select>
 </mapper>

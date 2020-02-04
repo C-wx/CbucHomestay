@@ -2,8 +2,9 @@ package cbuc.homestay.mapper;
 
 import cbuc.homestay.bean.Bulletin;
 import cbuc.homestay.bean.BulletinExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface BulletinMapper {
     long countByExample(BulletinExample example);
@@ -27,4 +28,6 @@ public interface BulletinMapper {
     int updateByPrimaryKeySelective(Bulletin record);
 
     int updateByPrimaryKey(Bulletin record);
+
+    Bulletin getLastBulletin();
 }

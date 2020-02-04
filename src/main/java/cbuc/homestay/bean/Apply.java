@@ -14,7 +14,7 @@ import java.util.Date;
 public class Apply {
     private Long id;
 
-    private Long uid;
+    private String openId;
 
     private String mname;
 

@@ -165,63 +165,73 @@ public class ApplyExample {
             return (Criteria) this;
         }
 
-        public Criteria andUidIsNull() {
-            addCriterion("UID is null");
+        public Criteria andOpenIdIsNull() {
+            addCriterion("OPEN_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andUidIsNotNull() {
-            addCriterion("UID is not null");
+        public Criteria andOpenIdIsNotNull() {
+            addCriterion("OPEN_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUidEqualTo(Long value) {
-            addCriterion("UID =", value, "uid");
+        public Criteria andOpenIdEqualTo(String value) {
+            addCriterion("OPEN_ID =", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotEqualTo(Long value) {
-            addCriterion("UID <>", value, "uid");
+        public Criteria andOpenIdNotEqualTo(String value) {
+            addCriterion("OPEN_ID <>", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidGreaterThan(Long value) {
-            addCriterion("UID >", value, "uid");
+        public Criteria andOpenIdGreaterThan(String value) {
+            addCriterion("OPEN_ID >", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidGreaterThanOrEqualTo(Long value) {
-            addCriterion("UID >=", value, "uid");
+        public Criteria andOpenIdGreaterThanOrEqualTo(String value) {
+            addCriterion("OPEN_ID >=", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidLessThan(Long value) {
-            addCriterion("UID <", value, "uid");
+        public Criteria andOpenIdLessThan(String value) {
+            addCriterion("OPEN_ID <", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidLessThanOrEqualTo(Long value) {
-            addCriterion("UID <=", value, "uid");
+        public Criteria andOpenIdLessThanOrEqualTo(String value) {
+            addCriterion("OPEN_ID <=", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidIn(List<Long> values) {
-            addCriterion("UID in", values, "uid");
+        public Criteria andOpenIdLike(String value) {
+            addCriterion("OPEN_ID like", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotIn(List<Long> values) {
-            addCriterion("UID not in", values, "uid");
+        public Criteria andOpenIdNotLike(String value) {
+            addCriterion("OPEN_ID not like", value, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidBetween(Long value1, Long value2) {
-            addCriterion("UID between", value1, value2, "uid");
+        public Criteria andOpenIdIn(List<String> values) {
+            addCriterion("OPEN_ID in", values, "openId");
             return (Criteria) this;
         }
 
-        public Criteria andUidNotBetween(Long value1, Long value2) {
-            addCriterion("UID not between", value1, value2, "uid");
+        public Criteria andOpenIdNotIn(List<String> values) {
+            addCriterion("OPEN_ID not in", values, "openId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenIdBetween(String value1, String value2) {
+            addCriterion("OPEN_ID between", value1, value2, "openId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenIdNotBetween(String value1, String value2) {
+            addCriterion("OPEN_ID not between", value1, value2, "openId");
             return (Criteria) this;
         }
 

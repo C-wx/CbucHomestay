@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @Explain:   商家申请处理器
+ * @Explain: 商家申请处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/10
@@ -39,5 +39,16 @@ public class ApplyService {
 
     public int doEdit(Apply apply) {
         return applyMapper.updateByPrimaryKeySelective(apply);
+    }
+
+    public int doAdd(Apply apply) {
+        return applyMapper.insertSelective(apply);
+    }
+
+    public Apply getApplyDetail(String openId) {
+        ApplyExample applyExample = new ApplyExample();
+        applyExample.createCriteria().andOpenIdEqualTo(openId);
+        List<Apply> applyList = applyMapper.selectByExample(applyExample);
+        return applyList.size() > 0 ? applyList.get(0) : null;
     }
 }

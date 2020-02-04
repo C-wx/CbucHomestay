@@ -31,11 +31,27 @@ public class RoomInfoService {
         if (StringUtils.isNotBlank(roomInfo.getTitle())) {
             criteria.andTitleLike("%" + roomInfo.getTitle() + "%");
         }
+        if (StringUtils.isNotBlank(roomInfo.getAuditStatus())) {
+            criteria.andAuditStatusEqualTo(roomInfo.getAuditStatus());
+        }
+        if (StringUtils.isNotBlank(roomInfo.getType())) {
+            criteria.andTypeEqualTo(roomInfo.getType());
+        }
         roomInfoExample.setOrderByClause("ID DESC");
         return roomInfoMapper.selectByExample(roomInfoExample);
     }
 
     public int doEdit(RoomInfo roomInfo) {
         return roomInfoMapper.updateByPrimaryKeySelective(roomInfo);
+    }
+
+    public List<RoomInfo> queryActiveRoom() {
+        RoomInfoExample roomInfoExample = new RoomInfoExample();
+        roomInfoExample.createCriteria().andIsActiveEqualTo("Y");
+        return roomInfoMapper.selectByExample(roomInfoExample);
+    }
+
+    public List<RoomInfo> queryTopRoom() {
+        return roomInfoMapper.queryTopRoom();
     }
 }

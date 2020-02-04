@@ -2,8 +2,9 @@ package cbuc.homestay.mapper;
 
 import cbuc.homestay.bean.RoomInfo;
 import cbuc.homestay.bean.RoomInfoExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface RoomInfoMapper {
     long countByExample(RoomInfoExample example);
@@ -27,4 +28,6 @@ public interface RoomInfoMapper {
     int updateByPrimaryKeySelective(RoomInfo record);
 
     int updateByPrimaryKey(RoomInfo record);
+
+    List<RoomInfo> queryTopRoom();
 }
