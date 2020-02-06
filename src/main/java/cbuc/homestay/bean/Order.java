@@ -16,13 +16,13 @@ public class Order {
 
     private Long rid;
 
-    private Long olId;
+    private String openId;
 
-    private String uname;
+    private String name;
 
-    private String ucardno;
+    private String cardno;
 
-    private String uphone;
+    private String phone;
 
     private String orderCode;
 

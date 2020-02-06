@@ -4,10 +4,10 @@
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Order">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="RID" jdbcType="BIGINT" property="rid" />
-    <result column="OL_ID" jdbcType="BIGINT" property="olId" />
-    <result column="UNAME" jdbcType="VARCHAR" property="uname" />
-    <result column="UCARDNO" jdbcType="VARCHAR" property="ucardno" />
-    <result column="UPHONE" jdbcType="VARCHAR" property="uphone" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="CARDNO" jdbcType="VARCHAR" property="cardno" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
     <result column="PRICE" jdbcType="REAL" property="price" />
     <result column="COMMENT" jdbcType="VARCHAR" property="comment" />
@@ -76,8 +76,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, RID, OL_ID, UNAME, UCARDNO, UPHONE, ORDER_CODE, PRICE, COMMENT, CREATE_TIME, 
-    UPDATE_TIME, PAY_TIME, CONFIRM_TIME, STATUS
+    ID, RID, OPEN_ID, NAME, CARDNO, PHONE, ORDER_CODE, PRICE, COMMENT, CREATE_TIME, UPDATE_TIME, 
+    PAY_TIME, CONFIRM_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -95,7 +95,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from ms_order
     where ID = #{id,jdbcType=BIGINT}
@@ -111,13 +111,13 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
-    insert into ms_order (RID, OL_ID, UNAME, 
-      UCARDNO, UPHONE, ORDER_CODE, 
+    insert into ms_order (RID, OPEN_ID, NAME, 
+      CARDNO, PHONE, ORDER_CODE, 
       PRICE, COMMENT, CREATE_TIME, 
       UPDATE_TIME, PAY_TIME, CONFIRM_TIME, 
       STATUS)
-    values (#{rid,jdbcType=BIGINT}, #{olId,jdbcType=BIGINT}, #{uname,jdbcType=VARCHAR}, 
-      #{ucardno,jdbcType=VARCHAR}, #{uphone,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
+    values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{cardno,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
       #{price,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=VARCHAR})
@@ -128,17 +128,17 @@
       <if test="rid != null">
         RID,
       </if>
-      <if test="olId != null">
-        OL_ID,
+      <if test="openId != null">
+        OPEN_ID,
       </if>
-      <if test="uname != null">
-        UNAME,
+      <if test="name != null">
+        NAME,
       </if>
-      <if test="ucardno != null">
-        UCARDNO,
+      <if test="cardno != null">
+        CARDNO,
       </if>
-      <if test="uphone != null">
-        UPHONE,
+      <if test="phone != null">
+        PHONE,
       </if>
       <if test="orderCode != null">
         ORDER_CODE,
@@ -169,17 +169,17 @@
       <if test="rid != null">
         #{rid,jdbcType=BIGINT},
       </if>
-      <if test="olId != null">
-        #{olId,jdbcType=BIGINT},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
       </if>
-      <if test="uname != null">
-        #{uname,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
-      <if test="ucardno != null">
-        #{ucardno,jdbcType=VARCHAR},
+      <if test="cardno != null">
+        #{cardno,jdbcType=VARCHAR},
       </if>
-      <if test="uphone != null">
-        #{uphone,jdbcType=VARCHAR},
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
       </if>
       <if test="orderCode != null">
         #{orderCode,jdbcType=VARCHAR},
@@ -213,26 +213,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="querySalesData" resultType="java.util.Map">
-      SELECT
-      DATE_FORMAT(t1.create_time, '%m-%d') AS name,
-      count(DISTINCT(t1.ID)) AS value
-      FROM
-      ms_order t1
-      WHERE
-      (
-      t1.CREATE_TIME <![CDATA[>=]]> #{beginTime}
-      AND t1.CREATE_TIME <![CDATA[<=]]> #{endTime}
-      )
-      GROUP BY
-      DATE_FORMAT(t1.create_time, '%Y-%m-%d'),DATE_FORMAT(create_time, '%m-%d')
-    </select>
-    <select id="queryLast" resultType="cbuc.homestay.bean.Order">
-      SELECT  *  FROM ms_order t1
-      ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
-      limit 1;
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map">
     update ms_order
     <set>
       <if test="record.id != null">
@@ -241,17 +222,17 @@
       <if test="record.rid != null">
         RID = #{record.rid,jdbcType=BIGINT},
       </if>
-      <if test="record.olId != null">
-        OL_ID = #{record.olId,jdbcType=BIGINT},
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       </if>
-      <if test="record.uname != null">
-        UNAME = #{record.uname,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.ucardno != null">
-        UCARDNO = #{record.ucardno,jdbcType=VARCHAR},
+      <if test="record.cardno != null">
+        CARDNO = #{record.cardno,jdbcType=VARCHAR},
       </if>
-      <if test="record.uphone != null">
-        UPHONE = #{record.uphone,jdbcType=VARCHAR},
+      <if test="record.phone != null">
+        PHONE = #{record.phone,jdbcType=VARCHAR},
       </if>
       <if test="record.orderCode != null">
         ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
@@ -286,10 +267,10 @@
     update ms_order
     set ID = #{record.id,jdbcType=BIGINT},
       RID = #{record.rid,jdbcType=BIGINT},
-      OL_ID = #{record.olId,jdbcType=BIGINT},
-      UNAME = #{record.uname,jdbcType=VARCHAR},
-      UCARDNO = #{record.ucardno,jdbcType=VARCHAR},
-      UPHONE = #{record.uphone,jdbcType=VARCHAR},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      CARDNO = #{record.cardno,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
       ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       PRICE = #{record.price,jdbcType=REAL},
       COMMENT = #{record.comment,jdbcType=VARCHAR},
@@ -308,17 +289,17 @@
       <if test="rid != null">
         RID = #{rid,jdbcType=BIGINT},
       </if>
-      <if test="olId != null">
-        OL_ID = #{olId,jdbcType=BIGINT},
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
       </if>
-      <if test="uname != null">
-        UNAME = #{uname,jdbcType=VARCHAR},
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="ucardno != null">
-        UCARDNO = #{ucardno,jdbcType=VARCHAR},
+      <if test="cardno != null">
+        CARDNO = #{cardno,jdbcType=VARCHAR},
       </if>
-      <if test="uphone != null">
-        UPHONE = #{uphone,jdbcType=VARCHAR},
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
       </if>
       <if test="orderCode != null">
         ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
@@ -350,10 +331,10 @@
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Order">
     update ms_order
     set RID = #{rid,jdbcType=BIGINT},
-      OL_ID = #{olId,jdbcType=BIGINT},
-      UNAME = #{uname,jdbcType=VARCHAR},
-      UCARDNO = #{ucardno,jdbcType=VARCHAR},
-      UPHONE = #{uphone,jdbcType=VARCHAR},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      CARDNO = #{cardno,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
       ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
       PRICE = #{price,jdbcType=REAL},
       COMMENT = #{comment,jdbcType=VARCHAR},
@@ -364,4 +345,25 @@
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="querySalesData" resultType="java.util.Map">
+      SELECT
+      DATE_FORMAT(t1.create_time, '%m-%d') AS name,
+      count(DISTINCT(t1.ID)) AS value
+      FROM
+      ms_order t1
+      WHERE
+      (
+      t1.CREATE_TIME <![CDATA[>=]]> #{beginTime}
+      AND t1.CREATE_TIME <![CDATA[<=]]> #{endTime}
+      )
+      GROUP BY
+      DATE_FORMAT(t1.create_time, '%Y-%m-%d'),DATE_FORMAT(create_time, '%m-%d')
+  </select>
+
+  <select id="queryLast" resultType="cbuc.homestay.bean.Order">
+      SELECT  *  FROM ms_order t1
+      ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
+      limit 1;
+  </select>
 </mapper>

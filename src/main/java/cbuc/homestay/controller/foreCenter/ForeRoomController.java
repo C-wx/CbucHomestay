@@ -75,10 +75,21 @@ public class ForeRoomController {
         return Result.success(roomInfoList);
     }
 
+    @ApiOperation("获取房源详情")
     @ResponseBody
     @RequestMapping("/getRoomInfo")
     public Object getRoomInfo(Long id) {
         RoomInfo roomInfo = roomInfoService.queryDetail(id);
         return Result.success(roomInfo);
+    }
+
+    @ApiOperation(("/点赞房源"))
+    @ResponseBody
+    @RequestMapping("/doLikeRoom")
+    public Object doLikeRoom(RoomInfo roomInfo) {
+        RoomInfo ri = roomInfoService.queryDetail(roomInfo.getId());
+        ri.setLikeCount(ri.getLikeCount() + roomInfo.getLikeCount());
+        int res = roomInfoService.doEdit(ri);
+        return res > 0 ? Result.success() : Result.error();
     }
 }

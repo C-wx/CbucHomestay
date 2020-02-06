@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @Explain:   用户处理器
+ * @Explain: 用户处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/13
@@ -30,5 +30,16 @@ public class UserService {
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andStatusNotEqualTo(StatusEnum.D.getValue());
         return userMapper.selectByExample(userExample);
+    }
+
+    public int doAdd(User user) {
+        return userMapper.insertSelective(user);
+    }
+
+    public User queryDetail(String openId) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andOpenIdEqualTo(openId);
+        List<User> userList = userMapper.selectByExample(userExample);
+        return userList.size() > 0 ? userList.get(0) : null;
     }
 }

@@ -575,6 +575,76 @@ public class MerchantExample {
             return (Criteria) this;
         }
 
+        public Criteria andMdescIsNull() {
+            addCriterion("MDESC is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescIsNotNull() {
+            addCriterion("MDESC is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescEqualTo(String value) {
+            addCriterion("MDESC =", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescNotEqualTo(String value) {
+            addCriterion("MDESC <>", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescGreaterThan(String value) {
+            addCriterion("MDESC >", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescGreaterThanOrEqualTo(String value) {
+            addCriterion("MDESC >=", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescLessThan(String value) {
+            addCriterion("MDESC <", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescLessThanOrEqualTo(String value) {
+            addCriterion("MDESC <=", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescLike(String value) {
+            addCriterion("MDESC like", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescNotLike(String value) {
+            addCriterion("MDESC not like", value, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescIn(List<String> values) {
+            addCriterion("MDESC in", values, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescNotIn(List<String> values) {
+            addCriterion("MDESC not in", values, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescBetween(String value1, String value2) {
+            addCriterion("MDESC between", value1, value2, "mdesc");
+            return (Criteria) this;
+        }
+
+        public Criteria andMdescNotBetween(String value1, String value2) {
+            addCriterion("MDESC not between", value1, value2, "mdesc");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("CREATE_TIME is null");
             return (Criteria) this;

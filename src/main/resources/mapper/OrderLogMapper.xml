@@ -4,7 +4,10 @@
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.OrderLog">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="RID" jdbcType="BIGINT" property="rid" />
-    <result column="UID" jdbcType="BIGINT" property="uid" />
+    <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="CARDNO" jdbcType="VARCHAR" property="cardno" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -68,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, RID, UID, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, RID, OPEN_ID, NAME, PHONE, CARDNO, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderLogExample" resultMap="BaseResultMap">
     select
@@ -102,9 +105,11 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.OrderLog" useGeneratedKeys="true">
-    insert into ms_order_log (RID, UID, CREATE_TIME, 
+    insert into ms_order_log (RID, OPEN_ID, NAME, 
+      PHONE, CARDNO, CREATE_TIME, 
       UPDATE_TIME, STATUS)
-    values (#{rid,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{cardno,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.OrderLog" useGeneratedKeys="true">
@@ -113,8 +118,17 @@
       <if test="rid != null">
         RID,
       </if>
-      <if test="uid != null">
-        UID,
+      <if test="openId != null">
+        OPEN_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="cardno != null">
+        CARDNO,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -130,8 +144,17 @@
       <if test="rid != null">
         #{rid,jdbcType=BIGINT},
       </if>
-      <if test="uid != null">
-        #{uid,jdbcType=BIGINT},
+      <if test="openId != null">
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null">
+        #{cardno,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -159,8 +182,17 @@
       <if test="record.rid != null">
         RID = #{record.rid,jdbcType=BIGINT},
       </if>
-      <if test="record.uid != null">
-        UID = #{record.uid,jdbcType=BIGINT},
+      <if test="record.openId != null">
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null">
+        PHONE = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cardno != null">
+        CARDNO = #{record.cardno,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -180,7 +212,10 @@
     update ms_order_log
     set ID = #{record.id,jdbcType=BIGINT},
       RID = #{record.rid,jdbcType=BIGINT},
-      UID = #{record.uid,jdbcType=BIGINT},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      PHONE = #{record.phone,jdbcType=VARCHAR},
+      CARDNO = #{record.cardno,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -194,8 +229,17 @@
       <if test="rid != null">
         RID = #{rid,jdbcType=BIGINT},
       </if>
-      <if test="uid != null">
-        UID = #{uid,jdbcType=BIGINT},
+      <if test="openId != null">
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="cardno != null">
+        CARDNO = #{cardno,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -212,7 +256,10 @@
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.OrderLog">
     update ms_order_log
     set RID = #{rid,jdbcType=BIGINT},
-      UID = #{uid,jdbcType=BIGINT},
+      OPEN_ID = #{openId,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      CARDNO = #{cardno,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

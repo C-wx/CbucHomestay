@@ -33,6 +33,10 @@ public class RoomInfo {
 
     private Integer commentCount;
 
+    private Date beginTime;
+
+    private Date endTime;
+
     private Date createTime;
 
     private Date updateTime;

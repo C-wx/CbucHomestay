@@ -16,7 +16,13 @@ public class OrderLog {
 
     private Long rid;
 
-    private Long uid;
+    private String openId;
+
+    private String name;
+
+    private String phone;
+
+    private String cardno;
 
     private Date createTime;
 

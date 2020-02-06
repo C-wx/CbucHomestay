@@ -26,6 +26,8 @@ public class Merchant {
 
     private String mlevel;
 
+    private String mdesc;
+
     private Date createTime;
 
     private Date updateTime;
