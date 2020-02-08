@@ -36,4 +36,12 @@ public class OrderService {
     public Order queryLast() {
         return orderMapper.queryLast();
     }
+
+    public int doAdd(Order order) {
+        return orderMapper.insertSelective(order);
+    }
+
+    public int doEdit(Order o) {
+        return orderMapper.updateByPrimaryKeySelective(o);
+    }
 }

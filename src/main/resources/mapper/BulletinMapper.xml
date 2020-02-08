@@ -272,9 +272,7 @@
   </update>
 
     <select id="getLastBulletin" resultType="cbuc.homestay.bean.Bulletin">
-        SELECT * FROM ms_bulletin
-        where id = (select MAX(ID) from ms_bulletin where STATUS != "D" and AUDIT_STATUS = "SA" AND BEGIN_TIME &lt; now()
-        AND END_TIME &gt; now());
+        SELECT * FROM `ms_bulletin` t1 where BEGIN_TIME &lt; NOW() and END_TIME &gt; NOW()  and AUDIT_STATUS = "SA" ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC limit 1;
     </select>
 
 </mapper>

@@ -28,14 +28,22 @@ public class RoomInfoService {
     public List<RoomInfo> queryList(RoomInfo roomInfo) {
         RoomInfoExample roomInfoExample = new RoomInfoExample();
         RoomInfoExample.Criteria criteria = roomInfoExample.createCriteria();
-        if (StringUtils.isNotBlank(roomInfo.getTitle())) {
-            criteria.andTitleLike("%" + roomInfo.getTitle() + "%");
-        }
-        if (StringUtils.isNotBlank(roomInfo.getAuditStatus())) {
-            criteria.andAuditStatusEqualTo(roomInfo.getAuditStatus());
-        }
-        if (StringUtils.isNotBlank(roomInfo.getType())) {
-            criteria.andTypeEqualTo(roomInfo.getType());
+        if (roomInfo.getBeginTime() != null && roomInfo.getEndTime() != null) {
+            RoomInfoExample.Criteria criteria1 = roomInfoExample.createCriteria();
+            criteria1.andBeginTimeGreaterThan(roomInfo.getEndTime());
+            this.getCriteria(criteria1,roomInfo);
+            RoomInfoExample.Criteria criteria2 = roomInfoExample.createCriteria();
+            criteria2.andBeginTimeIsNull();
+            criteria2.andEndTimeIsNull();
+            this.getCriteria(criteria2,roomInfo);
+            RoomInfoExample.Criteria criteria3 = roomInfoExample.createCriteria();
+            criteria3.andEndTimeLessThan(roomInfo.getBeginTime());
+            this.getCriteria(criteria3,roomInfo);
+            roomInfoExample.or(criteria1);
+            roomInfoExample.or(criteria2);
+            roomInfoExample.or(criteria3);
+        }else{
+            this.getCriteria(criteria,roomInfo);
         }
         roomInfoExample.setOrderByClause("ID DESC");
         return roomInfoMapper.selectByExample(roomInfoExample);
@@ -53,5 +61,18 @@ public class RoomInfoService {
 
     public List<RoomInfo> queryTopRoom() {
         return roomInfoMapper.queryTopRoom();
+    }
+
+    public RoomInfoExample.Criteria getCriteria(RoomInfoExample.Criteria criteria,RoomInfo roomInfo) {
+        if (StringUtils.isNotBlank(roomInfo.getTitle())) {
+            criteria.andTitleLike("%" + roomInfo.getTitle() + "%");
+        }
+        if (StringUtils.isNotBlank(roomInfo.getAuditStatus())) {
+            criteria.andAuditStatusEqualTo(roomInfo.getAuditStatus());
+        }
+        if (StringUtils.isNotBlank(roomInfo.getType())) {
+            criteria.andTypeEqualTo(roomInfo.getType());
+        }
+        return criteria;
     }
 }

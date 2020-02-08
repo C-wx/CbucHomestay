@@ -15,6 +15,8 @@
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="PAY_TIME" jdbcType="TIMESTAMP" property="payTime" />
     <result column="CONFIRM_TIME" jdbcType="TIMESTAMP" property="confirmTime" />
+    <result column="BEGIN_TIME" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -77,7 +79,7 @@
   </sql>
   <sql id="Base_Column_List">
     ID, RID, OPEN_ID, NAME, CARDNO, PHONE, ORDER_CODE, PRICE, COMMENT, CREATE_TIME, UPDATE_TIME, 
-    PAY_TIME, CONFIRM_TIME, STATUS
+    PAY_TIME, CONFIRM_TIME, BEGIN_TIME, END_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -115,12 +117,14 @@
       CARDNO, PHONE, ORDER_CODE, 
       PRICE, COMMENT, CREATE_TIME, 
       UPDATE_TIME, PAY_TIME, CONFIRM_TIME, 
-      STATUS)
+      BEGIN_TIME, END_TIME, STATUS
+      )
     values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{cardno,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
       #{price,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
     insert into ms_order
@@ -160,6 +164,12 @@
       </if>
       <if test="confirmTime != null">
         CONFIRM_TIME,
+      </if>
+      <if test="beginTime != null">
+        BEGIN_TIME,
+      </if>
+      <if test="endTime != null">
+        END_TIME,
       </if>
       <if test="status != null">
         STATUS,
@@ -201,6 +211,12 @@
       </if>
       <if test="confirmTime != null">
         #{confirmTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
@@ -255,6 +271,12 @@
       <if test="record.confirmTime != null">
         CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.beginTime != null">
+        BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null">
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
       </if>
@@ -278,6 +300,8 @@
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       PAY_TIME = #{record.payTime,jdbcType=TIMESTAMP},
       CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
+      BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -322,6 +346,12 @@
       <if test="confirmTime != null">
         CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="beginTime != null">
+        BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
@@ -342,6 +372,8 @@
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       PAY_TIME = #{payTime,jdbcType=TIMESTAMP},
       CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+      BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
