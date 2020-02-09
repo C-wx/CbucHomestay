@@ -35,6 +35,7 @@ public class Message {
     /**----------非表字段-----------*/
     private String sendName;
     private String receiveName;
+    private String isSelf;
     /**----------------------------*/
 
     public Long getId() {
@@ -133,5 +134,13 @@ public class Message {
 
     public void setReceiveName(String receiveName) {
         this.receiveName = receiveName;
+    }
+
+    public String getIsSelf() {
+        return isSelf;
+    }
+
+    public void setIsSelf(String isSelf) {
+        this.isSelf = isSelf;
     }
 }

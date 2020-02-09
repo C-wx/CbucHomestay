@@ -30,4 +30,6 @@ public interface MessageMapper {
     int updateByPrimaryKey(Message record);
 
     Message queryLast();
+
+    List<Message> getList(@Param("message") Message message);
 }

@@ -36,5 +36,7 @@ public class Apply {
 
     /**---------非表字段---------*/
     private String licenseUrl;
+    private Merchant merchant;
+    private AuditLog auditLog;
     /**-------------------------*/
 }

@@ -47,8 +47,14 @@ public class ApplyService {
 
     public Apply getApplyDetail(String openId) {
         ApplyExample applyExample = new ApplyExample();
-        applyExample.createCriteria().andOpenIdEqualTo(openId);
+        applyExample.createCriteria().andOpenIdEqualTo(openId).andStatusEqualTo("E");
         List<Apply> applyList = applyMapper.selectByExample(applyExample);
         return applyList.size() > 0 ? applyList.get(0) : null;
+    }
+
+    public int doDel(Apply apply) {
+        ApplyExample applyExample = new ApplyExample();
+        applyExample.createCriteria().andOpenIdEqualTo(apply.getOpenId());
+        return applyMapper.updateByExampleSelective(apply, applyExample);
     }
 }

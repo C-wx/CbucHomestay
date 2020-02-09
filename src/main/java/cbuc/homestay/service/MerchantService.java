@@ -14,7 +14,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- * @Explain:   商家处理器
+ * @Explain: 商家处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/2
@@ -38,7 +38,7 @@ public class MerchantService {
         }
         criteria.andStatusNotEqualTo(StatusEnum.D.getValue());
         List<Merchant> merchants = merchantMapper.selectByExample(merchantExample);
-        return CollectionUtils.isEmpty(merchants)?null:merchants.get(0);
+        return CollectionUtils.isEmpty(merchants) ? null : merchants.get(0);
     }
 
     public Merchant queryDetail(Long id) {
@@ -70,5 +70,12 @@ public class MerchantService {
         criteria.andMlevelNotEqualTo(LevelEnum.ADMIN.getValue());
         merchantExample.setOrderByClause("id desc");
         return merchantMapper.selectByExample(merchantExample);
+    }
+
+    public Merchant getMerchant(Long id) {
+        MerchantExample merchantExample = new MerchantExample();
+        merchantExample.createCriteria().andAuditIdEqualTo(id);
+        List<Merchant> merchantList = merchantMapper.selectByExample(merchantExample);
+        return merchantList.size() > 0 ? merchantList.get(0) : null;
     }
 }

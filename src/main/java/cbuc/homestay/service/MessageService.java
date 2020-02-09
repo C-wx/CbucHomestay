@@ -64,4 +64,24 @@ public class MessageService {
     public Message queryLast() {
         return messageMapper.queryLast();
     }
+
+    public List<Message> getList(Message message) {
+        return messageMapper.getList(message);
+    }
+
+    public List<Message> queryChatList(Long id, Long mId) {
+        MessageExample example = new MessageExample();
+        MessageExample.Criteria criteria = example.createCriteria();
+        MessageExample.Criteria criteria1 = example.createCriteria();
+        criteria.andSendIdEqualTo(id);
+        criteria.andSendTypeEqualTo("USER");
+        criteria.andReceiveIdEqualTo(mId);
+        criteria.andReceiveTypeEqualTo("MERCHANT");
+        criteria1.andSendIdEqualTo(mId);
+        criteria1.andSendTypeEqualTo("MERCHANT");
+        criteria1.andReceiveIdEqualTo(id);
+        criteria1.andReceiveTypeEqualTo("USER");
+        example.or(criteria1);
+        return messageMapper.selectByExample(example);
+    }
 }
