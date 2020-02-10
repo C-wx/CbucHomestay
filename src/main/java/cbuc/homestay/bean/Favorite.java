@@ -11,22 +11,19 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OrderLog {
+public class Favorite {
     private Long id;
 
     private Long rid;
 
     private String openId;
 
-    private String name;
-
-    private String phone;
-
-    private String cardno;
-
     private Date createTime;
 
     private Date updateTime;
 
     private String status;
+
+    private RoomInfo roomInfo;
+
 }

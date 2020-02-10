@@ -9,6 +9,7 @@
     <result column="CARDNO" jdbcType="VARCHAR" property="cardno" />
     <result column="PHONE" jdbcType="VARCHAR" property="phone" />
     <result column="ORDER_CODE" jdbcType="VARCHAR" property="orderCode" />
+    <result column="DAY_COUNT" jdbcType="VARCHAR" property="dayCount" />
     <result column="PRICE" jdbcType="REAL" property="price" />
     <result column="COMMENT" jdbcType="VARCHAR" property="comment" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
@@ -78,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, RID, OPEN_ID, NAME, CARDNO, PHONE, ORDER_CODE, PRICE, COMMENT, CREATE_TIME, UPDATE_TIME, 
-    PAY_TIME, CONFIRM_TIME, BEGIN_TIME, END_TIME, STATUS
+    ID, RID, OPEN_ID, NAME, CARDNO, PHONE, ORDER_CODE, DAY_COUNT, PRICE, COMMENT, CREATE_TIME, 
+    UPDATE_TIME, PAY_TIME, CONFIRM_TIME, BEGIN_TIME, END_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -115,16 +116,16 @@
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
     insert into ms_order (RID, OPEN_ID, NAME, 
       CARDNO, PHONE, ORDER_CODE, 
-      PRICE, COMMENT, CREATE_TIME, 
-      UPDATE_TIME, PAY_TIME, CONFIRM_TIME, 
-      BEGIN_TIME, END_TIME, STATUS
-      )
+      DAY_COUNT, PRICE, COMMENT, 
+      CREATE_TIME, UPDATE_TIME, PAY_TIME, 
+      CONFIRM_TIME, BEGIN_TIME, END_TIME, 
+      STATUS)
     values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{cardno,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
-      #{price,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, #{confirmTime,jdbcType=TIMESTAMP}, 
-      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+      #{dayCount,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{confirmTime,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
     insert into ms_order
@@ -146,6 +147,9 @@
       </if>
       <if test="orderCode != null">
         ORDER_CODE,
+      </if>
+      <if test="dayCount != null">
+        DAY_COUNT,
       </if>
       <if test="price != null">
         PRICE,
@@ -193,6 +197,9 @@
       </if>
       <if test="orderCode != null">
         #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dayCount != null">
+        #{dayCount,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         #{price,jdbcType=REAL},
@@ -253,6 +260,9 @@
       <if test="record.orderCode != null">
         ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.dayCount != null">
+        DAY_COUNT = #{record.dayCount,jdbcType=VARCHAR},
+      </if>
       <if test="record.price != null">
         PRICE = #{record.price,jdbcType=REAL},
       </if>
@@ -294,6 +304,7 @@
       CARDNO = #{record.cardno,jdbcType=VARCHAR},
       PHONE = #{record.phone,jdbcType=VARCHAR},
       ORDER_CODE = #{record.orderCode,jdbcType=VARCHAR},
+      DAY_COUNT = #{record.dayCount,jdbcType=VARCHAR},
       PRICE = #{record.price,jdbcType=REAL},
       COMMENT = #{record.comment,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -327,6 +338,9 @@
       </if>
       <if test="orderCode != null">
         ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dayCount != null">
+        DAY_COUNT = #{dayCount,jdbcType=VARCHAR},
       </if>
       <if test="price != null">
         PRICE = #{price,jdbcType=REAL},
@@ -366,6 +380,7 @@
       CARDNO = #{cardno,jdbcType=VARCHAR},
       PHONE = #{phone,jdbcType=VARCHAR},
       ORDER_CODE = #{orderCode,jdbcType=VARCHAR},
+      DAY_COUNT = #{dayCount,jdbcType=VARCHAR},
       PRICE = #{price,jdbcType=REAL},
       COMMENT = #{comment,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},

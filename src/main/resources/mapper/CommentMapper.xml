@@ -3,8 +3,9 @@
 <mapper namespace="cbuc.homestay.mapper.CommentMapper">
   <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Comment">
     <id column="ID" jdbcType="BIGINT" property="id" />
+    <result column="OID" jdbcType="BIGINT" property="oid" />
     <result column="RID" jdbcType="BIGINT" property="rid" />
-    <result column="COMMENTOR" jdbcType="BIGINT" property="commentor" />
+    <result column="commentor" jdbcType="BIGINT" property="commentor" />
     <result column="TYPE" jdbcType="VARCHAR" property="type" />
     <result column="CONTENT" jdbcType="VARCHAR" property="content" />
     <result column="LIKE_COUNT" jdbcType="INTEGER" property="likeCount" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, RID, COMMENTOR, TYPE, CONTENT, LIKE_COUNT, COMMENT_COUNT, CREATE_TIME, STATUS
+    ID, OID, RID, commentor, TYPE, CONTENT, LIKE_COUNT, COMMENT_COUNT, CREATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.CommentExample" resultMap="BaseResultMap">
     select
@@ -105,21 +106,26 @@
     </if>
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Comment" useGeneratedKeys="true">
-    insert into ms_comment (RID, COMMENTOR, TYPE, 
-      CONTENT, LIKE_COUNT, COMMENT_COUNT, 
-      CREATE_TIME, STATUS)
-    values (#{rid,jdbcType=BIGINT}, #{commentor,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
+    insert into ms_comment (OID, RID, commentor, 
+      TYPE, CONTENT, LIKE_COUNT, 
+      COMMENT_COUNT, CREATE_TIME, STATUS
+      )
+    values (#{oid,jdbcType=BIGINT}, #{rid,jdbcType=BIGINT}, #{commentor,jdbcType=BIGINT}, 
+      #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{likeCount,jdbcType=INTEGER}, 
+      #{commentCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Comment" useGeneratedKeys="true">
     insert into ms_comment
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        OID,
+      </if>
       <if test="rid != null">
         RID,
       </if>
       <if test="commentor != null">
-        COMMENTOR,
+        commentor,
       </if>
       <if test="type != null">
         TYPE,
@@ -141,6 +147,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="oid != null">
+        #{oid,jdbcType=BIGINT},
+      </if>
       <if test="rid != null">
         #{rid,jdbcType=BIGINT},
       </if>
@@ -173,23 +182,20 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="queryLast" resultType="cbuc.homestay.bean.Comment">
-      SELECT  *  FROM ms_comment t1
-      where t1.type = 1
-      ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
-      limit 1;
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map">
     update ms_comment
     <set>
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.oid != null">
+        OID = #{record.oid,jdbcType=BIGINT},
+      </if>
       <if test="record.rid != null">
         RID = #{record.rid,jdbcType=BIGINT},
       </if>
       <if test="record.commentor != null">
-        COMMENTOR = #{record.commentor,jdbcType=BIGINT},
+        commentor = #{record.commentor,jdbcType=BIGINT},
       </if>
       <if test="record.type != null">
         TYPE = #{record.type,jdbcType=VARCHAR},
@@ -217,8 +223,9 @@
   <update id="updateByExample" parameterType="map">
     update ms_comment
     set ID = #{record.id,jdbcType=BIGINT},
+      OID = #{record.oid,jdbcType=BIGINT},
       RID = #{record.rid,jdbcType=BIGINT},
-      COMMENTOR = #{record.commentor,jdbcType=BIGINT},
+      commentor = #{record.commentor,jdbcType=BIGINT},
       TYPE = #{record.type,jdbcType=VARCHAR},
       CONTENT = #{record.content,jdbcType=VARCHAR},
       LIKE_COUNT = #{record.likeCount,jdbcType=INTEGER},
@@ -232,11 +239,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Comment">
     update ms_comment
     <set>
+      <if test="oid != null">
+        OID = #{oid,jdbcType=BIGINT},
+      </if>
       <if test="rid != null">
         RID = #{rid,jdbcType=BIGINT},
       </if>
       <if test="commentor != null">
-        COMMENTOR = #{commentor,jdbcType=BIGINT},
+        commentor = #{commentor,jdbcType=BIGINT},
       </if>
       <if test="type != null">
         TYPE = #{type,jdbcType=VARCHAR},
@@ -261,8 +271,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Comment">
     update ms_comment
-    set RID = #{rid,jdbcType=BIGINT},
-      COMMENTOR = #{commentor,jdbcType=BIGINT},
+    set OID = #{oid,jdbcType=BIGINT},
+      RID = #{rid,jdbcType=BIGINT},
+      commentor = #{commentor,jdbcType=BIGINT},
       TYPE = #{type,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=VARCHAR},
       LIKE_COUNT = #{likeCount,jdbcType=INTEGER},
@@ -271,4 +282,10 @@
       STATUS = #{status,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
+  <select id="queryLast" resultType="cbuc.homestay.bean.Comment">
+      SELECT  *  FROM ms_comment t1
+      where t1.type = 1
+      ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
+      limit 1;
+  </select>
 </mapper>

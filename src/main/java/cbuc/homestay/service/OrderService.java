@@ -4,6 +4,7 @@ import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.bean.Order;
 import cbuc.homestay.bean.OrderExample;
 import cbuc.homestay.mapper.OrderMapper;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Explain:   订单处理器
+ * @Explain: 订单处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/14
@@ -30,7 +31,7 @@ public class OrderService {
     }
 
     public List<Map<String, Object>> querySalesData(String beginTime, String endTime) {
-        return orderMapper.querySalesData(beginTime,endTime);
+        return orderMapper.querySalesData(beginTime, endTime);
     }
 
     public Order queryLast() {
@@ -43,5 +44,21 @@ public class OrderService {
 
     public int doEdit(Order o) {
         return orderMapper.updateByPrimaryKeySelective(o);
+    }
+
+    public List<Order> queryList(Order order) {
+        OrderExample orderExample = new OrderExample();
+        OrderExample.Criteria criteria = orderExample.createCriteria();
+        if (StringUtils.isNotBlank(order.getStatus()) && !"ALL".equals(order.getStatus())) {
+            criteria.andStatusEqualTo(order.getStatus());
+        }
+        if (StringUtils.isNotBlank(order.getOpenId())) {
+            criteria.andOpenIdEqualTo(order.getOpenId());
+        }
+        return orderMapper.selectByExample(orderExample);
+    }
+
+    public Order queryDetail(Long oid) {
+        return orderMapper.selectByPrimaryKey(oid);
     }
 }

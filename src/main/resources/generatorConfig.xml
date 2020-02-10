@@ -150,7 +150,7 @@
         </table>
 -->
 <!--
-        <table tableName="ms_order_log" domainObjectName="OrderLog" enableCountByExample="true"
+        <table tableName="ms_favorite" domainObjectName="Favorite" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>

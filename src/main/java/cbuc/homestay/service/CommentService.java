@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @Explain:   评论处理器
+ * @Explain: 评论处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/13
@@ -27,6 +27,9 @@ public class CommentService {
         if (StringUtils.isNotBlank(comment.getContent())) {
             criteria.andContentLike("%" + comment.getContent() + "%");
         }
+        if (comment.getRid() != null) {
+            criteria.andRidEqualTo(comment.getRid());
+        }
         commentExample.setOrderByClause("ID DESC");
         return commentMapper.selectByExample(commentExample);
     }
@@ -41,5 +44,16 @@ public class CommentService {
 
     public Comment queryLast() {
         return commentMapper.queryLast();
+    }
+
+    public int doAdd(Comment comment) {
+        return commentMapper.insertSelective(comment);
+    }
+
+    public List<Comment> getCommentList(Long id) {
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        criteria.andCommentorEqualTo(id).andTypeEqualTo("1");
+        return commentMapper.selectByExample(commentExample);
     }
 }

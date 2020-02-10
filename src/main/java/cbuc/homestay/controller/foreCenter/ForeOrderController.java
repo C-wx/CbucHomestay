@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,7 +27,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Controller
-@Api(value = "小程序端订单控制器",description = "用于操作订单")
+@Api(value = "小程序端订单控制器", description = "用于操作订单")
 public class ForeOrderController {
 
     @Autowired
@@ -39,17 +40,38 @@ public class ForeOrderController {
     @ResponseBody
     @RequestMapping("/doSaveOrder")
     public Object doSaveOrder(@RequestParam("order") String order) {
-        Order o = JSONObject.parseObject(order,Order.class);
-        int res ;
+        Order o = JSONObject.parseObject(order, Order.class);
+        int res;
         if (o.getId() != null) {
             res = orderService.doEdit(o);
             RoomInfo roomInfo = RoomInfo.builder().id(o.getRid()).beginTime(o.getBeginTime()).endTime(o.getEndTime()).build();
             roomInfoService.doEdit(roomInfo);
-        }else {
+        } else {
             String s = SendMessageUtil.getRandomCode(6) + UUID.randomUUID().toString().replace("-", "").substring(0, 6);
             o.setOrderCode(s);
             res = orderService.doAdd(o);
         }
         return res > 0 ? Result.success(o.getId()) : Result.error();
+    }
+
+    @ApiOperation("获取订单列表")
+    @ResponseBody
+    @RequestMapping("/getOrderList")
+    public Object getOrderList(String openId, String status) {
+        Order order = Order.builder().openId(openId).status(status).build();
+        List<Order> orderList = orderService.queryList(order);
+        orderList.stream().forEach((o) -> {
+            RoomInfo roomInfo = roomInfoService.queryDetail(o.getRid());
+            o.setRoomInfo(roomInfo);
+        });
+        return Result.success(orderList);
+    }
+
+    @ResponseBody
+    @RequestMapping("/doOpeOrder")
+    public Object doOpeOrder(String status, Long id) {
+        Order order = Order.builder().id(id).status(status).build();
+        int res = orderService.doEdit(order);
+        return res > 0 ? Result.success() : Result.error();
     }
 }

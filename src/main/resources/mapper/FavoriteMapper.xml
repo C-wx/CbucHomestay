@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cbuc.homestay.mapper.OrderLogMapper">
-  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.OrderLog">
+<mapper namespace="cbuc.homestay.mapper.FavoriteMapper">
+  <resultMap id="BaseResultMap" type="cbuc.homestay.bean.Favorite">
     <id column="ID" jdbcType="BIGINT" property="id" />
     <result column="RID" jdbcType="BIGINT" property="rid" />
     <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
-    <result column="NAME" jdbcType="VARCHAR" property="name" />
-    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
-    <result column="CARDNO" jdbcType="VARCHAR" property="cardno" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -71,16 +68,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, RID, OPEN_ID, NAME, PHONE, CARDNO, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, RID, OPEN_ID, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
-  <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderLogExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cbuc.homestay.bean.FavoriteExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     'true' as QUERYID,
     <include refid="Base_Column_List" />
-    from ms_order_log
+    from ms_favorite
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,44 +88,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from ms_order_log
+    from ms_favorite
     where ID = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from ms_order_log
+    delete from ms_favorite
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.OrderLogExample">
-    delete from ms_order_log
+  <delete id="deleteByExample" parameterType="cbuc.homestay.bean.FavoriteExample">
+    delete from ms_favorite
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.OrderLog" useGeneratedKeys="true">
-    insert into ms_order_log (RID, OPEN_ID, NAME, 
-      PHONE, CARDNO, CREATE_TIME, 
+  <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Favorite" useGeneratedKeys="true">
+    insert into ms_favorite (RID, OPEN_ID, CREATE_TIME, 
       UPDATE_TIME, STATUS)
-    values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{cardno,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.OrderLog" useGeneratedKeys="true">
-    insert into ms_order_log
+  <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Favorite" useGeneratedKeys="true">
+    insert into ms_favorite
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="rid != null">
         RID,
       </if>
       <if test="openId != null">
         OPEN_ID,
-      </if>
-      <if test="name != null">
-        NAME,
-      </if>
-      <if test="phone != null">
-        PHONE,
-      </if>
-      <if test="cardno != null">
-        CARDNO,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -147,15 +133,6 @@
       <if test="openId != null">
         #{openId,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="cardno != null">
-        #{cardno,jdbcType=VARCHAR},
-      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -167,14 +144,14 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cbuc.homestay.bean.OrderLogExample" resultType="java.lang.Long">
-    select count(*) from ms_order_log
+  <select id="countByExample" parameterType="cbuc.homestay.bean.FavoriteExample" resultType="java.lang.Long">
+    select count(*) from ms_favorite
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update ms_order_log
+    update ms_favorite
     <set>
       <if test="record.id != null">
         ID = #{record.id,jdbcType=BIGINT},
@@ -184,15 +161,6 @@
       </if>
       <if test="record.openId != null">
         OPEN_ID = #{record.openId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null">
-        NAME = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.phone != null">
-        PHONE = #{record.phone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.cardno != null">
-        CARDNO = #{record.cardno,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
@@ -209,13 +177,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update ms_order_log
+    update ms_favorite
     set ID = #{record.id,jdbcType=BIGINT},
       RID = #{record.rid,jdbcType=BIGINT},
       OPEN_ID = #{record.openId,jdbcType=VARCHAR},
-      NAME = #{record.name,jdbcType=VARCHAR},
-      PHONE = #{record.phone,jdbcType=VARCHAR},
-      CARDNO = #{record.cardno,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -223,23 +188,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.OrderLog">
-    update ms_order_log
+  <update id="updateByPrimaryKeySelective" parameterType="cbuc.homestay.bean.Favorite">
+    update ms_favorite
     <set>
       <if test="rid != null">
         RID = #{rid,jdbcType=BIGINT},
       </if>
       <if test="openId != null">
         OPEN_ID = #{openId,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null">
-        NAME = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        PHONE = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="cardno != null">
-        CARDNO = #{cardno,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
@@ -253,13 +209,10 @@
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.OrderLog">
-    update ms_order_log
+  <update id="updateByPrimaryKey" parameterType="cbuc.homestay.bean.Favorite">
+    update ms_favorite
     set RID = #{rid,jdbcType=BIGINT},
       OPEN_ID = #{openId,jdbcType=VARCHAR},
-      NAME = #{name,jdbcType=VARCHAR},
-      PHONE = #{phone,jdbcType=VARCHAR},
-      CARDNO = #{cardno,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

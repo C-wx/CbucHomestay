@@ -575,6 +575,76 @@ public class OrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andDayCountIsNull() {
+            addCriterion("DAY_COUNT is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountIsNotNull() {
+            addCriterion("DAY_COUNT is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountEqualTo(String value) {
+            addCriterion("DAY_COUNT =", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountNotEqualTo(String value) {
+            addCriterion("DAY_COUNT <>", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountGreaterThan(String value) {
+            addCriterion("DAY_COUNT >", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountGreaterThanOrEqualTo(String value) {
+            addCriterion("DAY_COUNT >=", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountLessThan(String value) {
+            addCriterion("DAY_COUNT <", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountLessThanOrEqualTo(String value) {
+            addCriterion("DAY_COUNT <=", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountLike(String value) {
+            addCriterion("DAY_COUNT like", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountNotLike(String value) {
+            addCriterion("DAY_COUNT not like", value, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountIn(List<String> values) {
+            addCriterion("DAY_COUNT in", values, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountNotIn(List<String> values) {
+            addCriterion("DAY_COUNT not in", values, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountBetween(String value1, String value2) {
+            addCriterion("DAY_COUNT between", value1, value2, "dayCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDayCountNotBetween(String value1, String value2) {
+            addCriterion("DAY_COUNT not between", value1, value2, "dayCount");
+            return (Criteria) this;
+        }
+
         public Criteria andPriceIsNull() {
             addCriterion("PRICE is null");
             return (Criteria) this;

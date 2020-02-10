@@ -14,6 +14,8 @@ import java.util.Date;
 public class Comment {
     private Long id;
 
+    private Long oid;
+
     private Long rid;
 
     private Long commentor;
@@ -33,6 +35,8 @@ public class Comment {
     /**--------非表字段-----------*/
     private String publishName;
     private String origin;
+    private Order order;
+    private RoomInfo roomInfo;
     /**--------------------------*/
 
 }

@@ -28,6 +28,8 @@ public class Order {
 
     private String orderCode;
 
+    private String dayCount;
+
     private Float price;
 
     private String comment;
@@ -48,6 +50,7 @@ public class Order {
 
     /**----------非表字段---------*/
     private String rName;
+    private RoomInfo roomInfo;
     /**--------------------------*/
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

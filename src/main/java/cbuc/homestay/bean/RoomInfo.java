@@ -48,5 +48,8 @@ public class RoomInfo {
     /**---------非表字段---------*/
     private String publishName;
     private List images;
+    private String isFavorite;
+    private List<Comment> commentList;
+    private Merchant merchant;
     /**-------------------------*/
 }

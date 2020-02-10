@@ -1,8 +1,8 @@
 package cbuc.homestay.controller.foreCenter;
 
 import cbuc.homestay.base.Result;
-import cbuc.homestay.bean.RoomInfo;
-import cbuc.homestay.service.RoomInfoService;
+import cbuc.homestay.bean.*;
+import cbuc.homestay.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Explain: 小程序端房间控制器
@@ -26,11 +27,23 @@ import java.util.List;
  */
 @Slf4j
 @Controller
-@Api(value = "小程序端房间控制器", description = "前端获取房间详情列表")
+@Api(value = "小程序端房间控制器", description = "房源相关业务")
 public class ForeRoomController {
 
     @Autowired
     private RoomInfoService roomInfoService;
+
+    @Autowired
+    private FavoriteService favoriteService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private MerchantService merchantService;
 
     @ApiOperation("获取房源列表")
     @ResponseBody
@@ -40,7 +53,7 @@ public class ForeRoomController {
                              @RequestParam(value = "sort", defaultValue = "id") String sort,
                              @RequestParam(value = "order", defaultValue = "desc") String order,
                              String title, String type, String keyWord,
-                             Long beginTime,Long endTime) {
+                             Long beginTime, Long endTime) {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             RoomInfo room = new RoomInfo().builder().auditStatus("SA").build();
@@ -87,18 +100,63 @@ public class ForeRoomController {
     @ApiOperation("获取房源详情")
     @ResponseBody
     @RequestMapping("/getRoomInfo")
-    public Object getRoomInfo(Long id) {
+    public Object getRoomInfo(Long id, String openId) {
+        Favorite fe = favoriteService.queryDetail(id, openId);
         RoomInfo roomInfo = roomInfoService.queryDetail(id);
+        List<Comment> commentList = commentService.queryList(Comment.builder().rid(roomInfo.getId()).type("1").build());
+        commentList.stream().forEach(comment -> {
+            User user = userService.queryDetail(comment.getCommentor());
+            comment.setPublishName(user.getUname());
+        });
+        Merchant merchant = merchantService.queryDetail(roomInfo.getMid());
+        roomInfo.setMerchant(merchant);
+        roomInfo.setCommentList(commentList);
+        if (Objects.nonNull(fe)) {
+            if ("E".equals(fe.getStatus())) {
+                roomInfo.setIsFavorite("true");
+            } else {
+                roomInfo.setIsFavorite("false");
+            }
+        } else {
+            roomInfo.setIsFavorite("false");
+        }
         return Result.success(roomInfo);
     }
 
     @ApiOperation(("/点赞房源"))
     @ResponseBody
     @RequestMapping("/doLikeRoom")
-    public Object doLikeRoom(RoomInfo roomInfo) {
+    public Object doLikeRoom(RoomInfo roomInfo, String openId) {
+        Favorite fe = favoriteService.queryDetail(roomInfo.getId(), openId);
+        Favorite favorite = Favorite.builder().rid(roomInfo.getId()).openId(openId).build();
+        if (roomInfo.getLikeCount() > 0) {
+            if (Objects.isNull(fe)) {
+                favoriteService.doAdd(favorite);
+            } else {
+                favorite.setStatus("E");
+                favoriteService.doEdit(favorite);
+            }
+        } else {
+            if (Objects.nonNull(fe)) {
+                favorite.setStatus("D");
+                favoriteService.doEdit(favorite);
+            }
+        }
         RoomInfo ri = roomInfoService.queryDetail(roomInfo.getId());
         ri.setLikeCount(ri.getLikeCount() + roomInfo.getLikeCount());
         int res = roomInfoService.doEdit(ri);
         return res > 0 ? Result.success() : Result.error();
+    }
+
+    @ApiOperation("获取收藏列表")
+    @ResponseBody
+    @RequestMapping("getFavoriteList")
+    public Object getFavoriteList(String openId) {
+        List<Favorite> favorites = favoriteService.queryList(openId);
+        favorites.stream().forEach(favorite -> {
+            RoomInfo roomInfo = roomInfoService.queryDetail(favorite.getRid());
+            favorite.setRoomInfo(roomInfo);
+        });
+        return Result.success(favorites);
     }
 }
