@@ -37,6 +37,7 @@ public class Comment {
     private String origin;
     private Order order;
     private RoomInfo roomInfo;
+    private Comment childComment;
     /**--------------------------*/
 
 }

@@ -30,4 +30,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     Comment queryLast();
+
+    List<Comment> getSelfComment(@Param("id") Long id);
 }

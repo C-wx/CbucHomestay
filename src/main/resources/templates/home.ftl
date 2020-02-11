@@ -145,7 +145,7 @@
                     </li>
                     <#else >
                         <li data-name="comment" class="layui-nav-item">
-                            <a lay-href="/merchant/commentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
+                            <a lay-href="/merchant/toCommentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
                                 <i class="layui-icon layui-icon-link"></i>
                                 <cite>评论管理</cite>
                             </a>

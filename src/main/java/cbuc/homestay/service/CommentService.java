@@ -30,6 +30,15 @@ public class CommentService {
         if (comment.getRid() != null) {
             criteria.andRidEqualTo(comment.getRid());
         }
+        if (StringUtils.isNotBlank(comment.getType())) {
+            criteria.andTypeEqualTo(comment.getType());
+        }
+        if (comment.getCommentor() != null) {
+            criteria.andCommentorEqualTo(comment.getCommentor());
+        }
+        if (comment.getOid() != null) {
+            criteria.andOidEqualTo(comment.getOid());
+        }
         commentExample.setOrderByClause("ID DESC");
         return commentMapper.selectByExample(commentExample);
     }
@@ -55,5 +64,9 @@ public class CommentService {
         CommentExample.Criteria criteria = commentExample.createCriteria();
         criteria.andCommentorEqualTo(id).andTypeEqualTo("1");
         return commentMapper.selectByExample(commentExample);
+    }
+
+    public List<Comment> getSelfComment(Long id) {
+        return commentMapper.getSelfComment(id);
     }
 }

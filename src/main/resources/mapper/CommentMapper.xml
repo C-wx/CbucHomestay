@@ -288,4 +288,7 @@
       ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
       limit 1;
   </select>
+  <select id="getSelfComment" resultType="cbuc.homestay.bean.Comment">
+      SELECT t1.* from ms_comment t1 LEFT JOIN ms_roominfo t2 on t1.RID = t2.ID AND t2.MID = #{id}
+  </select>
 </mapper>

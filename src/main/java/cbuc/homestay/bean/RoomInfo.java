@@ -46,10 +46,11 @@ public class RoomInfo {
     private String status;
 
     /**---------非表字段---------*/
-    private String publishName;
-    private List images;
-    private String isFavorite;
-    private List<Comment> commentList;
-    private Merchant merchant;
+    private String publishName;             //评论的发布人名称
+    private List images;                    //当前房间的标题图
+    private String isFavorite;              //当前房间是否被收藏
+    private List<Comment> commentList;      //当前房间下的评论列表
+    private Merchant merchant;              //当前房间的房东
+    private List<Comment> allComment;       //当前房间的房东的所有评论
     /**-------------------------*/
 }

@@ -128,7 +128,7 @@
                 <div class="layui-card-body layadmin-takerates">
                     <p>
                         <span class="layui-word-aux">房间名称：</span>
-                        <span>${lastMap.lastOrder.rName!}</span>
+                        <span>${lastMap.lastOrder.roomInfo.title!}</span>
                     </p>
                     <hr>
                     <p>
@@ -138,17 +138,17 @@
                     <hr>
                     <p>
                         <span class="layui-word-aux">买家名称：</span>
-                        <span>${lastMap.lastOrder.uname!}</span>
+                        <span>${lastMap.lastOrder.name!}</span>
                     </p>
                     <hr>
                     <p>
                         <span class="layui-word-aux">买家电话：</span>
-                        <span>${lastMap.lastOrder.uphone!}</span>
+                        <span>${lastMap.lastOrder.phone!}</span>
                     </p>
                     <hr>
                     <p>
                         <span class="layui-word-aux">买家身份证：</span>
-                        <span>${lastMap.lastOrder.ucardno!}</span>
+                        <span>${lastMap.lastOrder.cardno!}</span>
                     </p>
                     <hr>
                     <p>

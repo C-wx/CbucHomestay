@@ -69,7 +69,7 @@ public class BaseService {
         Order order = orderService.queryLast();
         if (!Objects.isNull(order)) {
             RoomInfo roomInfo = roomInfoService.queryDetail(order.getRid());
-            order.setRName(roomInfo.getTitle());
+            order.setRoomInfo(roomInfo);
         }
         Message message = messageService.queryLast();
         if (!Objects.isNull(message)) {
