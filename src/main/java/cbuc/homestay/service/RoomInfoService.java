@@ -73,6 +73,9 @@ public class RoomInfoService {
         if (StringUtils.isNotBlank(roomInfo.getType())) {
             criteria.andTypeEqualTo(roomInfo.getType());
         }
+        if (roomInfo.getMid() != null) {
+            criteria.andMidEqualTo(roomInfo.getMid());
+        }
         return criteria;
     }
 }

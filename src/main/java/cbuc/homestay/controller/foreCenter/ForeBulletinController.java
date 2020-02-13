@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 /**
  * @Explain: 小程序端公告控制器
  * @Author: Cbuc
@@ -24,6 +26,14 @@ public class ForeBulletinController {
     public Object getLastBulletin() {
         Bulletin bulletin = bulletinService.getLastBulletin();
         return Result.success(bulletin);
+    }
+
+    @ResponseBody
+    @RequestMapping("/getBulletinList")
+    public Object getBulletinList() {
+        Bulletin bulletin = Bulletin.builder().status("E").build();
+        List<Bulletin> bulletinList = bulletinService.queryList(bulletin);
+        return Result.success(bulletinList);
     }
 
 }

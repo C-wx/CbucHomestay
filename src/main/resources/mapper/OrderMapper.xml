@@ -98,7 +98,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from ms_order
     where ID = #{id,jdbcType=BIGINT}
@@ -403,6 +403,10 @@
       (
       t1.CREATE_TIME <![CDATA[>=]]> #{beginTime}
       AND t1.CREATE_TIME <![CDATA[<=]]> #{endTime}
+      <if test="mid != null">
+        AND RID IN ( SELECT id FROM ms_roominfo WHERE mid = #{mid})
+      </if>
+      AND t1.status not in ("WP","DD")
       )
       GROUP BY
       DATE_FORMAT(t1.create_time, '%Y-%m-%d'),DATE_FORMAT(create_time, '%m-%d')
@@ -410,6 +414,9 @@
 
   <select id="queryLast" resultType="cbuc.homestay.bean.Order">
       SELECT  *  FROM ms_order t1
+      <if test="mid != null">
+        where RID IN ( SELECT id FROM ms_roominfo WHERE mid = #{mid})
+      </if>
       ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
       limit 1;
   </select>

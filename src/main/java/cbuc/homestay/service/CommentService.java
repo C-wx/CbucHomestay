@@ -51,8 +51,8 @@ public class CommentService {
         return commentMapper.updateByPrimaryKeySelective(comment);
     }
 
-    public Comment queryLast() {
-        return commentMapper.queryLast();
+    public Comment queryLast(Long mid) {
+        return commentMapper.queryLast(mid);
     }
 
     public int doAdd(Comment comment) {

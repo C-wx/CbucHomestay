@@ -113,7 +113,7 @@ layui.define(['form', 'element', 'laydate', 'table'], function (exports) {
      * 删除公告
      */
     delBulletin = (e) => {
-        layer.confirm('是否禁用该公告?', {icon: 3, title: '提示'}, function (index) {
+        layer.confirm('是否删除该公告?', {icon: 3, title: '提示'}, function (index) {
             Base.ajax("/admin/opeBulletin", "POST", {'id': e, 'status': 'D'}, (res) => {
                 if (res.code === Base.status.success) {
                     layer.msg("操作成功", {icon: 6, time: 800});

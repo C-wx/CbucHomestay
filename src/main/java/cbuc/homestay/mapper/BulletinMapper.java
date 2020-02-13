@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+
 public interface BulletinMapper {
     long countByExample(BulletinExample example);
 

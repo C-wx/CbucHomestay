@@ -29,7 +29,7 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
 
-    Comment queryLast();
+    Comment queryLast(@Param("mid") Long mid);
 
     List<Comment> getSelfComment(@Param("id") Long id);
 }

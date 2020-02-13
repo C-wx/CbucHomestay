@@ -101,7 +101,6 @@ public class ForeRoomController {
     @ResponseBody
     @RequestMapping("/getRoomInfo")
     public Object getRoomInfo(Long id, String openId) {
-        Favorite fe = favoriteService.queryDetail(id, openId);
         RoomInfo roomInfo = roomInfoService.queryDetail(id);
         List<Comment> commentList = commentService.queryList(Comment.builder().rid(roomInfo.getId()).type("1").build());    //当前房间的评论列表
         List<Comment> allComment = commentService.getSelfComment(roomInfo.getMid());    //获取当前房东下的所有评论列表
@@ -113,14 +112,17 @@ public class ForeRoomController {
         roomInfo.setMerchant(merchant);
         roomInfo.setCommentList(commentList);
         roomInfo.setAllComment(allComment);
-        if (Objects.nonNull(fe)) {
-            if ("E".equals(fe.getStatus())) {
-                roomInfo.setIsFavorite("true");
+        if (StringUtils.isNotBlank(openId)) {
+            Favorite fe = favoriteService.queryDetail(id, openId);
+            if (Objects.nonNull(fe)) {
+                if ("E".equals(fe.getStatus())) {
+                    roomInfo.setIsFavorite("true");
+                } else {
+                    roomInfo.setIsFavorite("false");
+                }
             } else {
                 roomInfo.setIsFavorite("false");
             }
-        } else {
-            roomInfo.setIsFavorite("false");
         }
         return Result.success(roomInfo);
     }

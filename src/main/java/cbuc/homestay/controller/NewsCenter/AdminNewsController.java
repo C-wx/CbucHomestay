@@ -18,6 +18,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -40,7 +43,7 @@ public class AdminNewsController {
 
     @ApiOperation("跳转资讯管理界面")
     @GetMapping("/newsManage")
-    public String bulletinAudit() {
+    public String newsManage() {
         return "admin/newsManage";
     }
 
@@ -81,8 +84,12 @@ public class AdminNewsController {
     @ApiOperation("发布资讯")
     @ResponseBody
     @PutMapping("/pubNews")
-    public Object doPubNews(News news, HttpSession session) {
+    public Object doPubNews(News news, String beginTime, String endTime, HttpSession session) {
         try {
+            DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date bt= simpleDateFormat.parse(beginTime);
+            Date et= simpleDateFormat.parse(endTime);
+            news.setBeginTime(bt);news.setEndTime(et);
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             news.setPublishId(merchant.getId());
             int res = newsService.doAdd(news);
@@ -100,9 +107,9 @@ public class AdminNewsController {
     public Object opeNews(UserEvt evt) {
         try {
             News news = new News();
-            BeanUtils.copyProperties(evt,news);
+            BeanUtils.copyProperties(evt, news);
             int res = newsService.doEdit(news);
-            return res>0?Result.success(): Result.error("操作失败");
+            return res > 0 ? Result.success() : Result.error("操作失败");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("操作公告异常");

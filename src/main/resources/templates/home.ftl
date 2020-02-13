@@ -130,10 +130,18 @@
                     </li>
                     <#else >
                         <li data-name="news" class="layui-nav-item">
-                            <a lay-href="/merchant/newsManage" href="javascript:;" lay-tips="资讯管理" lay-direction="2">
-                                <i class="layui-icon layui-icon-link"></i>
-                                <cite>资讯管理</cite>
+                            <a href="javascript:;" lay-tips="资讯中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-template"></i>
+                                <cite>资讯中心</cite>
                             </a>
+                            <dl class="layui-nav-child">
+                                <dd data-name="toNews">
+                                    <a lay-href="/merchant/toNews">资讯管理</a>
+                                </dd>
+                                <dd data-name="newsPublish">
+                                    <a lay-href="/admin/newPublish">资讯发布</a>
+                                </dd>
+                            </dl>
                         </li>
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
@@ -152,25 +160,17 @@
                         </li>
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
-                    <li data-name="bulletin" class="layui-nav-item">
-                        <a href="javascript:;" lay-tips="公告中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-reply-fill"></i>
-                            <cite>公告中心</cite>
-                        </a>
-                        <dl class="layui-nav-child">
-                            <dd data-name="bulletinAudit">
-                                <a lay-href="/admin/bulletinAudit">公告审核</a>
-                            </dd>
-                            <dd data-name="bulletinManage">
-                                <a lay-href="/admin/bulletinPublish">公告发布</a>
-                            </dd>
-                        </dl>
-                    </li>
+                        <li data-name="bulletin" class="layui-nav-item">
+                            <a lay-href="/admin/bulletinPublish" href="javascript:;" lay-tips="公告管理" lay-direction="2">
+                                <i class="layui-icon layui-icon-link"></i>
+                                <cite>公告中心</cite>
+                            </a>
+                        </li>
                     <#else >
                         <li data-name="bulletin" class="layui-nav-item">
-                            <a lay-href="/merchant/bulletinManage" href="javascript:;" lay-tips="公告管理" lay-direction="2">
+                            <a lay-href="/merchant/toBulletin" href="javascript:;" lay-tips="公告管理" lay-direction="2">
                                 <i class="layui-icon layui-icon-link"></i>
-                                <cite>公告管理</cite>
+                                <cite>公告中心</cite>
                             </a>
                         </li>
                     </#if>

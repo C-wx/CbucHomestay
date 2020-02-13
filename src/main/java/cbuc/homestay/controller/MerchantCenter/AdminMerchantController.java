@@ -123,9 +123,6 @@ public class AdminMerchantController {
                         merchantService.doAdd(merchant);
                     }
                     break;
-                case "BULLETIN":
-                    Bulletin bulletin = Bulletin.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
-                    bulletinService.doEdit(bulletin);
                 case "NEWS":
                     News news = News.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
                     newsService.doEdit(news);

@@ -79,7 +79,8 @@ layui.define(["form", "table", "element"], function (exports) {
                     var ableHtml = d.status == 'E'
                         ? '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>'
                         : '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>';
-                    return auditHtml + ableHtml;
+                    var totalHtml = auditHtml + ableHtml;
+                    return totalHtml;
                 }
             }
         ]]
@@ -206,5 +207,5 @@ layui.define(["form", "table", "element"], function (exports) {
             }
         });
     });
-    exports('bulletinAudit', {});
+    exports('newsManage', {});
 });

@@ -48,6 +48,9 @@ public class MessageService {
         if (StringUtils.isNotBlank(message.getContent())) {
             criteria.andContentLike("%"+message.getContent()+"%");
         }
+        if (message.getIfMerchant()) {
+            criteria.andSendTypeNotEqualTo("USER");
+        }
         criteria.andStatusNotEqualTo(StatusEnum.D.getValue());
         messageExample.setOrderByClause("id desc");
         return messageMapper.selectByExample(messageExample);
@@ -61,8 +64,8 @@ public class MessageService {
         return messageMapper.selectByPrimaryKey(id);
     }
 
-    public Message queryLast() {
-        return messageMapper.queryLast();
+    public Message queryLast(Long mid,String type) {
+        return messageMapper.queryLast(mid,type);
     }
 
     public List<Message> getList(Message message) {

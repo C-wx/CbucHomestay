@@ -29,7 +29,7 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
 
-    Message queryLast();
+    Message queryLast(@Param("mid") Long mid,@Param("type") String type);
 
     List<Message> getList(@Param("message") Message message);
 }

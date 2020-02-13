@@ -3,11 +3,15 @@ package cbuc.homestay.service;
 import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.bean.Order;
 import cbuc.homestay.bean.OrderExample;
+import cbuc.homestay.bean.RoomInfo;
+import cbuc.homestay.bean.RoomInfoExample;
 import cbuc.homestay.mapper.OrderMapper;
+import cbuc.homestay.mapper.RoomInfoMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +27,9 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private RoomInfoMapper roomInfoMapper;
+
     public List<Order> queryList() {
         OrderExample orderExample = new OrderExample();
         OrderExample.Criteria criteria = orderExample.createCriteria();
@@ -30,12 +37,12 @@ public class OrderService {
         return orderMapper.selectByExample(orderExample);
     }
 
-    public List<Map<String, Object>> querySalesData(String beginTime, String endTime) {
-        return orderMapper.querySalesData(beginTime, endTime);
+    public List<Map<String, Object>> querySalesData(Long mid,String beginTime, String endTime) {
+        return orderMapper.querySalesData(mid,beginTime, endTime);
     }
 
-    public Order queryLast() {
-        return orderMapper.queryLast();
+    public Order queryLast(Long mid) {
+        return orderMapper.queryLast(mid);
     }
 
     public int doAdd(Order order) {
@@ -55,6 +62,17 @@ public class OrderService {
         if (StringUtils.isNotBlank(order.getOpenId())) {
             criteria.andOpenIdEqualTo(order.getOpenId());
         }
+        if (order.getMid() != null) {
+            ArrayList<Long> values = new ArrayList<>();
+            RoomInfoExample example = new RoomInfoExample();
+            example.createCriteria().andMidEqualTo(order.getMid());
+            List<RoomInfo> roomInfoList = roomInfoMapper.selectByExample(example);
+            roomInfoList.stream().forEach(roomInfo -> {
+                values.add(roomInfo.getId());
+            });
+            criteria.andRidIn(values);
+        }
+
         return orderMapper.selectByExample(orderExample);
     }
 

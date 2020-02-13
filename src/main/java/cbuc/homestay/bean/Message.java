@@ -36,6 +36,7 @@ public class Message {
     private String sendName;
     private String receiveName;
     private String isSelf;
+    private boolean ifMerchant;
     /**----------------------------*/
 
     public Long getId() {
@@ -142,5 +143,13 @@ public class Message {
 
     public void setIsSelf(String isSelf) {
         this.isSelf = isSelf;
+    }
+
+    public Boolean getIfMerchant() {
+        return ifMerchant;
+    }
+
+    public void setIfMerchant(Boolean ifMerchant) {
+        this.ifMerchant = ifMerchant;
     }
 }

@@ -24,12 +24,6 @@ public class Bulletin {
 
     private Date updateTime;
 
-    private Date beginTime;
-
-    private Date endTime;
-
-    private String auditStatus;
-
     private String status;
 
     /**----------非表字段----------*/
@@ -46,8 +40,6 @@ public class Bulletin {
         this.createTime = createTime;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -56,23 +48,11 @@ public class Bulletin {
         this.updateTime = updateTime;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    public Date getBeginTime() {
-        return beginTime;
+    public String getStatus() {
+        return status;
     }
 
-    public void setBeginTime(Date beginTime) {
-        this.beginTime = beginTime;
-    }
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 }

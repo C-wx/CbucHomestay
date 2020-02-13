@@ -30,7 +30,7 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    List<Map<String, Object>> querySalesData(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<Map<String, Object>> querySalesData(@Param("mid") Long mid, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
-    Order queryLast();
+    Order queryLast(@Param("mid") Long mid);
 }

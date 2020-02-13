@@ -44,7 +44,10 @@ public class ForeOrderController {
         int res;
         if (o.getId() != null) {
             res = orderService.doEdit(o);
-            RoomInfo roomInfo = RoomInfo.builder().id(o.getRid()).beginTime(o.getBeginTime()).endTime(o.getEndTime()).build();
+            RoomInfo roomInfo = roomInfoService.queryDetail(o.getRid());
+            roomInfo.setBeginTime(o.getBeginTime());
+            roomInfo.setEndTime(o.getEndTime());
+            roomInfo.setSales(roomInfo.getSales() + 1);
             roomInfoService.doEdit(roomInfo);
         } else {
             String s = SendMessageUtil.getRandomCode(6) + UUID.randomUUID().toString().replace("-", "").substring(0, 6);

@@ -74,9 +74,7 @@
             <property name="my.isgen.usekeys" value="true"/>
             <generatedKey column="id" sqlStatement="JDBC"/>
         </table>
-
 -->
-
 <!--
         <table tableName="ms_comment" domainObjectName="Comment" enableCountByExample="true"
                enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true"

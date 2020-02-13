@@ -185,7 +185,10 @@
   </select>
     <select id="queryLast" resultType="cbuc.homestay.bean.Message">
       SELECT  *  FROM ms_message t1
-      WHERE RECEIVE_TYPE = 'ADMIN'
+      WHERE RECEIVE_TYPE = #{type}
+      <if test="mid != null">
+        and RECEIVE_ID = #{mid} AND RECEIVE_TYPE = "MERCHANT" AND SEND_TYPE &lt;&gt; "USER"
+      </if>
       ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
       limit 1;
     </select>

@@ -2,10 +2,12 @@ package cbuc.homestay.controller.commentCenter;
 
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Comment;
+import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.bean.RoomInfo;
 import cbuc.homestay.bean.User;
 import cbuc.homestay.evt.UserEvt;
 import cbuc.homestay.service.CommentService;
+import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.service.RoomInfoService;
 import cbuc.homestay.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @Explain:   管理员之评论控制器
+ * @Explain: 管理员之评论控制器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/13
@@ -41,6 +43,9 @@ public class AdminCommentController {
 
     @Autowired
     private RoomInfoService roomInfoService;
+
+    @Autowired
+    private MerchantService merchantService;
 
     @ApiOperation("跳转评论管理界面")
     @RequestMapping("/commentManage")
@@ -63,16 +68,18 @@ public class AdminCommentController {
                 comment.setContent(content);
             }
             List<Comment> CommentList = commentService.queryList(comment);
-            CommentList.stream().forEach(cl->{
-                User user = userService.queryDetail(cl.getCommentor());
+            CommentList.stream().forEach(cl -> {
                 if ("1".equals(cl.getType())) {
+                    User user = userService.queryDetail(cl.getCommentor());
+                    cl.setPublishName(user.getUname());
                     RoomInfo roomInfo = roomInfoService.queryDetail(cl.getRid());
                     cl.setOrigin(roomInfo.getTitle());
-                }else{
+                } else {
+                    Merchant merchant = merchantService.queryDetail(cl.getCommentor());
+                    cl.setPublishName(merchant.getMname());
                     Comment cominfo = commentService.queryDetail(cl.getRid());
                     cl.setOrigin(cominfo.getContent());
                 }
-                cl.setPublishName(user.getUname());
             });
             PageInfo pageInfo = new PageInfo(CommentList, 10);
             return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
@@ -89,9 +96,9 @@ public class AdminCommentController {
     public Object opeComment(UserEvt evt) {
         try {
             Comment comment = new Comment();
-            BeanUtils.copyProperties(evt,comment);
+            BeanUtils.copyProperties(evt, comment);
             int res = commentService.doEdit(comment);
-            return res>0?Result.success(): Result.error("操作失败");
+            return res > 0 ? Result.success() : Result.error("操作失败");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("操作评论异常");

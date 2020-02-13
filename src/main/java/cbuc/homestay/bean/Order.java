@@ -51,6 +51,7 @@ public class Order {
     /**----------非表字段---------*/
     private String rName;
     private RoomInfo roomInfo;
+    private Long mid;
     /**--------------------------*/
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

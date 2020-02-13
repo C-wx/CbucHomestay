@@ -59,6 +59,18 @@
             <div class="layui-card">
                 <div class="layui-card-header">
                     <strong style="font-size: 18px;font-family: 'kaiti';letter-spacing: 2px">
+                        文章标题
+                    </strong>
+                </div>
+                <div class="layui-card-body">
+                    <div class="layui-form-item">
+                        <textarea placeholder="请输入文章摘要" name="summary" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <strong style="font-size: 18px;font-family: 'kaiti';letter-spacing: 2px">
                         生效时间
                     </strong>
                 </div>

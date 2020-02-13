@@ -68,6 +68,8 @@ public class BaseController {
     public String toMsgHistory(Message message, Model model, HttpSession session) {
         Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
         message.setSendId(merchant.getId());
+        message.setReceiveId(message.getReceiveId());
+        message.setReceiveType("MERCHANT");
         List<Message> messageList = messageService.queryList(message);
         model.addAttribute("messageList",messageList);
         return "msgHistory";
@@ -91,7 +93,7 @@ public class BaseController {
         try {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             String receiveType = merchant.getMlevel().equals(LevelEnum.ADMIN.getValue())?LevelEnum.ADMIN.getValue():"MERCHANT";
-            Message message = Message.builder().receiveId(merchant.getId()).receiveType(receiveType).build();
+            Message message = Message.builder().receiveId(merchant.getId()).receiveType(receiveType).ifMerchant(true).build();
             if (StringUtils.isNotBlank(content)) {
                 message.setContent(content);
             }
@@ -118,6 +120,7 @@ public class BaseController {
             if (res > 0) {
                 Message messagei = messageService.queryDetail(message.getId());
                 messagei.setReadStatus("WR");
+                messagei.setIfMerchant(true);
                 int msgNum = messageService.queryList(messagei).size();
                 return Result.success(msgNum);
             }else {

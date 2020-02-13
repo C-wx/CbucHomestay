@@ -285,6 +285,9 @@
   <select id="queryLast" resultType="cbuc.homestay.bean.Comment">
       SELECT  *  FROM ms_comment t1
       where t1.type = 1
+      <if test="mid != null">
+        and RID IN ( SELECT id FROM ms_roominfo WHERE mid = #{mid})
+      </if>
       ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC
       limit 1;
   </select>

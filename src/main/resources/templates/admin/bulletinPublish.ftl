@@ -30,20 +30,6 @@
                     <strong style="font-size: 22px;font-family: 'kaiti';letter-spacing: 2px">添加公告</strong>
                 </div>
                 <div class="layui-card-body" style="padding-top: 25px;">
-                    <div id="dateSet" class="layui-col-md12" style="padding-bottom: 20px">
-                        <div class="layui-col-md5 layui-col-md-offset1">
-                            <div class="layui-col-md3" style="font-size: 14px; line-height: 38px">生效时间：</div>
-                            <div class="layui-col-md6">
-                                <input type="text" name="beginTime" id="beginTime" autocomplete="off" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
-                        <div class="layui-col-md5">
-                            <div class="layui-col-md3" style="font-size: 14px; line-height: 38px">失效时间：</div>
-                            <div class="layui-col-md6">
-                                <input type="text" name="endTime" id="endTime" autocomplete="off" class="layui-input" style="width: 200px">
-                            </div>
-                        </div>
-                    </div>
                     <div id="content-editor" style="padding-top: 25px;">
                         <textarea id="editor" style="display: none;"></textarea>
                     </div>

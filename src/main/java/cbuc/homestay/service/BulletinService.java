@@ -30,6 +30,9 @@ public class BulletinService {
         if (bulletin.getPublishId() != null) {
             criteria.andPublishIdEqualTo(bulletin.getPublishId());
         }
+        if (StringUtils.isNotBlank(bulletin.getStatus())) {
+            criteria.andStatusEqualTo(bulletin.getStatus());
+        }
         bulletinExample.setOrderByClause("ID DESC");
         return bulletinMapper.selectByExample(bulletinExample);
     }

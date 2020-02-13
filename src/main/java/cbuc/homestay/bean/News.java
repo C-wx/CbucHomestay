@@ -18,6 +18,8 @@ public class News {
 
     private String title;
 
+    private String summary;
+
     private Date createTime;
 
     private Date updateTime;
@@ -34,6 +36,14 @@ public class News {
 
     /**--------非表字段-----------*/
     private String publishName;
+    private boolean valid;
     /**--------------------------*/
 
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
+    }
 }

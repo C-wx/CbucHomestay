@@ -39,15 +39,27 @@ public class BaseService {
     @Autowired
     private OrderService orderService;
 
-    public Map<String, Object> getTotalData() {
+    public Map<String, Object> getTotalData(Long mId) {
         Map<String, Object> dataMap = new HashMap<>();
-        int msgTotal = messageService.queryList(new Message()).size();
+        Message message = new Message();
+        RoomInfo roomInfo = new RoomInfo();
+        News news = new News();
+        Order order = new Order();
+        if (mId != null) {
+            message.setReceiveId(mId);
+            message.setReceiveType("MERCHANT");
+            message.setIfMerchant(true);
+            roomInfo.setMid(mId);
+            news.setPublishId(mId);
+            order.setMid(mId);
+        }
+        int msgTotal = messageService.queryList(message).size();
         int merTotal = merchantService.queryList(null).size();
         int userTotal = userService.queryList().size();
-        int roomTotal = roomInfoService.queryList(new RoomInfo()).size();
-        int newsTotal = newsService.queryList(new News()).size();
+        int roomTotal = roomInfoService.queryList(roomInfo).size();
+        int newsTotal = newsService.queryList(news).size();
         int commentTotal = commentService.queryList(new Comment()).size();
-        int orderTotal = orderService.queryList().size();
+        int orderTotal = orderService.queryList(order).size();
         int bulletinTotal = bulletinService.queryList(new Bulletin()).size();
         dataMap.put("msgTotal", msgTotal);
         dataMap.put("merTotal", merTotal);
@@ -60,18 +72,18 @@ public class BaseService {
         return dataMap;
     }
 
-    public Map<String, Object> getLastData() {
-        Comment comment = commentService.queryLast();
+    public Map<String, Object> getLastData(Long mid,String type) {
+        Comment comment = commentService.queryLast(mid);
         if (!Objects.isNull(comment)) {
             User user = userService.queryDetail(comment.getCommentor());
             comment.setPublishName(user.getUname());
         }
-        Order order = orderService.queryLast();
+        Order order = orderService.queryLast(mid);
         if (!Objects.isNull(order)) {
             RoomInfo roomInfo = roomInfoService.queryDetail(order.getRid());
             order.setRoomInfo(roomInfo);
         }
-        Message message = messageService.queryLast();
+        Message message = messageService.queryLast(mid,type);
         if (!Objects.isNull(message)) {
             Merchant merchant = merchantService.queryDetail(message.getSendId());
             message.setSendName(merchant.getMname());
@@ -83,7 +95,7 @@ public class BaseService {
         return lastMap;
     }
 
-    public List<Map<String, Object>> querySalesData(String Time) {
+    public List<Map<String, Object>> querySalesData(Long mid, String Time) {
         String year = Time.split("-")[0];
         String month = Time.split("-")[1];
         Calendar a = Calendar.getInstance();
@@ -94,7 +106,7 @@ public class BaseService {
         int maxDate = a.get(Calendar.DATE);
         String beginTime = Time + "-01";
         String endTime = Time + "-" + maxDate;
-        List<Map<String, Object>> datas = orderService.querySalesData(beginTime, endTime);
+        List<Map<String, Object>> datas = orderService.querySalesData(mid,beginTime, endTime);
         int index = 0;
         if (datas.isEmpty()) {
             for (int i = 1; i <= maxDate; i++) {

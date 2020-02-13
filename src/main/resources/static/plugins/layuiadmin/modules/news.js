@@ -1,6 +1,6 @@
 /**
  *  @author   Caiwx
- *  @Explain  公告审核脚本
+ *  @Explain  资讯管理脚本
  */
 
 layui.define(["form", "table", "element"], function (exports) {
@@ -12,9 +12,9 @@ layui.define(["form", "table", "element"], function (exports) {
     /**
      * 初始化表格
      */
-    var bulletinAuditTable = table.render({
-        elem: '#bulletinAuditTable'
-        , url: '/admin/bulletinAuditPage'
+    var newsTable = table.render({
+        elem: '#newsTable'
+        , url: '/merchant/newsPage'
         , page: true
         , limit: 10
         , height: 'full'
@@ -25,21 +25,22 @@ layui.define(["form", "table", "element"], function (exports) {
         }
         , cols: [[
             {
-                field: 'publishName'
-                , title: '发布人名称'
+                field: 'title'
+                , title: '资讯标题'
                 , align: 'center'
-                , Width: 242
+                , width: 232
             }
-            , {
+            ,
+            {
                 field: 'content'
-                , title: '公告内容'
+                , title: '资讯内容'
                 , align: 'center'
                 , width: 232
                 , event: 'detail'
             }
             , {
                 field: 'createTime'
-                , title: '申请时间'
+                , title: '发布时间'
                 , align: 'center'
                 , Width: 200
                 , sort: true
@@ -67,19 +68,37 @@ layui.define(["form", "table", "element"], function (exports) {
                     return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
                 }
             }
+            ,
+            {
+                field: 'auditStatus'
+                , title: '审核状态'
+                , align: 'center'
+                , width: 232
+                , templet: (d) => {
+                    let status = '';
+                    switch (d.auditStatus) {
+                        case "FA":
+                            status+="审核不通过";
+                            break;
+                        case "SA":
+                            status += "审核通过";
+                            break;
+                        case "WA":
+                            status += "审核中";
+                            break;
+                    }
+                    return status;
+                }
+            }
             , {
                 title: '操作'
                 , width: 200
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
-                    var auditHtml = d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="audit">审核</a>'
-                        : '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
-                    var ableHtml = d.status == 'E'
-                        ? '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>'
-                        : '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>';
-                    return auditHtml + ableHtml;
+                    var html =  '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del">删除</a>'+
+                         '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
+                    return html;
                 }
             }
         ]]
@@ -96,7 +115,7 @@ layui.define(["form", "table", "element"], function (exports) {
         keyLike: function () {                          //关键词模糊搜索
             const content = $('#content');
             //执行重载
-            table.reload('bulletinAuditTable', {
+            table.reload('newsTable', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
@@ -107,7 +126,7 @@ layui.define(["form", "table", "element"], function (exports) {
         },
         reload: function () {                           //重置加载页面
             $('#content').val("");
-            table.reload('bulletinAuditTable', {
+            table.reload('newsTable', {
                 page: {
                     curr: 1 //重新从第 1 页开始
                 }
@@ -121,12 +140,13 @@ layui.define(["form", "table", "element"], function (exports) {
     /**
      * 创建监听工具
      */
-    table.on('tool(bulletinAuditTable)', function (obj) {
+    table.on('tool(newsTable)', function (obj) {
         var data = obj.data;
         if (obj.event == 'detail') {         //点击查看内容详情
             layer.open({
                 type: 0
                 , title: '内容详情'
+                , area: ['700px', '800px']
                 , offset: 'auto'
                 , shadeClose: true
                 , id: 'layerDemo' + data.id
@@ -134,15 +154,19 @@ layui.define(["form", "table", "element"], function (exports) {
                 , shade: 0.3
                 , anim: 5
             });
-        } else if (obj.event == 'audit') {                       //点击审核商家
-            layer.open({
-                type: 2
-                , title: '审核'
-                , shadeClose: true
-                , shade: 0.2
-                , area: ['396px', '505px']
-                , offset: 'auto'
-                , content: '/admin/toAudit?parentId=' + data.id + '&type=BULLETIN'
+        } else if (obj.event == 'del') {                       //点击审核商家
+            layer.confirm('是否禁用该公告?', {icon: 3, title: '提示'}, function (index) {
+                Base.ajax("/admin/opeNews", "POST", {'id': data.id, 'status': 'D'}, (res) => {
+                    if (res.code === Base.status.success) {
+                        layer.msg("操作成功", {icon: 6, time: 800});
+                        setTimeout(() => {
+                            layer.close(index);
+                            $(".layui-icon-refresh").click();
+                        }, 800)
+                    } else {
+                        layer.msg(res.msg, {icon: 5, time: 500});
+                    }
+                })
             });
         } else if (obj.event == 'lookHis') {                    //点击查看审核历史
             layer.open({
@@ -152,58 +176,9 @@ layui.define(["form", "table", "element"], function (exports) {
                 , shade: 0.2
                 , area: ['742px', '350px']
                 , offset: 'auto'
-                , content: '/admin/toAuditHis?parentId=' + data.id + '&type=BULLETIN'
-            });
-        } else if (obj.event == 'disable') {
-            layer.confirm('是否禁用该公告?', {icon: 3, title: '提示'}, function (index) {
-                Base.ajax("/admin/opeBulletin", "POST", {'id': data.id, 'status': 'D'}, (res) => {
-                    if (res.code === Base.status.success) {
-                        layer.msg("操作成功", {icon: 6, time: 800});
-                        setTimeout(() => {
-                            layer.close(index);
-                            $(".layui-icon-refresh").click();
-                        }, 800)
-                    } else {
-                        layer.msg(res.msg, {icon: 5, time: 500});
-                    }
-                })
-            });
-        } else if (obj.event == 'enable') {
-            layer.confirm('是否启用该公告?', {icon: 3, title: '提示'}, function (index) {
-                Base.ajax("/admin/opeBulletin", "POST", {'id': data.id, 'status': 'E'}, (res) => {
-                    if (res.code === Base.status.success) {
-                        layer.msg("操作成功", {icon: 6, time: 800});
-                        setTimeout(() => {
-                            layer.close(index);
-                            $(".layui-icon-refresh").click();
-                        }, 800)
-                    } else {
-                        layer.msg(res.msg, {icon: 5, time: 500});
-                    }
-                })
+                , content: '/admin/toAuditHis?parentId=' + data.id + '&type=NEWS'
             });
         }
     });
-
-    /**
-     * 创建排序规则
-     */
-    table.on('sort(bulletinAuditTable)', function (obj) {
-        var sort;
-        if (obj.field == "createTime") {
-            sort = "CREATE_TIME";
-        } else if (obj.field == "beginTime") {
-            sort = "BEGIN_TIME";
-        } else if (obj.field == "endTime") {
-            sort = "END_TIME";
-        }
-        bulletinAuditTable.reload({
-            initSort: obj
-            , where: {
-                sort: sort
-                , order: obj.type
-            }
-        });
-    });
-    exports('bulletinAudit', {});
+    exports('news', {});
 });
