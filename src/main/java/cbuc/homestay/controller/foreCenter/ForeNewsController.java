@@ -32,4 +32,11 @@ public class ForeNewsController {
         return Result.success(newsList);
     }
 
+    @ResponseBody
+    @RequestMapping("/getNewsDetail")
+    public Object getNewsDetail(Long id) {
+        News news = newsService.queryDetail(id);
+        return Result.success(news);
+    }
+
 }

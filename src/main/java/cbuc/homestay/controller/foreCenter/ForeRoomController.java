@@ -2,6 +2,7 @@ package cbuc.homestay.controller.foreCenter;
 
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.*;
+import cbuc.homestay.mapper.PropertyMapper;
 import cbuc.homestay.service.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -45,6 +46,12 @@ public class ForeRoomController {
     @Autowired
     private MerchantService merchantService;
 
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private PropertyMapper propertyMapper;
+
     @ApiOperation("获取房源列表")
     @ResponseBody
     @RequestMapping("/getAllRoom")
@@ -72,6 +79,10 @@ public class ForeRoomController {
                 room.setEndTime(et);
             }
             List<RoomInfo> roomInfoList = roomInfoService.queryList(room);
+            roomInfoList.stream().forEach(roomInfo -> {
+                List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
+                roomInfo.setImages(images);
+            });
             PageInfo pageInfo = new PageInfo(roomInfoList, 10);
             return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
         } catch (Exception e) {
@@ -86,6 +97,10 @@ public class ForeRoomController {
     @RequestMapping("/getActiveRoom")
     public Object getActiveRoom() {
         List<RoomInfo> roomInfoList = roomInfoService.queryActiveRoom();
+        roomInfoList.stream().forEach(roomInfo -> {
+            List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
+            roomInfo.setImages(images);
+        });
         return Result.success(roomInfoList);
     }
 
@@ -94,6 +109,10 @@ public class ForeRoomController {
     @RequestMapping("/getTopRoom")
     public Object getTopRoom() {
         List<RoomInfo> roomInfoList = roomInfoService.queryTopRoom();
+        roomInfoList.stream().forEach(roomInfo -> {
+            List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
+            roomInfo.setImages(images);
+        });
         return Result.success(roomInfoList);
     }
 
@@ -104,14 +123,20 @@ public class ForeRoomController {
         RoomInfo roomInfo = roomInfoService.queryDetail(id);
         List<Comment> commentList = commentService.queryList(Comment.builder().rid(roomInfo.getId()).type("1").build());    //当前房间的评论列表
         List<Comment> allComment = commentService.getSelfComment(roomInfo.getMid());    //获取当前房东下的所有评论列表
+        List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
+        PropertyExample propertyExample = new PropertyExample();
+        propertyExample.createCriteria().andRidEqualTo(roomInfo.getId()).andStatusEqualTo("E");
+        List<Property> properties = propertyMapper.selectByExample(propertyExample);
         commentList.stream().forEach(comment -> {
             User user = userService.queryDetail(comment.getCommentor());
             comment.setPublishName(user.getUname());
         });
         Merchant merchant = merchantService.queryDetail(roomInfo.getMid());
+        roomInfo.setImages(images);
         roomInfo.setMerchant(merchant);
         roomInfo.setCommentList(commentList);
         roomInfo.setAllComment(allComment);
+        roomInfo.setPropertyList(properties);
         if (StringUtils.isNotBlank(openId)) {
             Favorite fe = favoriteService.queryDetail(id, openId);
             if (Objects.nonNull(fe)) {

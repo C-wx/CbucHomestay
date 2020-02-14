@@ -44,7 +44,7 @@ public class AdminRoomController {
 
     @ApiOperation("跳转房源管理界面")
     @GetMapping("/roomManage")
-    public String bulletinAudit() {
+    public String roomManage() {
         return "admin/roomManage";
     }
 

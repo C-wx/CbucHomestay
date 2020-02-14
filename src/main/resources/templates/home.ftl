@@ -107,7 +107,7 @@
                         </li>
                     <#else >
                         <li data-name="home" class="layui-nav-item">
-                            <a lay-href="/merchant/roomManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
+                            <a lay-href="/merchant/toRoom" href="javascript:;" lay-tips="房源中心" lay-direction="2">
                                 <i class="layui-icon layui-icon-link"></i>
                                 <cite>房源管理</cite>
                             </a>

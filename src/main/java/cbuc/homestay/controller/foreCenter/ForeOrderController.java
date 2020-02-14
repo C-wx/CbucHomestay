@@ -1,8 +1,10 @@
 package cbuc.homestay.controller.foreCenter;
 
 import cbuc.homestay.base.Result;
+import cbuc.homestay.bean.Image;
 import cbuc.homestay.bean.Order;
 import cbuc.homestay.bean.RoomInfo;
+import cbuc.homestay.service.ImageService;
 import cbuc.homestay.service.OrderService;
 import cbuc.homestay.service.RoomInfoService;
 import cbuc.homestay.utils.SendMessageUtil;
@@ -36,6 +38,9 @@ public class ForeOrderController {
     @Autowired
     private RoomInfoService roomInfoService;
 
+    @Autowired
+    private ImageService imageService;
+
     @ApiOperation("生成订单")
     @ResponseBody
     @RequestMapping("/doSaveOrder")
@@ -65,6 +70,8 @@ public class ForeOrderController {
         List<Order> orderList = orderService.queryList(order);
         orderList.stream().forEach((o) -> {
             RoomInfo roomInfo = roomInfoService.queryDetail(o.getRid());
+            List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
+            roomInfo.setImages(images);
             o.setRoomInfo(roomInfo);
         });
         return Result.success(orderList);

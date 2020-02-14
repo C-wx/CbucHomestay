@@ -51,4 +51,8 @@ public class NewsService {
     public int doEdit(News news) {
         return newsMapper.updateByPrimaryKeySelective(news);
     }
+
+    public News queryDetail(Long id) {
+        return newsMapper.selectByPrimaryKey(id);
+    }
 }

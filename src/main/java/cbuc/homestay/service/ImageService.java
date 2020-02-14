@@ -39,6 +39,19 @@ public class ImageService {
         if (StringUtils.isNotBlank(image.getOrigin())) {
             criteria.andOriginEqualTo(image.getOrigin());
         }
+        if (StringUtils.isNotBlank(image.getStatus())) {
+            criteria.andStatusEqualTo(image.getStatus());
+        }
         return imageMapper.selectByExample(imageExample);
+    }
+
+    public int doAdd(Image image) {
+        return imageMapper.insertSelective(image);
+    }
+
+    public int doDel(String url) {
+        ImageExample example = new ImageExample();
+        example.createCriteria().andUrlEqualTo(url);
+        return imageMapper.updateByExampleSelective(Image.builder().status("D").build(), example);
     }
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Builder
@@ -52,5 +53,7 @@ public class RoomInfo {
     private List<Comment> commentList;      //当前房间下的评论列表
     private Merchant merchant;              //当前房间的房东
     private List<Comment> allComment;       //当前房间的房东的所有评论
+    private Map<String, Object> propertyInfo;
+    private List<Property> propertyList;
     /**-------------------------*/
 }
