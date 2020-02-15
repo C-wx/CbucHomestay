@@ -26,8 +26,6 @@ public class QiniuCloudUtil {
 
     private static final String DOMAIN = "https://cbucbm.club/";
 
-    private static final String style = "cbucImageStylei";
-
     public static String getUpToken() {
         return auth.uploadToken(bucketname, null, 3600, new StringMap().put("insertOnly", 1));
     }
@@ -63,13 +61,5 @@ public class QiniuCloudUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    class Ret {
-        public long fsize;
-        public String key;
-        public String hash;
-        public int width;
-        public int height;
     }
 }

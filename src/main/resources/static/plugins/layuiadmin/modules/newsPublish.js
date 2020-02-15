@@ -44,7 +44,7 @@ layui.define(['form', 'element', 'laydate', 'table', 'upload'], function (export
                 'insertfile', 'table', 'hr', 'emoticons', 'pagebreak',
                 'link', 'unlink', 'fullscreen'
             ],
-            uploadJson: '/upload',
+            uploadJson: '/uploadImg',
             dialogOffset: 0, //对话框距离页面顶部的位置，默认为0居中，
             allowImageUpload: true,
             allowMediaUpload: true,

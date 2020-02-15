@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +49,7 @@ public class ForeOrderController {
         Order o = JSONObject.parseObject(order, Order.class);
         int res;
         if (o.getId() != null) {
+            o.setPayTime(new Date());
             res = orderService.doEdit(o);
             RoomInfo roomInfo = roomInfoService.queryDetail(o.getRid());
             roomInfo.setBeginTime(o.getBeginTime());

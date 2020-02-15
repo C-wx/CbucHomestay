@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,8 +57,11 @@ public class ForeCommentController {
     @ResponseBody
     @RequestMapping("/doComment")
     public Object doComment(Comment comment, String openId) {
-        Order order = Order.builder().status("YR").id(comment.getOid()).build();
+        Order order = Order.builder().status("YR").confirmTime(new Date()).id(comment.getOid()).build();
         orderService.doEdit(order);
+        RoomInfo roomInfo = roomInfoService.queryDetail(comment.getRid());
+        roomInfo.setCommentCount(roomInfo.getCommentCount() + 1);
+        roomInfoService.doEdit(roomInfo);
         User user = userService.queryDetail(openId);
         comment.setCommentor(user.getId());
         int res = commentService.doAdd(comment);

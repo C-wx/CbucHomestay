@@ -379,6 +379,6 @@
   </update>
 
   <select id="queryTopRoom" resultType="cbuc.homestay.bean.RoomInfo">
-     SELECT * FROM ms_roominfo ORDER BY SALES limit 0,5;
+     SELECT * FROM ms_roominfo WHERE AUDIT_STATUS = 'SA' AND `STATUS` != 'D' ORDER BY SALES limit 0,5;
   </select>
 </mapper>

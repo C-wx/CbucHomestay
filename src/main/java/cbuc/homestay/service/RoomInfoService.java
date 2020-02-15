@@ -89,7 +89,7 @@ public class RoomInfoService {
 
     public List<RoomInfo> queryActiveRoom() {
         RoomInfoExample roomInfoExample = new RoomInfoExample();
-        roomInfoExample.createCriteria().andIsActiveEqualTo("Y");
+        roomInfoExample.createCriteria().andIsActiveEqualTo("Y").andAuditStatusEqualTo("SA").andStatusNotEqualTo("D");
         return roomInfoMapper.selectByExample(roomInfoExample);
     }
 

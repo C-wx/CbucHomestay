@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,12 +83,12 @@ public class AdminNewsController {
     @ApiOperation("发布资讯")
     @ResponseBody
     @PutMapping("/pubNews")
-    public Object doPubNews(News news, String beginTime, String endTime, HttpSession session) {
+    public Object doPubNews(News news/*, String beginTime, String endTime*/, HttpSession session) {
         try {
             DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date bt= simpleDateFormat.parse(beginTime);
+            /*Date bt= simpleDateFormat.parse(beginTime);
             Date et= simpleDateFormat.parse(endTime);
-            news.setBeginTime(bt);news.setEndTime(et);
+            news.setBeginTime(bt);news.setEndTime(et);*/
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             news.setPublishId(merchant.getId());
             int res = newsService.doAdd(news);

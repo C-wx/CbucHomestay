@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Objects;
 
@@ -36,8 +37,9 @@ public class ForeApplyController {
 
     @ResponseBody
     @RequestMapping("/doApply")
-    public Object doApply(@RequestParam("apply") String apply) {
-        Apply applyInf = JSON.parseObject(apply,Apply.class);
+    public Object doApply(@RequestParam(value = "file", required = false) MultipartFile file,
+                          @RequestParam("apply") String apply) {
+        Apply applyInf = JSON.parseObject(apply, Apply.class);
         Apply einfo = Apply.builder().openId(applyInf.getOpenId()).status("D").build();
         applyService.doDel(einfo);
         int res = applyService.doAdd(applyInf);
@@ -52,8 +54,8 @@ public class ForeApplyController {
             if ("SA".equals(apply.getAuditStatus())) {
                 Merchant merchant = merchantService.getMerchant(apply.getId());
                 apply.setMerchant(merchant);
-            }else{
-                AuditLog auditLog = auditLogService.queryDetail(apply.getId(),"MERCHANT");
+            } else {
+                AuditLog auditLog = auditLogService.queryDetail(apply.getId(), "MERCHANT");
                 apply.setAuditLog(auditLog);
             }
         }

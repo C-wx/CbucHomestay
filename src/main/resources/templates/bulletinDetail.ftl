@@ -22,18 +22,6 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label>生效时间：</label>
-                    <div style="margin-left: 85px">
-                        <input type="text" class="layui-input" value="${bulletin.beginTime?string('yyyy-MM-dd hh:mm:ss')}" disabled style="cursor: not-allowed;background-color: #ebebeb">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label>失效时间：</label>
-                    <div style="margin-left: 85px">
-                        <input type="text" class="layui-input" value="${bulletin.endTime?string('yyyy-MM-dd hh:mm:ss')}" disabled style="cursor: not-allowed;background-color: #ebebeb">
-                    </div>
-                </div>
-                <div class="layui-form-item">
                     <label>公告内容：</label><br>
                     <div style="margin-left: 85px">
                         ${bulletin.content!}

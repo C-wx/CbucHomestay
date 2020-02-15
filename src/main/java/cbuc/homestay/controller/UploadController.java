@@ -34,34 +34,25 @@ public class UploadController {
     }
 
     @ResponseBody
-    @RequestMapping(value="/uploadImg", method=RequestMethod.POST)
-    public Result uploadImg(@RequestParam MultipartFile image, HttpServletRequest request) {
-        Result result = new Result();
-
-        if (image.isEmpty()) {
-            result.setCode(400);
-            result.setMsg("文件为空，请重新上传");
-            return result;
+    @RequestMapping( "/uploadImg")
+    public Object uploadImg(@RequestParam(value = "file", required = false) MultipartFile file) {
+        if (file.isEmpty()) {
+            return Result.error("文件不能为空");
         }
-
         try {
-            byte[] bytes = image.getBytes();
+            byte[] bytes = file.getBytes();
             String imageName = UUID.randomUUID().toString();
             try {
                 //使用base64方式上传到七牛云
                 String url = QiniuCloudUtil.put64image(bytes, imageName);
-                result.setCode(200);
-                result.setMsg("文件上传成功");
-                result.setData(url);
+                log.info("上传地址为----：" + url);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
-            result.setCode(500);
-            result.setMsg("文件上传发生异常！");
-        } finally {
-            return result;
+            return Result.error("上传图片异常");
         }
+        return Result.success();
     }
 
 }

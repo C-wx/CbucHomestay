@@ -103,7 +103,7 @@ layui.define(['form', 'element', 'laydate', 'table'], function (exports) {
             , title: '公告详情'
             , shadeClose: true
             , shade: 0.2
-            , area: ['442px', '450px']
+            , area: ['442px', '300px']
             , offset: 'auto'
             , content: '/admin/toBulletinDetail?id=' + e
         });
