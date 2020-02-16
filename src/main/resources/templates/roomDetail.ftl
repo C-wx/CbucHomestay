@@ -19,20 +19,46 @@
     <div class="layui-row layui-card">
         <div class="layui-card-body" style="padding-top: 25px;">
             <from class="layui-form">
+                <blockquote class="layui-elem-quote layui-text" style="width: 300px">
+                    参数部分
+                </blockquote>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;发布人名称：</label>
-                    <span>${roomInfo.publishName}</span>
+                    <label class="layui-form-label">发布人名称:</label>
+                    <div class="layui-input-inline">
+                        <input disabled class="layui-input" value="${roomInfo.publishName!}">
+                    </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间标题：</label>
-                    <span>${roomInfo.title}</span>
+                    <label class="layui-form-label">房间标题:</label>
+                    <div class="layui-input-inline">
+                        <input disabled class="layui-input" value="${roomInfo.title!}">
+                    </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间描述：</label>
-                    <span>${roomInfo.des}</span>
+                    <label class="layui-form-label">房间描述:</label>
+                    <div class="layui-input-inline" style="width: 450px;">
+                        <textarea disabled class="layui-textarea"
+                                  style="cursor: not-allowed;background-color: #f4f4f4;">${roomInfo.des!}</textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">房间价格：</label>
+                    <div class="layui-input-inline" style="width: 70px;">
+                        <input type="text" name="price" lay-verify="title" autocomplete="off" placeholder="xxx"
+                               class="layui-input" value="${roomInfo.price!}">
+                    </div>
+                    ￥
+                </div>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">房间类型：</label>
+                    <span>${roomInfo.type}</span>
+                </div>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">是否参加活动：</label>
+                    <span>${(roomInfo.isActive == 'Y')?string('是','否')}</span>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间图片：</label>
+                    <label class="layui-form-label">房间图片：</label>
                     <div id="layer-photos-demo" class="layer-photos-demo">
                         <#list roomInfo.images as image>
                             <img style="width:230px;height: 150px;margin-right: 30px" layer-pid
@@ -40,12 +66,38 @@
                         </#list>
                     </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间价格：</label>
-                    <span>${roomInfo.price}￥</span>
+                <blockquote class="layui-elem-quote layui-text" style="width: 300px">
+                    属性部分
+                </blockquote>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">卧室数量：</label>
+                    <div class="layui-input-inline" style="width: 70px;">
+                        <input disabled value="${roomInfo.propertyInfo.bedRoomCount!}" class="layui-input">
+                    </div>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间状态：</label>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">床位数量：</label>
+                    <div class="layui-input-inline" style="width: 70px;">
+                        <input disabled value="${roomInfo.propertyInfo.bedCount!}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">卫生间数量：</label>
+                    <div class="layui-input-inline" style="width: 70px;">
+                        <input disabled value="${roomInfo.propertyInfo.bathRoomCount!}" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">最多可住：</label>
+                    <div class="layui-input-inline" style="width: 70px;">
+                        <input disabled value="${roomInfo.propertyInfo.peopleCount!}" class="layui-input">
+                    </div>
+                </div>
+                <blockquote class="layui-elem-quote layui-text" style="width: 300px">
+                    运营部分
+                </blockquote>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">房间状态：</label>
                     <#if roomInfo.auditStatus == 'WA'>
                         <span>待审核</span>
                     <#else >
@@ -58,31 +110,17 @@
                         </#if>
                     </#if>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间类型：</label>
-                    <span>${roomInfo.type}</span>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;是否参加活动：</label>
-                    <span>${(roomInfo.isActive == 'Y')?string('是','否')}</span>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;销量：</label>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">销量：</label>
                     <span>${roomInfo.sales}</span>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;点赞数：</label>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">点赞数：</label>
                     <span>${roomInfo.likeCount}</span>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;评论数：</label>
+                <div class="layui-form-item" style="display: inline-block">
+                    <label class="layui-form-label">评论数：</label>
                     <span>${roomInfo.commentCount}</span>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button type="reset" class="layui-btn" id="returnBtn">返回
-                        </button>
-                    </div>
                 </div>
             </from>
         </div>
@@ -96,16 +134,30 @@
             , anim: 5
         });
     });
-    $("body").on("click", "#returnBtn", function (e) {
-        parent.layui.admin.events.closeThisTabs()
-    });
 </script>
 <style>
-    .layui-form-item {margin-bottom: 40px;}
-    .layui-form-item em {color: indianred;}
-    .layui-form-item label {font-size: 20px;font-family: 'kaiti';color: #6bb6b5;width: 200px;}
-    .layui-form-item input {width: 250px;}
-    .layui-form-item span {background-color: #efefef;border-radius: 5px;font-size: 25px;font-family: 'kaiti';font-weight: bold;letter-spacing: 5px;color: #77724c;}
-    #returnBtn{position: fixed;top: 65%;left: 80%;}
+    .layui-form-item {
+        margin-bottom: 40px;
+    }
+
+    .layui-form-item label {
+        font-size: 20px;
+        font-family: 'kaiti';
+        color: #6bb6b5;
+        width: 200px;
+    }
+
+    .layui-form-item input {
+        cursor: not-allowed;
+        background-color: #f4f4f4;
+    }
+
+    .layui-form-item span {
+        font-size: 23px;
+        font-family: 'kaiti';
+        font-weight: bold;
+        letter-spacing: 5px;
+        color: #77724c;
+    }
 </style>
 </html>

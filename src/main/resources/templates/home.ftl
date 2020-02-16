@@ -101,14 +101,14 @@
                     <#if MLEVEL == 'ADMIN'>
                         <li data-name="home" class="layui-nav-item">
                             <a lay-href="/admin/roomManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-link"></i>
+                                <i class="layui-icon layui-icon-home"></i>
                                 <cite>房源管理</cite>
                             </a>
                         </li>
                     <#else >
                         <li data-name="home" class="layui-nav-item">
                             <a lay-href="/merchant/toRoom" href="javascript:;" lay-tips="房源中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-link"></i>
+                                <i class="layui-icon layui-icon-home"></i>
                                 <cite>房源管理</cite>
                             </a>
                         </li>
@@ -147,14 +147,14 @@
                     <#if MLEVEL == 'ADMIN'>
                     <li data-name="comment" class="layui-nav-item">
                         <a lay-href="/admin/commentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
-                            <i class="layui-icon layui-icon-link"></i>
+                            <i class="layui-icon layui-icon-survey"></i>
                             <cite>评论管理</cite>
                         </a>
                     </li>
                     <#else >
                         <li data-name="comment" class="layui-nav-item">
                             <a lay-href="/merchant/toCommentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
-                                <i class="layui-icon layui-icon-link"></i>
+                                <i class="layui-icon layui-icon-survey"></i>
                                 <cite>评论管理</cite>
                             </a>
                         </li>
@@ -162,24 +162,32 @@
                     <#if MLEVEL == 'ADMIN'>
                         <li data-name="bulletin" class="layui-nav-item">
                             <a lay-href="/admin/bulletinPublish" href="javascript:;" lay-tips="公告管理" lay-direction="2">
-                                <i class="layui-icon layui-icon-link"></i>
+                                <i class="layui-icon layui-icon-list"></i>
                                 <cite>公告中心</cite>
                             </a>
                         </li>
                     <#else >
                         <li data-name="bulletin" class="layui-nav-item">
                             <a lay-href="/merchant/toBulletin" href="javascript:;" lay-tips="公告管理" lay-direction="2">
-                                <i class="layui-icon layui-icon-link"></i>
+                                <i class="layui-icon layui-icon-list"></i>
                                 <cite>公告中心</cite>
                             </a>
                         </li>
                     </#if>
                     <li data-name="message" class="layui-nav-item">
                         <a lay-href='/toMessageCenter' href="javascript:;" lay-tips="消息中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-link"></i>
+                            <i class="layui-icon layui-icon-reply-fill"></i>
                             <cite>消息中心</cite>
                         </a>
                     </li>
+                    <#if MLEVEL?index_of("ADMIN")== -1>
+                        <li data-name="kefu" class="layui-nav-item">
+                            <a lay-href='/toKefuCenter' href="javascript:;" lay-tips="客服中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-dialogue"></i>
+                                <cite>客服中心</cite>
+                            </a>
+                        </li>
+                    </#if>
                 </ul>
             </div>
         </div>

@@ -220,7 +220,7 @@
   </update>
 
     <select id="getLastBulletin" resultType="cbuc.homestay.bean.Bulletin">
-        SELECT * FROM `ms_bulletin` t1  ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC limit 1;
+        SELECT * FROM `ms_bulletin` t1 where status != "D" ORDER BY  ABS(NOW() - t1.CREATE_TIME) ASC limit 1;
     </select>
 
 </mapper>

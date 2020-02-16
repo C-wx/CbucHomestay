@@ -11,9 +11,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -81,4 +83,39 @@ public class ForeMsgController {
         int res = messageService.doAdd(message);
         return res > 0 ? Result.success() : Result.error();
     }
+
+    /**
+     * ---------------------------------------------商户端操作------------------------------------------------------
+     */
+
+    @RequestMapping("/toKefuCenter")
+    public String toKefuCenter(HttpSession session, Model model) {
+        Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+        List<Message> messages = messageService.getKefuList(merchant.getId());
+        messages.stream().forEach(message -> {
+            User user = userService.queryDetail(message.getSendId());
+            message.setSendName(user.getUname());
+        });
+        model.addAttribute("msgList", messages);
+        return "merchant/kefu";
+    }
+
+    @RequestMapping("/showChat")
+    public String showChat(Long uid, HttpSession session, Model model) {
+        Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+        List<Message> messages = messageService.queryChatList(uid, merchant.getId());
+        messages.stream().forEach(message1 -> {
+            if (message1.getSendId() == merchant.getId()) {
+                message1.setIsSelf("true");
+                message1.setSendName(merchant.getMname());
+            } else {
+                message1.setIsSelf("false");
+                User user = userService.queryDetail(message1.getSendId());
+                message1.setSendName(user.getUname());
+            }
+        });
+        model.addAttribute("chatList", messages);
+        return "merchant/chat";
+    }
+
 }

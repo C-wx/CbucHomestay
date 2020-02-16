@@ -87,4 +87,8 @@ public class MessageService {
         example.or(criteria1);
         return messageMapper.selectByExample(example);
     }
+
+    public List<Message> getKefuList(Long id) {
+        return messageMapper.getKefuList(id);
+    }
 }

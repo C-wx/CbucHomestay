@@ -94,7 +94,7 @@ public class AdminRoomController {
         RoomInfo roomInfo = roomInfoService.queryDetail(rid);
         Merchant merchant = merchantService.queryDetail(roomInfo.getMid());
         roomInfo.setPublishName(merchant.getMname());
-        Image image = Image.builder().parentId(roomInfo.getId()).origin("ROOM").build();
+        Image image = Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build();
         List<Image> images = imageService.queryList(image);
         roomInfo.setImages(images);
         model.addAttribute("roomInfo", roomInfo);

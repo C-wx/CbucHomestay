@@ -78,10 +78,6 @@ public class AdminMerchantController {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             List<Apply> auditList = applyService.queryList(title);
-            /*auditList.stream().forEach(al -> {
-                Image image = imageService.queryDetail(al.getId(), OriginEnum.LICENSE.getValue());
-                al.setLicenseUrl(image.getUrl());
-            });*/
             PageInfo pageInfo = new PageInfo(auditList, 10);
             return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
         } catch (Exception e) {

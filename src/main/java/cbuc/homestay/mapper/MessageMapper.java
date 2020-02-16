@@ -32,4 +32,7 @@ public interface MessageMapper {
     Message queryLast(@Param("mid") Long mid,@Param("type") String type);
 
     List<Message> getList(@Param("message") Message message);
+
+    List<Message> getKefuList(@Param("mid") Long mid);
+
 }

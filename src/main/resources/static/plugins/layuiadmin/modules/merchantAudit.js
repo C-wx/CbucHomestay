@@ -130,7 +130,7 @@ layui.define(["form", "table", "element"], function (exports) {
     table.on('tool(merchantApplyTable)', function (obj) {
         var data = obj.data;
         if (obj.event === 'lookImg') {                          //点击查看大图
-            var imgHtml = "<img src='" + data.licenseUrl + "' width='600px' height='550px'/>";
+            var imgHtml = "<img src='" + data.mlicense + "' width='600px' height='550px'/>";
             layer.open({
                 type: 1,
                 shade: 0.5,
