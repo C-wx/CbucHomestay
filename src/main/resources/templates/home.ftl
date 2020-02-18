@@ -183,7 +183,7 @@
                     <#if MLEVEL?index_of("ADMIN")== -1>
                         <li data-name="kefu" class="layui-nav-item">
                             <a lay-href='/toKefuCenter' href="javascript:;" lay-tips="客服中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-dialogue"></i>
+                                <i class="layui-icon layui-icon-service"></i>
                                 <cite>客服中心</cite>
                             </a>
                         </li>

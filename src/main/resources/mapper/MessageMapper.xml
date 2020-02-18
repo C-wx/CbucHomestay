@@ -298,7 +298,7 @@
   </select>
 
   <select id="getKefuList" resultType="cbuc.homestay.bean.Message">
-    SELECT MAX(ID) ID , SEND_ID , CONTENT , CREATE_TIME FROM `ms_message` where RECEIVE_ID = #{mid} AND RECEIVE_TYPE = 'MERCHANT' AND SEND_TYPE = 'USER'  GROUP BY SEND_ID;
+    SELECT ID , SEND_ID , CONTENT , CREATE_TIME FROM `ms_message` where id in ( SELECT MAX(ID) FROM ms_message WHERE RECEIVE_ID = #{mid} AND RECEIVE_TYPE = 'MERCHANT' AND SEND_TYPE = 'USER' GROUP BY SEND_ID ) ORDER BY CREATE_TIME DESC
   </select>
 
 </mapper>

@@ -115,7 +115,19 @@ public class ForeMsgController {
             }
         });
         model.addAttribute("chatList", messages);
+        model.addAttribute("uid", uid);
         return "merchant/chat";
+    }
+
+    @ResponseBody
+    @RequestMapping("/doSendReply")
+    public Object doSendReply(HttpSession session, Message message) {
+        Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+        message.setSendId(merchant.getId());
+        message.setSendType("MERCHANT");
+        message.setReceiveType("USER");
+        int res = messageService.doAdd(message);
+        return res > 0 ? Result.success(message) : Result.error();
     }
 
 }

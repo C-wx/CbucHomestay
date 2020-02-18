@@ -26,8 +26,10 @@
             <li class="layui-timeline-item cursor" onclick="showModel(${msg.sendId})">
                 <i class="layui-icon layui-icon-notice"></i>
                 <div class="layui-timeline-content layui-text">
-                    <h3 class="layui-timeline-title">${msg.sendName}
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(msg.createTime)?string("yyyy/MM/dd")}</h3>
+                    <h3 class="layui-timeline-title">
+                        <i class="layui-icon layui-icon-username" style="font-size: 28px"></i>
+                        ${msg.sendName}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(msg.createTime)?string("yyyy/MM/dd HH:mm:ss")}</h3>
                     <p>
                         ${msg.content}
                     </p>
@@ -57,7 +59,7 @@
     .layui-timeline-content > h3 {
         font-size: 17px;
         font-weight: bold;
-        color: #440044;
+        color: #bf997c;
     }
 
     .layui-timeline-content > p {
@@ -79,9 +81,9 @@
                 , anim: 5
             });
             layer.style(idx, {
-                "width": '380px'
-                , "height": '476px'
-                , "top": '200px'
+                "width": '400px'
+                , "height": '600px'
+                , "top": '80px'
                 , "left": '600px'
                 , "border-radius": '10px'
                 , "background": '#fff'
