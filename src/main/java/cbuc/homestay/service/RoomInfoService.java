@@ -1,9 +1,6 @@
 package cbuc.homestay.service;
 
-import cbuc.homestay.bean.Property;
-import cbuc.homestay.bean.PropertyExample;
-import cbuc.homestay.bean.RoomInfo;
-import cbuc.homestay.bean.RoomInfoExample;
+import cbuc.homestay.bean.*;
 import cbuc.homestay.evt.RoomInfoEvt;
 import cbuc.homestay.mapper.PropertyMapper;
 import cbuc.homestay.mapper.RoomInfoMapper;
@@ -13,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,7 +126,7 @@ public class RoomInfoService {
             propertyExample.createCriteria().andRidEqualTo(id);
             propertyMapper.updateByExampleSelective(Property.builder().status("D").build(), propertyExample);
             this.doEdit(roomInfo);
-        }else {
+        } else {
             this.doAdd(roomInfo);
         }
         this.doSaveProperty(roomInfoEvt, roomInfo.getId());
@@ -152,5 +150,15 @@ public class RoomInfoService {
             Property pi = Property.builder().rid(rid).proKey("人可住").proValue(roomInfoEvt.getPeopleCount()).build();
             propertyMapper.insertSelective(pi);
         }
+    }
+
+    public List<Favorite> queryHotRoom() {
+        List<RoomInfo> hotRoom = roomInfoMapper.getHotRoom();
+        List<Favorite> list = new ArrayList();
+        hotRoom.stream().forEach(roomInfo -> {
+            Favorite favorite = Favorite.builder().roomInfo(roomInfo).build();
+            list.add(favorite);
+        });
+        return list;
     }
 }

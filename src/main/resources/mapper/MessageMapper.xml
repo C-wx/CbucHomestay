@@ -294,7 +294,7 @@
   </update>
 
   <select id="getList" resultType="cbuc.homestay.bean.Message">
-     SELECT RECEIVE_ID,MIN(CONTENT) content,MAX(CREATE_TIME) createTime FROM `ms_message` where SEND_ID = #{message.sendId} and SEND_TYPE = #{message.sendType} GROUP BY RECEIVE_ID;
+     SELECT RECEIVE_ID,MIN(CONTENT) content,MAX(CREATE_TIME) createTime FROM `ms_message` where SEND_ID = #{message.sendId} and SEND_TYPE = #{message.sendType} and status != "D" GROUP BY RECEIVE_ID;
   </select>
 
   <select id="getKefuList" resultType="cbuc.homestay.bean.Message">

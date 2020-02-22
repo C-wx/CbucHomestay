@@ -177,7 +177,7 @@ public class ForeRoomController {
         return res > 0 ? Result.success() : Result.error();
     }
 
-    @ApiOperation("获取收藏列表")
+    @ApiOperation("获取我的收藏列表")
     @ResponseBody
     @RequestMapping("getFavoriteList")
     public Object getFavoriteList(String openId) {
@@ -187,5 +187,13 @@ public class ForeRoomController {
             favorite.setRoomInfo(roomInfo);
         });
         return Result.success(favorites);
+    }
+
+    @ApiOperation("获取热门收藏列表")
+    @ResponseBody
+    @RequestMapping("getHotFavoriteList")
+    public Object getHotFavoriteList() {
+        List<Favorite> favoriteList = roomInfoService.queryHotRoom();
+        return Result.success(favoriteList);
     }
 }

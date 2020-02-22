@@ -84,6 +84,22 @@ public class ForeMsgController {
         return res > 0 ? Result.success() : Result.error();
     }
 
+    @ResponseBody
+    @RequestMapping("/removeMsg")
+    public Object removeMsg(Long mid, String openId) {
+        User user = userService.queryDetail(openId);
+        Message message = Message
+                .builder()
+                .sendId(user.getId())
+                .sendType("USER")
+                .receiveId(mid)
+                .receiveType("MERCHANT")
+                .build();
+        Message mi = Message.builder().status("D").build();
+        int res = messageService.doRemove(mi,message);
+        return res > 0 ? Result.success() : Result.error();
+    }
+
     /**
      * ---------------------------------------------商户端操作------------------------------------------------------
      */

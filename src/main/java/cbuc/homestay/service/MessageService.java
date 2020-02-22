@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @Explain:   消息处理器
+ * @Explain: 消息处理器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/12
@@ -46,7 +46,7 @@ public class MessageService {
             criteria.andReadStatusEqualTo(message.getReadStatus());
         }
         if (StringUtils.isNotBlank(message.getContent())) {
-            criteria.andContentLike("%"+message.getContent()+"%");
+            criteria.andContentLike("%" + message.getContent() + "%");
         }
         if (message.getIfMerchant()) {
             criteria.andSendTypeNotEqualTo("USER");
@@ -64,8 +64,8 @@ public class MessageService {
         return messageMapper.selectByPrimaryKey(id);
     }
 
-    public Message queryLast(Long mid,String type) {
-        return messageMapper.queryLast(mid,type);
+    public Message queryLast(Long mid, String type) {
+        return messageMapper.queryLast(mid, type);
     }
 
     public List<Message> getList(Message message) {
@@ -90,5 +90,21 @@ public class MessageService {
 
     public List<Message> getKefuList(Long id) {
         return messageMapper.getKefuList(id);
+    }
+
+    public int doRemove(Message mi, Message message) {
+        MessageExample example = new MessageExample();
+        example.createCriteria()
+                .andSendIdEqualTo(message.getSendId())
+                .andSendTypeEqualTo("USER")
+                .andReceiveIdEqualTo(message.getReceiveId())
+                .andReceiveTypeEqualTo("MERCHANT");
+        MessageExample.Criteria criteria = example.createCriteria();
+        criteria.andSendIdEqualTo(message.getReceiveId())
+                .andSendTypeEqualTo("MERCHANT")
+                .andReceiveTypeEqualTo("USER")
+                .andReceiveIdEqualTo(message.getSendId());
+        example.or(criteria);
+        return messageMapper.updateByExampleSelective(mi, example);
     }
 }

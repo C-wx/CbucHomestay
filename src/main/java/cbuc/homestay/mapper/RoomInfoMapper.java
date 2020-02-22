@@ -30,4 +30,6 @@ public interface RoomInfoMapper {
     int updateByPrimaryKey(RoomInfo record);
 
     List<RoomInfo> queryTopRoom();
+
+    List<RoomInfo> getHotRoom();
 }
