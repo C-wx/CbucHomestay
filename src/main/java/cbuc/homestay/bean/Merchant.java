@@ -28,6 +28,8 @@ public class Merchant {
 
     private String mdesc;
 
+    private String avatarUrl;
+
     private Date createTime;
 
     private Date updateTime;

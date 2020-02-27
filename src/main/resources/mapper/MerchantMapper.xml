@@ -10,6 +10,7 @@
     <result column="MPWD" jdbcType="VARCHAR" property="mpwd" />
     <result column="MLEVEL" jdbcType="VARCHAR" property="mlevel" />
     <result column="MDESC" jdbcType="VARCHAR" property="mdesc" />
+    <result column="AVATAR_URL" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, AUDIT_ID, MNAME, MPHONE, MACCOUNT, MPWD, MLEVEL, MDESC, CREATE_TIME, UPDATE_TIME, 
-    STATUS
+    ID, AUDIT_ID, MNAME, MPHONE, MACCOUNT, MPWD, MLEVEL, MDESC, AVATAR_URL, CREATE_TIME, 
+    UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.MerchantExample" resultMap="BaseResultMap">
     select
@@ -110,12 +111,12 @@
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Merchant" useGeneratedKeys="true">
     insert into ms_merchant (AUDIT_ID, MNAME, MPHONE, 
       MACCOUNT, MPWD, MLEVEL, 
-      MDESC, CREATE_TIME, UPDATE_TIME, 
-      STATUS)
+      MDESC, AVATAR_URL, CREATE_TIME, 
+      UPDATE_TIME, STATUS)
     values (#{auditId,jdbcType=BIGINT}, #{mname,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, 
       #{maccount,jdbcType=VARCHAR}, #{mpwd,jdbcType=VARCHAR}, #{mlevel,jdbcType=VARCHAR}, 
-      #{mdesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{mdesc,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Merchant" useGeneratedKeys="true">
     insert into ms_merchant
@@ -140,6 +141,9 @@
       </if>
       <if test="mdesc != null">
         MDESC,
+      </if>
+      <if test="avatarUrl != null">
+        AVATAR_URL,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -172,6 +176,9 @@
       </if>
       <if test="mdesc != null">
         #{mdesc,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -217,6 +224,9 @@
       <if test="record.mdesc != null">
         MDESC = #{record.mdesc,jdbcType=VARCHAR},
       </if>
+      <if test="record.avatarUrl != null">
+        AVATAR_URL = #{record.avatarUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -241,6 +251,7 @@
       MPWD = #{record.mpwd,jdbcType=VARCHAR},
       MLEVEL = #{record.mlevel,jdbcType=VARCHAR},
       MDESC = #{record.mdesc,jdbcType=VARCHAR},
+      AVATAR_URL = #{record.avatarUrl,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -272,6 +283,9 @@
       <if test="mdesc != null">
         MDESC = #{mdesc,jdbcType=VARCHAR},
       </if>
+      <if test="avatarUrl != null">
+        AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -293,6 +307,7 @@
       MPWD = #{mpwd,jdbcType=VARCHAR},
       MLEVEL = #{mlevel,jdbcType=VARCHAR},
       MDESC = #{mdesc,jdbcType=VARCHAR},
+      AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

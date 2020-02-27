@@ -1,8 +1,10 @@
 package cbuc.homestay.controller;
 
 import cbuc.homestay.base.Result;
+import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.evt.UserEvt;
+import cbuc.homestay.service.ApplyService;
 import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.utils.CacheUtil;
 import cbuc.homestay.utils.SendMessageUtil;
@@ -15,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,6 +43,9 @@ public class LoginController {
     @Autowired
     private MerchantService merchantService;
 
+    @Autowired
+    private ApplyService applyService;
+
     @Value("${sendMsg.key}")
     private String sendMsg;
 
@@ -50,31 +54,44 @@ public class LoginController {
 
     @ApiOperation("登录操作")
     @ResponseBody
-    @PostMapping("/doLogin")
+    @RequestMapping("/doLogin")
     public Object doLogin(UserEvt userEvt, HttpSession session) {
         try {
-            //获取登录失败次数
-            Integer error_count = cacheUtil.get("login_error_count");
-            Merchant merchant = merchantService.queryDetail(userEvt);
-            if (error_count != null && error_count > 3) {
-                return Result.error(500, "您输入密码已经错误超过3次，请1分钟后尝试!");
-            } else if (StringUtils.isBlank((String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
-                return Result.error(510, "验证码已过期,请重新输入验证码!");
-            } else if (StringUtils.isBlank(userEvt.getVerifyCode())
-                    || StringUtils.isBlank(userEvt.getMaccount())
-                    || StringUtils.isBlank(userEvt.getMpwd())) {
-                return Result.error(511, "请输入必填字段！");
-            } else if (!session.getAttribute(Constants.KAPTCHA_SESSION_KEY).equals(userEvt.getVerifyCode())) {
-                return Result.error(512, "验证码不正确,请重新输入");
-            } else if (Objects.isNull(merchant)) {
-                error_count = null == error_count ? 1 : error_count + 1;
-                cacheUtil.set("login_error_count", error_count, 60);
-                return Result.error(513, "用户名或密码错误");
-            } else {
-                session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
-                session.setAttribute("LOGIN_MERCHANT", merchant);
-                session.setMaxInactiveInterval(30 * 60);
-                return Result.success(merchant);
+            if ("wxapp".equals(userEvt.getLoginType())) {           // loginType: 登录类型   wxapp为通过小程序登录
+                Merchant merchant = merchantService.queryDetail(userEvt);
+                Apply apply = applyService.queryDetail(merchant.getAuditId());
+                merchant.setApply(apply);
+                if (Objects.isNull(merchant)) {
+                    return Result.error(513, "用户名或密码错误");
+                } else {
+                    session.setAttribute("LOGIN_MERCHANT", merchant);
+                    session.setMaxInactiveInterval(30 * 60);
+                    return Result.success(merchant);
+                }
+            } else {                                                  //网页端登录
+                //获取登录失败次数
+                Integer error_count = cacheUtil.get("login_error_count");
+                Merchant merchant = merchantService.queryDetail(userEvt);
+                if (error_count != null && error_count > 3) {
+                    return Result.error(500, "您输入密码已经错误超过3次，请1分钟后尝试!");
+                } else if (StringUtils.isBlank((String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
+                    return Result.error(510, "验证码已过期,请重新输入验证码!");
+                } else if (StringUtils.isBlank(userEvt.getVerifyCode())
+                        || StringUtils.isBlank(userEvt.getMaccount())
+                        || StringUtils.isBlank(userEvt.getMpwd())) {
+                    return Result.error(511, "请输入必填字段！");
+                } else if (!session.getAttribute(Constants.KAPTCHA_SESSION_KEY).equals(userEvt.getVerifyCode())) {
+                    return Result.error(512, "验证码不正确,请重新输入");
+                } else if (Objects.isNull(merchant)) {
+                    error_count = null == error_count ? 1 : error_count + 1;
+                    cacheUtil.set("login_error_count", error_count, 60);
+                    return Result.error(513, "用户名或密码错误");
+                } else {
+                    session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
+                    session.setAttribute("LOGIN_MERCHANT", merchant);
+                    session.setMaxInactiveInterval(30 * 60);
+                    return Result.success(merchant);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,7 +113,7 @@ public class LoginController {
             }
             String randomCode = SendMessageUtil.getRandomCode(6);
             session.setAttribute("MESSAGE_CODE", randomCode);
-            session.setMaxInactiveInterval(1000*60);
+            session.setMaxInactiveInterval(1000 * 60);
 //            Integer resultCode = SendMessageUtil.send(uid, sendMsg, smsMob, "您的短信验证码为:" + randomCode);    //TODO 实际启用短信
             Integer resultCode = 1;
             log.info(SendMessageUtil.getMessage(resultCode));
@@ -120,17 +137,17 @@ public class LoginController {
             Merchant merchant = merchantService.queryDetail(userEvt);
             String messageCode = (String) session.getAttribute("MESSAGE_CODE");
             if (StringUtils.isBlank(messageCode)) {
-                return Result.error(522,"短信验证码已失效,请重新获取");
+                return Result.error(522, "短信验证码已失效,请重新获取");
             } else if (!userEvt.getMsgCode().equals(messageCode)) {
-                return Result.error(523,"短信验证码不正确,请重新获取");
+                return Result.error(523, "短信验证码不正确,请重新获取");
             } else if (Objects.isNull(merchant)) {
-                return Result.error(524,"该用户不存在,请申请入驻后登录");
+                return Result.error(524, "该用户不存在,请申请入驻后登录");
             }
             userEvt.setId(merchant.getId());
             int res = merchantService.doEdit(userEvt);
             if (res > 0) {
                 return Result.success();
-            }else {
+            } else {
                 return Result.error("修改密码失败!");
             }
         } catch (Exception e) {
@@ -159,10 +176,10 @@ public class LoginController {
             }
             userEvt.setId(merchant.getId());
             int res = merchantService.doEdit(userEvt);
-            if (res>0) {
+            if (res > 0) {
                 session.removeAttribute("LOGIN_MERCHANT");
                 return Result.success();
-            }else{
+            } else {
                 return Result.error("修改密码失败!");
             }
         } catch (Exception e) {
