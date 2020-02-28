@@ -52,6 +52,7 @@ public class Order {
     private String rName;
     private RoomInfo roomInfo;
     private Long mid;
+    private User user;
     /**--------------------------*/
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

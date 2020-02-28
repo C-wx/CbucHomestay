@@ -33,4 +33,14 @@ public interface OrderMapper {
     List<Map<String, Object>> querySalesData(@Param("mid") Long mid, @Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     Order queryLast(@Param("mid") Long mid);
+
+    List<Order> queryMerOrderList(@Param("status") String status,@Param("id") Long id);
+
+    List<Map<String,Object>> getCustomerList(@Param("id") Long mid);
+
+    Map<String, Object> getSalesData(@Param("mid")Long id,@Param("offset") int i);
+
+    Map<String, Object> getTotalCountAndPrice(@Param("mid") Long mid);
+
+    Integer getUserCount(@Param("currentMonth")Boolean currentMonth,@Param("mid") Long mid);
 }
