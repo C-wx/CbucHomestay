@@ -3,6 +3,7 @@ package cbuc.homestay.controller;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.Merchant;
+import cbuc.homestay.config.SessionContext;
 import cbuc.homestay.evt.UserEvt;
 import cbuc.homestay.service.ApplyService;
 import cbuc.homestay.service.MerchantService;
@@ -114,11 +115,12 @@ public class LoginController {
             String randomCode = SendMessageUtil.getRandomCode(6);
             session.setAttribute("MESSAGE_CODE", randomCode);
             session.setMaxInactiveInterval(1000 * 60);
+            SessionContext.addSession(session);
 //            Integer resultCode = SendMessageUtil.send(uid, sendMsg, smsMob, "您的短信验证码为:" + randomCode);    //TODO 实际启用短信
             Integer resultCode = 1;
-            log.info(SendMessageUtil.getMessage(resultCode));
+            log.info(SendMessageUtil.getMessage(resultCode) + "--验证码为：" + randomCode);
             if (resultCode > 0) {
-                return Result.success(randomCode);
+                return Result.success(session.getId());
             } else {
                 return Result.error("发送短信验证码失败");
             }
@@ -132,10 +134,11 @@ public class LoginController {
     @ApiOperation("忘记密码操作")
     @ResponseBody
     @RequestMapping("/doForget")
-    public Object doForget(UserEvt userEvt, HttpSession session) {
+    public Object doForget(UserEvt userEvt, String sessionId) {
         try {
             Merchant merchant = merchantService.queryDetail(userEvt);
-            String messageCode = (String) session.getAttribute("MESSAGE_CODE");
+            HttpSession httpSession = SessionContext.getSession(sessionId);
+            String messageCode = (String) httpSession.getAttribute("MESSAGE_CODE");
             if (StringUtils.isBlank(messageCode)) {
                 return Result.error(522, "短信验证码已失效,请重新获取");
             } else if (!userEvt.getMsgCode().equals(messageCode)) {

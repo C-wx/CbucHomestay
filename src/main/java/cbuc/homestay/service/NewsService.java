@@ -25,7 +25,7 @@ public class NewsService {
     public List<News> queryList(News news) {
         NewsExample newsExample = new NewsExample();
         NewsExample.Criteria criteria = newsExample.createCriteria();
-        if (news.isValid()) {
+        if (news.isValid()) {       //是否在有效期间
             criteria.andBeginTimeLessThanOrEqualTo(new Date());
             criteria.andEndTimeGreaterThanOrEqualTo(new Date());
         }

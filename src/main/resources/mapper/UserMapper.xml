@@ -6,6 +6,7 @@
     <result column="OPEN_ID" jdbcType="VARCHAR" property="openId" />
     <result column="UNAME" jdbcType="VARCHAR" property="uname" />
     <result column="UPHONE" jdbcType="VARCHAR" property="uphone" />
+    <result column="AVATAR_URL" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
     <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, OPEN_ID, UNAME, UPHONE, CREATE_TIME, UPDATE_TIME, STATUS
+    ID, OPEN_ID, UNAME, UPHONE, AVATAR_URL, CREATE_TIME, UPDATE_TIME, STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.UserExample" resultMap="BaseResultMap">
     select
@@ -104,11 +105,11 @@
   </delete>
   <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.User" useGeneratedKeys="true">
     insert into ms_user (OPEN_ID, UNAME, UPHONE, 
-      CREATE_TIME, UPDATE_TIME, STATUS
-      )
+      AVATAR_URL, CREATE_TIME, UPDATE_TIME, 
+      STATUS)
     values (#{openId,jdbcType=VARCHAR}, #{uname,jdbcType=VARCHAR}, #{uphone,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}
-      )
+      #{avatarUrl,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.User" useGeneratedKeys="true">
     insert into ms_user
@@ -121,6 +122,9 @@
       </if>
       <if test="uphone != null">
         UPHONE,
+      </if>
+      <if test="avatarUrl != null">
+        AVATAR_URL,
       </if>
       <if test="createTime != null">
         CREATE_TIME,
@@ -141,6 +145,9 @@
       </if>
       <if test="uphone != null">
         #{uphone,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -174,6 +181,9 @@
       <if test="record.uphone != null">
         UPHONE = #{record.uphone,jdbcType=VARCHAR},
       </if>
+      <if test="record.avatarUrl != null">
+        AVATAR_URL = #{record.avatarUrl,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -194,6 +204,7 @@
       OPEN_ID = #{record.openId,jdbcType=VARCHAR},
       UNAME = #{record.uname,jdbcType=VARCHAR},
       UPHONE = #{record.uphone,jdbcType=VARCHAR},
+      AVATAR_URL = #{record.avatarUrl,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=VARCHAR}
@@ -213,6 +224,9 @@
       <if test="uphone != null">
         UPHONE = #{uphone,jdbcType=VARCHAR},
       </if>
+      <if test="avatarUrl != null">
+        AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -230,6 +244,7 @@
     set OPEN_ID = #{openId,jdbcType=VARCHAR},
       UNAME = #{uname,jdbcType=VARCHAR},
       UPHONE = #{uphone,jdbcType=VARCHAR},
+      AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=VARCHAR}

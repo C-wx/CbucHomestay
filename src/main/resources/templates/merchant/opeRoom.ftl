@@ -21,7 +21,7 @@
     <div class="layui-row layui-card">
         <div class="layui-card-body" style="padding-top: 25px;">
             <from class="layui-form" enctype="multipart/form-data" method="post" id="roomForm">
-                <input type="hidden" name="id" value="${ri.id!}" id="rid">
+                <input type="hidden" name="id" value="${(ri.id)!""}" id="rid">
                 <blockquote class="layui-elem-quote layui-text" style="width: 300px">
                     参数填写
                 </blockquote>
@@ -29,13 +29,13 @@
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间标题:</label>
                     <div class="layui-input-inline">
                         <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题"
-                               class="layui-input" value="${ri.title!}">
+                               class="layui-input" value="${(ri.title)!""}">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间描述:</label>
                     <div class="layui-input-inline" style="width: 450px">
-                        <textarea placeholder="请输入房间描述" class="layui-textarea" name="des" id="textarea">${ri.des!}</textarea>
+                        <textarea placeholder="请输入房间描述" class="layui-textarea" name="des" id="textarea">${(ri.des)!""}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -44,7 +44,8 @@
                         <div class="content-img">
                             <ul class="content-img-list"></ul>
                             <div class="file" style="cursor:pointer;">
-                                <span style="line-height: 150px" onclick="clickImage()"><i class="layui-icon layui-icon-picture" style="font-size: 160px" ></i></span>
+                                <span style="line-height: 150px" onclick="clickImage()"><i
+                                        class="layui-icon layui-icon-picture" style="font-size: 160px"></i></span>
                                 <input type="file" name="files" accept="image/*" id="upload" style="display: none">
                             </div>
                         </div>
@@ -54,24 +55,26 @@
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间价格：</label>
                     <div class="layui-input-inline" style="width: 70px;">
                         <input type="text" name="price" lay-verify="title" autocomplete="off" placeholder="xxx"
-                               class="layui-input" value="${ri.price!}">
-                    </div>￥
+                               class="layui-input" value="${(ri.price)!""}">
+                    </div>
+                    ￥
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;房间类型：</label>
                     <div class="layui-input-inline">
                         <select name="type">
                             <option value="">请选择类型</option>
-                            <option value="大床房" ${(ri.type == '大床房')?string('selected','')}>大床房</option>
-                            <option value="单人间" ${(ri.type == '单人间')?string('selected','')}>单人间</option>
-                            <option value="双人间" ${(ri.type == '双人间')?string('selected','')}>双人间</option>
+                            <option value="大床房" ${(ri.type == '大床房')???string('selected','')}>大床房</option>
+                            <option value="单人间" ${(ri.type == '单人间')???string('selected','')}>单人间</option>
+                            <option value="双人间" ${(ri.type == '双人间')???string('selected','')}>双人间</option>
                         </select>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;是否参加活动：</label>
                     <div class="layui-input-block">
-                        <input type="checkbox" name="isActive" lay-skin="switch" ${(ri.isActive=='Y')?string('checked','')} lay-text="是|否">
+                        <input type="checkbox" name="isActive"
+                               lay-skin="switch" ${(ri.isActive=='Y')???string('checked','')} lay-text="是|否">
                     </div>
                 </div>
                 <blockquote class="layui-elem-quote layui-text" style="width: 300px">
@@ -80,7 +83,7 @@
                 <div class="layui-form-item" style="display: inline-block">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;卧室数量：</label>
                     <div class="layui-input-inline" style="width: 70px;">
-                        <#if ri.propertyInfo??>
+                        <#if ri??>
                             <input type="text" name="bedRoomCount" lay-verify="title" autocomplete="off"
                                    value="${ri.propertyInfo.bedRoomCount!}" class="layui-input">
                         <#else >
@@ -92,7 +95,7 @@
                 <div class="layui-form-item" style="display: inline-block">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;床位数量：</label>
                     <div class="layui-input-inline" style="width: 70px;">
-                        <#if ri.propertyInfo??>
+                        <#if ri??>
                             <input type="text" name="bedCount" lay-verify="title" autocomplete="off"
                                    value="${ri.propertyInfo.bedCount!}" class="layui-input">
                         <#else >
@@ -105,29 +108,30 @@
                 <div class="layui-form-item" style="display: inline-block">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;卫生间数量：</label>
                     <div class="layui-input-inline" style="width: 70px;">
-                        <#if ri.propertyInfo??>
+                        <#if ri??>
                             <input type="text" name="bathRoomCount" lay-verify="title" autocomplete="off"
                                    value="${ri.propertyInfo.bathRoomCount!}" class="layui-input">
                         <#else >
                             <input type="text" name="bathRoomCount" lay-verify="title" autocomplete="off"
-                                    class="layui-input">
+                                   class="layui-input">
                         </#if>
                     </div>
                 </div>
                 <div class="layui-form-item" style="display: inline-block">
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;最多可住：</label>
                     <div class="layui-input-inline" style="width: 70px;">
-                        <#if ri.propertyInfo??>
+                        <#if ri??>
                             <input type="text" name="peopleCount" lay-verify="title" autocomplete="off"
                                    value="${ri.propertyInfo.peopleCount!}" class="layui-input">
                         <#else >
                             <input type="text" name="peopleCount" lay-verify="title" autocomplete="off"
-                                    class="layui-input">
+                                   class="layui-input">
                         </#if>
                     </div>
                 </div>
                 <div class="opeBtn">
-                    <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" lay-submit lay-filter="postSubmit" >
+                    <button type="button" class="layui-btn layui-btn-lg layui-btn-warm layui-btn-radius" lay-submit
+                            lay-filter="postSubmit">
                         发布
                     </button>
                     <button type="reset" class="layui-btn layui-btn-lg layui-btn-radius" id="returnBtn">返回</button>

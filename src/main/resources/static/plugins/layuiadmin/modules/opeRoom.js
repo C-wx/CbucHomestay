@@ -95,7 +95,8 @@ layui.define(['form'], function (exports) {
         var index = $(this).attr("index");
         var url = $(this).prev().attr('src');
         if (url.indexOf("cbucbm.club") > -1) {
-            Base.ajax("/merchant/delImage", "POST", {url: url}, (res) => {})
+            Base.ajax("/merchant/delImage", "POST", {url: url}, (res) => {
+            })
         }
         imgSrc.splice(index, 1);
         imgFile.splice(index, 1);

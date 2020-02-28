@@ -1,8 +1,8 @@
 package cbuc.homestay.config;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Explain: 通过SessionId 获取指定 Session
@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class SessionContext {
 
-    private static Map<String, HttpSession> sessionMap = new HashMap<>();
+    private static Map<String, HttpSession> sessionMap = new ConcurrentHashMap<>();
 
     public static synchronized void addSession(HttpSession session) {
         if (session != null) {

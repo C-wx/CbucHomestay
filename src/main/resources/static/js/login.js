@@ -48,7 +48,7 @@ $(() => {
                 if (e.code == Base.status.success) {
                     layer.msg("登录成功", {icon: 6, time: 800, anim: 1});
                     setTimeout(() => {
-                        location.href = "/home/"+e.data.mlevel;
+                        location.href = "/home/" + e.data.mlevel;
                     }, 1000);
                 } else {
                     layer.msg(e.msg, {icon: 5, time: 800, anim: 1});
@@ -181,7 +181,7 @@ $(() => {
             } else {
                 $(this).addClass("on");
                 $(this).attr("disabled", true);
-                $("#for_Code").val(res.msg);        //TODO  实际启用短信应删除
+                $("#sessionId").val(res.msg);
             }
         });
         var timer = setInterval(function () {

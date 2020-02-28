@@ -37,6 +37,7 @@ public class Message {
     private String receiveName;
     private String isSelf;
     private boolean ifMerchant;
+    private String avatarUrl;
     /**----------------------------*/
 
     public Long getId() {
@@ -151,5 +152,13 @@ public class Message {
 
     public void setIfMerchant(Boolean ifMerchant) {
         this.ifMerchant = ifMerchant;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

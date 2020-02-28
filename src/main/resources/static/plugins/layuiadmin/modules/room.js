@@ -84,8 +84,8 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     var ableHtml = d.status == 'D'
-                        ? '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>'
-                        : '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>';
+                        ? '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">上架</a>'
+                        : '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">下架</a>';
                     var detail = '<a lay-href="/merchant/toOpeRoom?type=Edit&rid='+d.id+'" class="layui-btn layui-bg-cyan layui-btn-sm" href="javascript:;" >编辑</a>';
                     return ableHtml + detail;
                 }
@@ -164,7 +164,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , content: '/admin/toAuditHis?parentId=' + data.id + '&type=ROOM'
             });
         } else if (obj.event == 'disable') {
-            layer.confirm('是否禁用该房源?', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('是否下架该房源?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeRoom", "POST", {'id': data.id, 'status': 'D'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});
@@ -178,7 +178,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 })
             });
         } else if (obj.event == 'enable') {
-            layer.confirm('是否启用该房源?', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('是否上架该房源?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeRoom", "POST", {'id': data.id, 'status': 'FR'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});

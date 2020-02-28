@@ -49,6 +49,7 @@ public class ForeMsgController {
         messages.stream().forEach(msg -> {
             Merchant merchant = merchantService.queryDetail(msg.getReceiveId());
             msg.setReceiveName(merchant.getMname());
+            msg.setAvatarUrl(merchant.getAvatarUrl());
         });
         return Result.success(messages);
     }
@@ -62,8 +63,11 @@ public class ForeMsgController {
         messageList.stream().forEach(ml -> {
             if (ml.getSendId().compareTo(user.getId()) == 0) {
                 ml.setIsSelf("true");
+                ml.setAvatarUrl(user.getAvatarUrl());
             } else {
                 ml.setIsSelf("false");
+                Merchant merchant = merchantService.queryDetail(ml.getSendId());
+                ml.setAvatarUrl(merchant.getAvatarUrl());
             }
         });
         return Result.success(messageList);
@@ -96,7 +100,7 @@ public class ForeMsgController {
                 .receiveType("MERCHANT")
                 .build();
         Message mi = Message.builder().status("D").build();
-        int res = messageService.doRemove(mi,message);
+        int res = messageService.doRemove(mi, message);
         return res > 0 ? Result.success() : Result.error();
     }
 

@@ -11,6 +11,8 @@ public class User {
 
     private String uphone;
 
+    private String avatarUrl;
+
     private Date createTime;
 
     private Date updateTime;
@@ -47,6 +49,14 @@ public class User {
 
     public void setUphone(String uphone) {
         this.uphone = uphone == null ? null : uphone.trim();
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl == null ? null : avatarUrl.trim();
     }
 
     public Date getCreateTime() {

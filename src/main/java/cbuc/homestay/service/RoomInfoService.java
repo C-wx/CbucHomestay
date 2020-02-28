@@ -108,6 +108,13 @@ public class RoomInfoService {
         if (roomInfo.getMid() != null) {
             criteria.andMidEqualTo(roomInfo.getMid());
         }
+        if (StringUtils.isNotBlank(roomInfo.getStatus())) {
+            if ("D".equals(roomInfo.getStatus())) {
+                criteria.andStatusEqualTo(roomInfo.getStatus());
+            } else {
+                criteria.andStatusNotEqualTo("D");
+            }
+        }
         return criteria;
     }
 

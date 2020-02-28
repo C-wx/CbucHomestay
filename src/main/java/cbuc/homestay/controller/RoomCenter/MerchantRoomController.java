@@ -83,17 +83,23 @@ public class MerchantRoomController {
     }
 
     @RequestMapping("/toOpeRoom")
-    public String toOpeRoom(String type, Long rid, Model model) {
-        RoomInfo roomInfo = roomInfoService.queryDetail(rid);
-        RoomInfoEvt roomInfoEvt = new RoomInfoEvt();
-        BeanUtils.copyProperties(roomInfo, roomInfoEvt);
-        model.addAttribute("ri", roomInfoEvt);
+    public String toOpeRoom(String type,
+                            @RequestParam(value = "rid", required = false) Long rid,
+                            Model model) {
+        if (null != rid) {
+            RoomInfo roomInfo = roomInfoService.queryDetail(rid);
+            RoomInfoEvt roomInfoEvt = new RoomInfoEvt();
+            BeanUtils.copyProperties(roomInfo, roomInfoEvt);
+            model.addAttribute("ri", roomInfoEvt);
+        }
         return "merchant/opeRoom";
     }
 
     @ResponseBody
     @RequestMapping("/doSaveRoom")
-    public Object doSaveRoom(@RequestParam("myFiles") MultipartFile[] myFiles, @RequestParam("roomInfo") String roomInfo, HttpSession session) {
+    public Object doSaveRoom(@RequestParam("myFiles") MultipartFile[] myFiles,
+                             @RequestParam("roomInfo") String roomInfo,
+                             HttpSession session) {
         Long rid;
         try {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
@@ -121,8 +127,13 @@ public class MerchantRoomController {
     @ResponseBody
     @RequestMapping("/getRoomImage")
     public Object getRoomImage(Long rid) {
-        List<Image> imageList = imageService.queryList(Image.builder().parentId(rid).origin("ROOM").status("E").build());
-        return Result.success(imageList);
+        if (rid != null) {
+            List<Image> imageList = imageService.queryList(Image.builder().parentId(rid).origin("ROOM").status("E").build());
+            return Result.success(imageList);
+        }else{
+            return Result.success(null);
+        }
+
     }
 
     @ApiOperation("删除房源图片")
@@ -132,6 +143,6 @@ public class MerchantRoomController {
         String target = url.split("/")[3];
         QiniuCloudUtil.delete(target);
         int res = imageService.doDel(url);
-        return res>0?Result.success():Result.error();
+        return res > 0 ? Result.success() : Result.error();
     }
 }

@@ -47,6 +47,7 @@
     <h4 class="forget">忘记密码</h4>
 </form>
 <form class="forgetForm" style="display: none">
+    <input type="hidden" name="sessionId" id="sessionId"/>
     <div class="group">
         <input type="text" name="mphone" id="for_phone" maxlength="11"><span class="highlight"></span><span class="bar"></span>
         <label>手机号码</label>

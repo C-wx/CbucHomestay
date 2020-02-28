@@ -1,8 +1,11 @@
 package cbuc.homestay.controller.foreCenter;
 
 import cbuc.homestay.base.Result;
+import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.bean.User;
+import cbuc.homestay.service.ApplyService;
+import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.service.UserService;
 import cbuc.homestay.utils.QiniuCloudUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,12 @@ public class ForeUserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MerchantService merchantService;
+
+    @Autowired
+    private ApplyService applyService;
 
     @ResponseBody
     @RequestMapping("/doAddUser")
@@ -61,7 +70,10 @@ public class ForeUserController {
                 return Result.error("上传图片异常");
             }
         }
-
-        return null;
+        int res = merchantService.doEdit(merchant);
+        Merchant mi = merchantService.queryDetail(merchant.getId());
+        Apply apply = applyService.queryDetail(mi.getAuditId());
+        mi.setApply(apply);
+        return res > 0 ? Result.success(mi) : Result.error();
     }
 }

@@ -60,7 +60,9 @@ public class ForeRoomController {
                              @RequestParam(value = "sort", defaultValue = "id") String sort,
                              @RequestParam(value = "order", defaultValue = "desc") String order,
                              String title, String type, String keyWord,
-                             Long beginTime, Long endTime) {
+                             Long beginTime, Long endTime,
+                             @RequestParam(value = "merchantId", required = false) Long merchantId,
+                             @RequestParam(value = "status", required = false) String status){
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             RoomInfo room = new RoomInfo().builder().auditStatus("SA").build();
@@ -77,6 +79,12 @@ public class ForeRoomController {
             if (endTime != null) {
                 Date et = new Date(endTime);
                 room.setEndTime(et);
+            }
+            if (null != merchantId) {
+                room.setMid(merchantId);
+            }
+            if (StringUtils.isNotBlank(status)) {
+                room.setStatus(status);
             }
             List<RoomInfo> roomInfoList = roomInfoService.queryList(room);
             roomInfoList.stream().forEach(roomInfo -> {
