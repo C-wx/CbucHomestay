@@ -1,8 +1,10 @@
 package cbuc.homestay.evt;
 
+import cbuc.homestay.bean.Image;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,4 +37,6 @@ public class RoomInfoEvt implements Serializable {
     private String peopleCount;
 
     private Map<String, Object> propertyInfo;
+
+    private List<Image> images;
 }

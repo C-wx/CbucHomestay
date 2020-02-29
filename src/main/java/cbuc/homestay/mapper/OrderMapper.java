@@ -43,4 +43,8 @@ public interface OrderMapper {
     Map<String, Object> getTotalCountAndPrice(@Param("mid") Long mid);
 
     Integer getUserCount(@Param("currentMonth")Boolean currentMonth,@Param("mid") Long mid);
+
+    Integer getUnreadOrderCount(@Param("mid") Long mid);
+
+    int doUpdateReadStatus(@Param("mid") Long mid);
 }

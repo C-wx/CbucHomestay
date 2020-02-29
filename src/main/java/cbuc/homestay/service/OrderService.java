@@ -1,10 +1,7 @@
 package cbuc.homestay.service;
 
 import cbuc.homestay.CommonEnum.StatusEnum;
-import cbuc.homestay.bean.Order;
-import cbuc.homestay.bean.OrderExample;
-import cbuc.homestay.bean.RoomInfo;
-import cbuc.homestay.bean.RoomInfoExample;
+import cbuc.homestay.bean.*;
 import cbuc.homestay.mapper.OrderMapper;
 import cbuc.homestay.mapper.RoomInfoMapper;
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @Explain: 订单处理器
@@ -30,6 +28,9 @@ public class OrderService {
     @Autowired
     private RoomInfoMapper roomInfoMapper;
 
+    @Autowired
+    private UserService userService;
+
     public List<Order> queryList() {
         OrderExample orderExample = new OrderExample();
         OrderExample.Criteria criteria = orderExample.createCriteria();
@@ -37,8 +38,8 @@ public class OrderService {
         return orderMapper.selectByExample(orderExample);
     }
 
-    public List<Map<String, Object>> querySalesData(Long mid,String beginTime, String endTime) {
-        return orderMapper.querySalesData(mid,beginTime, endTime);
+    public List<Map<String, Object>> querySalesData(Long mid, String beginTime, String endTime) {
+        return orderMapper.querySalesData(mid, beginTime, endTime);
     }
 
     public Order queryLast(Long mid) {
@@ -78,5 +79,50 @@ public class OrderService {
 
     public Order queryDetail(Long oid) {
         return orderMapper.selectByPrimaryKey(oid);
+    }
+
+    public List<Order> queryMerOrderList(String status, Long id) {
+        if ("ALL".equals(status)) {
+            status = "%";
+        }
+        if ("DD".equals(status)) {
+            status = "_" + status;
+        }
+        return orderMapper.queryMerOrderList(status, id);
+    }
+
+    public List<Map<String, Object>> getCustomerList(Long mid) {
+        List<Map<String, Object>> customerMap = orderMapper.getCustomerList(mid);
+        for (Map<String, Object> map : customerMap) {
+            Set<Map.Entry<String, Object>> entries = map.entrySet();
+            for (Map.Entry<String, Object> entry : entries) {
+                if ("openId".equals(entry.getKey())) {
+                    User user = userService.queryDetail((String) entry.getValue());
+                    map.put("userInfo", user);
+                    break;
+                }
+            }
+        }
+        return customerMap;
+    }
+
+    public Map<String, Object> getTodayData(Long mid,int i) {
+        return orderMapper.getSalesData(mid,i);
+    }
+
+    public Map<String, Object> getTotalCountAndPrice(Long mid) {
+        return orderMapper.getTotalCountAndPrice(mid);
+    }
+
+    public Integer getUserCount(Boolean currentMonth,Long mid) {
+        return orderMapper.getUserCount(currentMonth,mid);
+    }
+
+    public Integer getUnreadOrderCount(Long mid) {
+        return orderMapper.getUnreadOrderCount(mid);
+    }
+
+    public int doUpdateReadStatus(Long mid) {
+        return orderMapper.doUpdateReadStatus(mid);
     }
 }

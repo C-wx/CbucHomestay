@@ -109,7 +109,7 @@ layui.define(['form'], function (exports) {
     });
 
     /**
-     * 发布公告
+     * 发布房间
      */
     form.on('submit(postSubmit)', function (data) {
         var formFile = new FormData();

@@ -1204,6 +1204,76 @@ public class OrderExample {
             addCriterion("STATUS not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andReadStatusIsNull() {
+            addCriterion("READ_STATUS is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusIsNotNull() {
+            addCriterion("READ_STATUS is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusEqualTo(String value) {
+            addCriterion("READ_STATUS =", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotEqualTo(String value) {
+            addCriterion("READ_STATUS <>", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusGreaterThan(String value) {
+            addCriterion("READ_STATUS >", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("READ_STATUS >=", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusLessThan(String value) {
+            addCriterion("READ_STATUS <", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusLessThanOrEqualTo(String value) {
+            addCriterion("READ_STATUS <=", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusLike(String value) {
+            addCriterion("READ_STATUS like", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotLike(String value) {
+            addCriterion("READ_STATUS not like", value, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusIn(List<String> values) {
+            addCriterion("READ_STATUS in", values, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotIn(List<String> values) {
+            addCriterion("READ_STATUS not in", values, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusBetween(String value1, String value2) {
+            addCriterion("READ_STATUS between", value1, value2, "readStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andReadStatusNotBetween(String value1, String value2) {
+            addCriterion("READ_STATUS not between", value1, value2, "readStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -19,6 +19,7 @@
     <result column="BEGIN_TIME" jdbcType="TIMESTAMP" property="beginTime" />
     <result column="END_TIME" jdbcType="TIMESTAMP" property="endTime" />
     <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="READ_STATUS" jdbcType="VARCHAR" property="readStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -80,7 +81,7 @@
   </sql>
   <sql id="Base_Column_List">
     ID, RID, OPEN_ID, NAME, CARDNO, PHONE, ORDER_CODE, DAY_COUNT, PRICE, COMMENT, CREATE_TIME, 
-    UPDATE_TIME, PAY_TIME, CONFIRM_TIME, BEGIN_TIME, END_TIME, STATUS
+    UPDATE_TIME, PAY_TIME, CONFIRM_TIME, BEGIN_TIME, END_TIME, STATUS, READ_STATUS
   </sql>
   <select id="selectByExample" parameterType="cbuc.homestay.bean.OrderExample" resultMap="BaseResultMap">
     select
@@ -98,7 +99,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from ms_order
     where ID = #{id,jdbcType=BIGINT}
@@ -119,13 +120,13 @@
       DAY_COUNT, PRICE, COMMENT, 
       CREATE_TIME, UPDATE_TIME, PAY_TIME, 
       CONFIRM_TIME, BEGIN_TIME, END_TIME, 
-      STATUS)
+      STATUS, READ_STATUS)
     values (#{rid,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{cardno,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{orderCode,jdbcType=VARCHAR}, 
       #{dayCount,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
       #{confirmTime,jdbcType=TIMESTAMP}, #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
-      #{status,jdbcType=VARCHAR})
+      #{status,jdbcType=VARCHAR}, #{readStatus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="cbuc.homestay.bean.Order" useGeneratedKeys="true">
     insert into ms_order
@@ -178,6 +179,9 @@
       <if test="status != null">
         STATUS,
       </if>
+      <if test="readStatus != null">
+        READ_STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="rid != null">
@@ -227,6 +231,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="readStatus != null">
+        #{readStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -290,6 +297,9 @@
       <if test="record.status != null">
         STATUS = #{record.status,jdbcType=VARCHAR},
       </if>
+      <if test="record.readStatus != null">
+        READ_STATUS = #{record.readStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -313,7 +323,8 @@
       CONFIRM_TIME = #{record.confirmTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{record.beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
-      STATUS = #{record.status,jdbcType=VARCHAR}
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      READ_STATUS = #{record.readStatus,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -369,6 +380,9 @@
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="readStatus != null">
+        READ_STATUS = #{readStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
@@ -389,10 +403,10 @@
       CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
       BEGIN_TIME = #{beginTime,jdbcType=TIMESTAMP},
       END_TIME = #{endTime,jdbcType=TIMESTAMP},
-      STATUS = #{status,jdbcType=VARCHAR}
+      STATUS = #{status,jdbcType=VARCHAR},
+      READ_STATUS = #{readStatus,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
-
   <select id="querySalesData" resultType="java.util.Map">
       SELECT
       DATE_FORMAT(t1.create_time, '%m-%d') AS name,
@@ -439,4 +453,16 @@
     </if>
     t1 LEFT JOIN ms_roominfo t2 on t1.RID = t2.ID where t2.MID = #{mid}
   </select>
+  <select id="getUnreadOrderCount" resultType="java.lang.Integer">
+    SELECT count(1) FROM `ms_order` t1
+    LEFT JOIN
+    ms_roominfo t2
+    on t1.RID = t2.ID
+    where t2.MID = 8
+    AND t1.READ_STATUS = 'N'
+    AND t1.STATUS = 'WR'
+  </select>
+  <update id="doUpdateReadStatus">
+    UPDATE ms_order t1 set t1.READ_STATUS = "Y" WHERE RID in(SELECT ID from ms_roominfo where MID = #{mid}) AND t1.STATUS = 'WR'
+  </update>
 </mapper>

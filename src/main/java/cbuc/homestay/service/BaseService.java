@@ -72,7 +72,7 @@ public class BaseService {
         return dataMap;
     }
 
-    public Map<String, Object> getLastData(Long mid,String type) {
+    public Map<String, Object> getLastData(Long mid, String type) {
         Comment comment = commentService.queryLast(mid);
         if (!Objects.isNull(comment)) {
             User user = userService.queryDetail(comment.getCommentor());
@@ -83,7 +83,7 @@ public class BaseService {
             RoomInfo roomInfo = roomInfoService.queryDetail(order.getRid());
             order.setRoomInfo(roomInfo);
         }
-        Message message = messageService.queryLast(mid,type);
+        Message message = messageService.queryLast(mid, type);
         if (!Objects.isNull(message)) {
             Merchant merchant = merchantService.queryDetail(message.getSendId());
             message.setSendName(merchant.getMname());
@@ -106,7 +106,7 @@ public class BaseService {
         int maxDate = a.get(Calendar.DATE);
         String beginTime = Time + "-01";
         String endTime = Time + "-" + maxDate;
-        List<Map<String, Object>> datas = orderService.querySalesData(mid,beginTime, endTime);
+        List<Map<String, Object>> datas = orderService.querySalesData(mid, beginTime, endTime);
         int index = 0;
         if (datas.isEmpty()) {
             for (int i = 1; i <= maxDate; i++) {
@@ -142,5 +142,27 @@ public class BaseService {
             datas.add(data);
         }
         return datas;
+    }
+
+    public List<Map<String, Object>> getTodayAndYesterdayData(Long mid) {
+        Map<String, Object> todayDataMap = orderService.getTodayData(mid, 0);
+        Map<String, Object> yesterdayDataMap = orderService.getTodayData(mid, -1);
+        List<Map<String, Object>> data = new ArrayList<>();
+        data.add(todayDataMap);
+        data.add(yesterdayDataMap);
+        return data;
+
+    }
+
+    public Map<String, Object> getTotalCountAndPrice(Long mid) {
+        return orderService.getTotalCountAndPrice(mid);
+    }
+
+    public Integer getCurrentMonthUserCount(Long mid) {
+        return orderService.getUserCount(true,mid);
+    }
+
+    public Integer getTotalUserCount(Long mid) {
+        return orderService.getUserCount(false,mid);
     }
 }

@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -97,30 +98,41 @@ public class MerchantRoomController {
 
     @ResponseBody
     @RequestMapping("/doSaveRoom")
-    public Object doSaveRoom(@RequestParam("myFiles") MultipartFile[] myFiles,
+    public Object doSaveRoom(@RequestParam(value = "myFiles", required = false) MultipartFile[] myFiles,
+                             @RequestParam(value = "image0", required = false) MultipartFile image0,
                              @RequestParam("roomInfo") String roomInfo,
+                             @RequestParam(value = "mid", required = false) Long mid,
                              HttpSession session) {
         Long rid;
         try {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+            Long merchantId;
+            if (Objects.isNull(merchant)) {
+                merchantId = mid;
+            } else {
+                merchantId = merchant.getId();
+            }
             RoomInfoEvt roomInfoEvt = JSON.parseObject(roomInfo, RoomInfoEvt.class);
-            rid = roomInfoService.doSaveRoomInfo(roomInfoEvt, merchant.getId(), roomInfoEvt.getId());
-            for (MultipartFile myFile : myFiles) {
-                byte[] bytes = myFile.getBytes();
-                String imageName = UUID.randomUUID().toString();
-                try {
-                    String url = QiniuCloudUtil.put64image(bytes, imageName);
-                    Image image = Image.builder().parentId(rid).url(url).origin("ROOM").build();
-                    imageService.doAdd(image);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            rid = roomInfoService.doSaveRoomInfo(roomInfoEvt, merchantId, roomInfoEvt.getId());
+            if (null != myFiles && myFiles.length > 0) {
+                for (MultipartFile myFile : myFiles) {
+                    byte[] bytes = myFile.getBytes();
+                    String imageName = UUID.randomUUID().toString();
+                    try {
+                        String url = QiniuCloudUtil.put64image(bytes, imageName);
+                        Image image = Image.builder().parentId(rid).url(url).origin("ROOM").build();
+                        imageService.doAdd(image);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
         } catch (Exception e) {
             rid = null;
-            return Result.error("房源发布失败,请重新尝试");
+            return Result.error("操作异常,请重新尝试");
         }
-        return rid == null ? Result.error("房源发布失败,请重新尝试") : Result.success();
+        return rid == null ? Result.error("操作异常,请重新尝试") : Result.success(rid);
     }
 
     @ApiOperation("获取房源图片")
@@ -130,7 +142,7 @@ public class MerchantRoomController {
         if (rid != null) {
             List<Image> imageList = imageService.queryList(Image.builder().parentId(rid).origin("ROOM").status("E").build());
             return Result.success(imageList);
-        }else{
+        } else {
             return Result.success(null);
         }
 

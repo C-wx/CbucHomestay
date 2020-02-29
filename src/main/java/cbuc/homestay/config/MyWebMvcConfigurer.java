@@ -49,8 +49,9 @@ public class MyWebMvcConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/merchant/**")
                 .addPathPatterns("/admin/**")
-                .addPathPatterns(Arrays.asList("/home/**", "toModPwd", "uploadImg", "sendMsg", "toMsgHistory", "toMessageCenter", "msgCenterPage", "checkReadStatus"))
+                .addPathPatterns(Arrays.asList("/home/**", "/toModPwd", "/uploadImg", "/sendMsg", "/toMsgHistory", "/toMessageCenter", "/msgCenterPage", "/checkReadStatus"))
                 .excludePathPatterns("/toLogin", "/image/code", "/doLogin", "/getMsgCode", "/doForget")
+                .excludePathPatterns("/merchant/getRoomImage","/merchant/doSaveRoom","/merchant/delImage")
                 .excludePathPatterns("/static/**", "/js/**", "/css/**", "/img/**", "/plugins/**", "/vendor/**", "/error/**", "/image/**", "/upfiles/**");
     }
 }

@@ -2,23 +2,29 @@ package cbuc.homestay.controller.foreCenter;
 
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.*;
+import cbuc.homestay.evt.RoomInfoEvt;
 import cbuc.homestay.mapper.PropertyMapper;
 import cbuc.homestay.service.*;
+import cbuc.homestay.utils.QiniuCloudUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @Explain: 小程序端房间控制器
@@ -62,7 +68,7 @@ public class ForeRoomController {
                              String title, String type, String keyWord,
                              Long beginTime, Long endTime,
                              @RequestParam(value = "merchantId", required = false) Long merchantId,
-                             @RequestParam(value = "status", required = false) String status){
+                             @RequestParam(value = "status", required = false) String status) {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             RoomInfo room = new RoomInfo().builder().auditStatus("SA").build();
@@ -204,4 +210,51 @@ public class ForeRoomController {
         List<Favorite> favoriteList = roomInfoService.queryHotRoom();
         return Result.success(favoriteList);
     }
+
+    @ApiOperation("获取房源信息")
+    @ResponseBody
+    @RequestMapping("/getRoomDetail")
+    public Object getRoomDetail(@RequestParam(value = "rid", required = false) Long rid) {
+        RoomInfo roomInfo = roomInfoService.queryDetail(rid);
+        List<Image> images = imageService.queryList(Image.builder().parentId(rid).origin("ROOM").status("E").build());
+        roomInfo.setImages(images);
+        RoomInfoEvt roomInfoEvt = new RoomInfoEvt();
+        BeanUtils.copyProperties(roomInfo, roomInfoEvt);
+        return Result.success(roomInfoEvt);
+    }
+
+    @ResponseBody
+    @RequestMapping("doSaveRoomImages")
+    public Object doSaveRoomImages(@RequestParam(value = "file", required = false) MultipartFile file,
+                                   @RequestParam(value = "rid", required = false) Long rid) {
+        Image image = Image.builder().parentId(rid).origin("ROOM").build();
+        try {
+            byte[] bytes = file.getBytes();
+            String imageName = UUID.randomUUID().toString();
+            try {
+                String url = QiniuCloudUtil.put64image(bytes, imageName);
+                image.setUrl(url);
+                log.info("上传地址为----：" + url);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            return Result.error("上传图片异常");
+        }
+        int res = imageService.doAdd(image);
+        return res > 0 ? Result.success("上传成功") : Result.error("图片上传异常");
+    }
+
+    @ResponseBody
+    @RequestMapping("/doOpeRoom")
+    public Object doOpeRoom(RoomInfo roomInfo) {
+        int res;
+        if ("DELETE".equals(roomInfo.getStatus())) {
+            res = roomInfoService.doDel(roomInfo);
+        } else {
+            res = roomInfoService.doEdit(roomInfo);
+        }
+        return res > 0 ? Result.success() : Result.error("操作异常");
+    }
+
 }

@@ -2,6 +2,7 @@ package cbuc.homestay.service;
 
 import cbuc.homestay.bean.*;
 import cbuc.homestay.evt.RoomInfoEvt;
+import cbuc.homestay.mapper.ImageMapper;
 import cbuc.homestay.mapper.PropertyMapper;
 import cbuc.homestay.mapper.RoomInfoMapper;
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +27,9 @@ public class RoomInfoService {
 
     @Autowired
     private RoomInfoMapper roomInfoMapper;
+
+    @Autowired
+    private ImageMapper imageMapper;
 
     @Autowired
     private PropertyMapper propertyMapper;
@@ -167,5 +171,23 @@ public class RoomInfoService {
             list.add(favorite);
         });
         return list;
+    }
+
+    public int doDel(RoomInfo roomInfo) {
+        this.doDelImage(roomInfo);
+        this.doDelProperty(roomInfo);
+        return roomInfoMapper.deleteByPrimaryKey(roomInfo.getId());
+    }
+
+    private void doDelImage(RoomInfo roomInfo) {
+        ImageExample imageExample = new ImageExample();
+        imageExample.createCriteria().andParentIdEqualTo(roomInfo.getId()).andOriginEqualTo("ROOM");
+        imageMapper.deleteByExample(imageExample);
+    }
+
+    private void doDelProperty(RoomInfo roomInfo) {
+        PropertyExample propertyExample = new PropertyExample();
+        propertyExample.createCriteria().andRidEqualTo(roomInfo.getId());
+        propertyMapper.deleteByExample(propertyExample);
     }
 }
