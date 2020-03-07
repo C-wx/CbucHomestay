@@ -32,11 +32,14 @@ layui.define(["form", "table", "element"], function (exports) {
             }
             ,
             {
-                field: 'content'
+                field: 'ccc'
                 , title: '资讯内容'
                 , align: 'center'
                 , width: 232
                 , event: 'detail'
+                , templet: (d) => {
+                    return "<div style='color: red'>点击预览</div>"
+                }
             }
             , {
                 field: 'createTime'

@@ -34,6 +34,8 @@ public class Order {
 
     private String comment;
 
+    private String readStatus;
+
     private Date createTime;
 
     private Date updateTime;
