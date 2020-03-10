@@ -15,11 +15,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -53,8 +52,9 @@ public class AdminNewsController {
                                  @RequestParam(value = "size", defaultValue = "10") Integer size,
                                  @RequestParam(value = "sort", defaultValue = "id") String sort,
                                  @RequestParam(value = "order", defaultValue = "desc") String order,
-                                 String content) {
+                                 String content, HttpSession session) {
         try {
+            Merchant login_merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             News news = new News();
             if (StringUtils.isNotBlank(content)) {
@@ -62,6 +62,11 @@ public class AdminNewsController {
             }
             List<News> newsList = newsService.queryList(news);
             newsList.stream().forEach(nl -> {
+                if (nl.getPublishId() == login_merchant.getId()) {
+                    nl.setSelf(true);
+                } else {
+                    nl.setSelf(false);
+                }
                 Merchant merchant = merchantService.queryDetail(nl.getPublishId());
                 nl.setPublishName(merchant.getMname());
             });
@@ -76,22 +81,29 @@ public class AdminNewsController {
 
     @ApiOperation("跳转资讯发布界面")
     @GetMapping("/newPublish")
-    public String toNewPublish() {
+    public String toNewPublish(Long id, Model model) {
+        if (id != null) {
+            News news = newsService.queryDetail(id);
+            model.addAttribute("news", news);
+        } else {
+            model.addAttribute("news", new News());
+        }
         return "admin/newPublish";
     }
 
     @ApiOperation("发布资讯")
     @ResponseBody
     @PutMapping("/pubNews")
-    public Object doPubNews(News news/*, String beginTime, String endTime*/, HttpSession session) {
+    public Object doPubNews(News news, HttpSession session) {
         try {
-            DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            /*Date bt= simpleDateFormat.parse(beginTime);
-            Date et= simpleDateFormat.parse(endTime);
-            news.setBeginTime(bt);news.setEndTime(et);*/
-            Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
-            news.setPublishId(merchant.getId());
-            int res = newsService.doAdd(news);
+            int res;
+            if (news.getId() != null) {
+                res = newsService.doEdit(news);
+            } else {
+                Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+                news.setPublishId(merchant.getId());
+                res = newsService.doAdd(news);
+            }
             return res > 0 ? Result.success() : Result.error("发布资讯失败");
         } catch (Exception e) {
             e.printStackTrace();

@@ -42,4 +42,10 @@ public class UserService {
         List<User> userList = userMapper.selectByExample(userExample);
         return userList.size() > 0 ? userList.get(0) : null;
     }
+
+    public int update(User user) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andOpenIdEqualTo(user.getOpenId());
+        return userMapper.updateByExampleSelective(user, userExample);
+    }
 }

@@ -40,7 +40,8 @@ public class CommentService {
             criteria.andOidEqualTo(comment.getOid());
         }
         commentExample.setOrderByClause("ID DESC");
-        return commentMapper.selectByExample(commentExample);
+        List<Comment> commentList = commentMapper.selectByExample(commentExample);
+        return commentList;
     }
 
     public Comment queryDetail(Long rid) {

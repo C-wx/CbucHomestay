@@ -8,6 +8,10 @@ import com.qiniu.util.UrlSafeBase64;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * 七牛云上传文件工具类
@@ -61,5 +65,21 @@ public class QiniuCloudUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static String uploadFile(MultipartFile file) {
+        String url = null;
+        try {
+            byte[] bytes = file.getBytes();
+            String imageName = UUID.randomUUID().toString().substring(0, 8);
+            try {
+                url = QiniuCloudUtil.put64image(bytes, imageName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 }

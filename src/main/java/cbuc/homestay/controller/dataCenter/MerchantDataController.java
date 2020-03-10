@@ -53,6 +53,10 @@ public class MerchantDataController {
         return Result.success(data);
     }
 
+    /**
+     * ======================以下为小程序端接口=======================
+     **/
+
     @ApiOperation("获取今日/昨日销售数据")
     @ResponseBody
     @RequestMapping("/getTodayAndYesterdayData")
@@ -85,7 +89,7 @@ public class MerchantDataController {
     @ResponseBody
     @RequestMapping("/getCustomerList")
     public Object getCustomerList(Long mid) {
-        List<Map<String,Object>> customerList = orderService.getCustomerList(mid);
+        List<Map<String, Object>> customerList = orderService.getCustomerList(mid);
         return Result.success(customerList);
     }
 }

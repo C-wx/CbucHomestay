@@ -27,62 +27,43 @@ layui.define(["form", "table", "element"], function (exports) {
                 field: 'roomInfo.title'
                 , title: '房间名称'
                 , align: 'center'
-                , Width: 193
+                , Width: 299
                 , templet: d => {
-                    return d.roomInfo.title
-                }
-            }
-            , {
-                field: 'user.name'
-                , title: '用户信息'
-                , align: 'center'
-                , width: 140
-                , event: "detail"
-                , templet: d => {
-                    return "<div style='color: #bf997c;cursor: pointer'>查看详情</div>"
+                    return "<div style='color: #4d8493;font-weight: 600;letter-spacing: 2px'>"+d.roomInfo.title+"</div>"
                 }
             }
             , {
                 field: 'orderCode'
                 , title: '订单编号'
                 , align: 'center'
-                , width: 180
-            }
-            , {
-                field: 'beginTime'
-                , title: '入住时间'
-                , align: 'center'
-                , width: 192
-                , templet: (d) => {
-                    return Base.formatDate(d.beginTime, 'yy/MM/dd');
-                }
-            }
-            , {
-                field: 'endTime'
-                , title: '退房时间'
-                , align: 'center'
-                , width: 192
-                , templet: (d) => {
-                    return Base.formatDate(d.endTime, 'yy/MM/dd');
+                , width: 225
+                , templet: d => {
+                    return "<div style='color: #ab7185;letter-spacing: 1px;'>"+d.orderCode+"</div>"
                 }
             }
             , {
                 field: 'dayCount'
                 , title: '入住天数'
                 , align: 'center'
-                , width: 100
+                , width: 149
+                , templet: (d) => {
+                    return "<div style='color: #ab434c;letter-spacing: 1px;'>"+d.dayCount+"天"+"</div>"
+                }
             }
             , {
                 field: 'price'
                 , title: '价钱'
                 , align: 'center'
-                , width: 100
+                , width: 139
+                , templet: (d) => {
+                    return "<div style='color: #f00;font-weight: 800'>"+d.price + "￥"+"</div>"
+                }
             }
             , {
                 field: 'status'
                 , title: '订单状态'
                 , align: 'center'
-                , width: 112
+                , width: 155
                 , templet: d => {
                     let html = '';
                     switch (d.status) {
@@ -112,15 +93,25 @@ layui.define(["form", "table", "element"], function (exports) {
                 field: 'createTime'
                 , title: '创建时间'
                 , align: 'center'
-                , Width: 171
+                , Width: 253
                 , sort: true
                 , templet: (d) => {
                     return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
                 }
             }
             , {
+                field: 'user.name'
+                , title: '订单详情'
+                , align: 'center'
+                , width: 141
+                , event: "detail"
+                , templet: d => {
+                    return "<div style='color: #bf997c;cursor: pointer'>查看详情</div>"
+                }
+            }
+            , {
                 title: '操作'
-                , width: 197
+                , width: 199
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
@@ -177,18 +168,20 @@ layui.define(["form", "table", "element"], function (exports) {
         if (obj.event == 'detail') {         //点击查看内容详情
             layer.open({
                 type: 0
-                , title: '信息详情'
+                , title: '订单详情'
                 , offset: 'auto'
                 , btn:[]
-                , area: ['400px','300px']
+                , area: ['390px','360px']
                 , shadeClose: true
                 , id: 'layerDemo' + data.id
                 , content:
                     '<div style="padding: 20px;">'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住人名称:</span><span style="font-size: 19px">' + data.name + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">联系电话:</span><span style="font-size: 19px">' + data.phone + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">身份证号码:</span><span style="font-size: 19px">' + data.cardno + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">订单留言:</span><span style="font-size: 19px">' + data.comment + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住人名称:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.name + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">联系电话:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.phone + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">身份证号码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.cardno + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">订单留言:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.comment + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + Base.formatDate(data.endTime, 'yyyy/MM/dd') + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">退房时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + Base.formatDate(data.beginTime, 'yyyy/MM/dd') + '</span></div>'+
                     '</div>'
                 , shade: 0.3
                 , anim: 5

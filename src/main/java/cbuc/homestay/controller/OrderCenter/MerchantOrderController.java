@@ -59,7 +59,8 @@ public class MerchantOrderController {
                             @RequestParam(value = "size", defaultValue = "10") Integer size,
                             @RequestParam(value = "sort", defaultValue = "id") String sort,
                             @RequestParam(value = "order", defaultValue = "desc") String order,
-                            String orderCode, HttpSession session, String status, Long mid) {
+                            @RequestParam(value = "status", defaultValue = "%")String status,
+                            String orderCode, HttpSession session, Long mid) {
         try {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小

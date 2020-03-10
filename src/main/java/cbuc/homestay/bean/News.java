@@ -39,6 +39,7 @@ public class News {
     /**--------非表字段-----------*/
     private String publishName;
     private boolean valid;
+    private Boolean self;   //是否是自己发布的
     /**--------------------------*/
 
     public boolean isValid() {

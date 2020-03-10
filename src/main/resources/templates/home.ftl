@@ -43,11 +43,11 @@
                      <#if (msgNum > 0)>
                      <span class="layui-badge-dot"></span>
                      </#if>
-                     <span id="msgNum" style="color: darkred;">
+                        <span id="msgNum" style="color: darkred;">
                      <#if (msgNum > 0)>
                          ${msgNum}
                      </#if>
-                     </span>
+                        </span>
                     </a>
                 </li>
                 <li class="layui-nav-item" lay-unselect style="margin-right: 40px">
@@ -77,7 +77,9 @@
                 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
                     lay-filter="layadmin-system-side-menu">
                     <li data-name="dataStatistic" class="layui-nav-item layui-this" style="padding-top: 45px">
-                        <a href="javascript:;" lay-href=${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/dataCenter')} lay-tips="数据统计" lay-direction="2">
+                        <a href="javascript:;"
+                           lay-href=${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/dataCenter')} lay-tips="数据统计"
+                           lay-direction="2">
                             <i class="layui-icon layui-icon-tabs" style="color: #f7ab8e;"></i>
                             <cite>数据统计</cite>
                         </a>
@@ -124,7 +126,7 @@
                     <#if MLEVEL == 'ADMIN'>
                     <li data-name="news" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="资讯中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-template" style="color: #ffcbd6;"></i>
+                            <i class="layui-icon layui-icon-template" style="color: #f7ab8e;"></i>
                             <cite>资讯中心</cite>
                         </a>
                         <dl class="layui-nav-child">
@@ -161,7 +163,8 @@
                     </li>
                     <#else >
                         <li data-name="comment" class="layui-nav-item">
-                            <a lay-href="/merchant/toCommentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
+                            <a lay-href="/merchant/toCommentManage" href="javascript:;" lay-tips="评论管理"
+                               lay-direction="2">
                                 <i class="layui-icon layui-icon-survey" style="color: #f7ab8e;"></i>
                                 <cite>评论管理</cite>
                             </a>
@@ -196,6 +199,14 @@
                             </a>
                         </li>
                     </#if>
+                    <#if MLEVEL?index_of("ADMIN")== -1>
+                        <li data-name="kefu" class="layui-nav-item">
+                            <a lay-href='/toMerchantInfo' href="javascript:;" lay-tips="客服中心" lay-direction="2">
+                                <i class="layui-icon layui-icon-service" style="color: #f7ab8e;"></i>
+                                <cite>店铺中心</cite>
+                            </a>
+                        </li>
+                    </#if>
                 </ul>
             </div>
         </div>
@@ -213,7 +224,8 @@
         <!-- 主体内容 -->
         <div class="layui-body" id="LAY_app_body">
             <div class="layadmin-tabsbody-item layui-show">
-                <iframe id="LAY_content_iframe" src="${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/dataCenter')}" frameborder="0"
+                <iframe id="LAY_content_iframe" src="${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/dataCenter')}"
+                        frameborder="0"
                         class="layadmin-iframe"></iframe>
             </div>
         </div>

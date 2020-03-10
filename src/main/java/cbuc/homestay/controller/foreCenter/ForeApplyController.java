@@ -8,6 +8,8 @@ import cbuc.homestay.service.ApplyService;
 import cbuc.homestay.service.AuditLogService;
 import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.utils.QiniuCloudUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Explain: 小程序端商家入驻控制器
@@ -28,6 +28,7 @@ import java.util.UUID;
  */
 @Slf4j
 @Controller
+@Api(value = "小程序端商家入驻控制器", description = "处理商家入驻和获取入驻等信息")
 public class ForeApplyController {
 
     @Autowired
@@ -39,44 +40,47 @@ public class ForeApplyController {
     @Autowired
     private AuditLogService auditLogService;
 
+    @ApiOperation("申请商家入驻")
     @ResponseBody
     @RequestMapping("/doApply")
     public Object doApply(@RequestParam(value = "file", required = false) MultipartFile file,
                           Apply apply) {
-        if (file.isEmpty()) {
-            return Result.error("文件不能为空");
-        }
+        int res = 0;
         try {
-            byte[] bytes = file.getBytes();
-            String imageName = UUID.randomUUID().toString();
-            try {
-                String license = QiniuCloudUtil.put64image(bytes, imageName);
-                apply.setMlicense(license);
-                log.info("上传地址为----：" + license);
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (file.isEmpty()) {
+                return Result.error("营业执照不能为空");
             }
-        } catch (IOException e) {
-            return Result.error("上传图片异常");
+            String license = QiniuCloudUtil.uploadFile(file);
+            apply.setMlicense(license);
+            Apply einfo = Apply.builder().openId(apply.getOpenId()).status("D").build();
+            applyService.doDel(einfo);
+            res = applyService.doAdd(apply);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("申请入驻异常");
         }
-        Apply einfo = Apply.builder().openId(apply.getOpenId()).status("D").build();
-        applyService.doDel(einfo);
-        int res = applyService.doAdd(apply);
         return res > 0 ? Result.success() : Result.error();
     }
 
+    @ApiOperation("获取申请入驻信息")
     @ResponseBody
     @RequestMapping("/getApplyDetail")
     public Object getApplyDetail(String openId) {
-        Apply apply = applyService.getApplyDetail(openId);
-        if (!Objects.isNull(apply)) {
-            if ("SA".equals(apply.getAuditStatus())) {
-                Merchant merchant = merchantService.getMerchant(apply.getId());
-                apply.setMerchant(merchant);
-            } else {
-                AuditLog auditLog = auditLogService.queryDetail(apply.getId(), "MERCHANT");
-                apply.setAuditLog(auditLog);
+        Apply apply = null;
+        try {
+            apply = applyService.getApplyDetail(openId);
+            if (!Objects.isNull(apply)) {
+                if ("SA".equals(apply.getAuditStatus())) {
+                    Merchant merchant = merchantService.getMerchant(apply.getId());
+                    apply.setMerchant(merchant);
+                } else {
+                    AuditLog auditLog = auditLogService.queryDetail(apply.getId(), "MERCHANT");
+                    apply.setAuditLog(auditLog);
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("查看入驻信息异常");
         }
         return Result.success(apply);
     }

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
- * @Explain:  管理员之公告控制器
+ * @Explain: 管理员之公告控制器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/13
@@ -49,10 +49,10 @@ public class AdminBulletinController {
     @ResponseBody
     @GetMapping("/bulletinAuditPage")
     public Object bulletinAuditPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
-                               @RequestParam(value = "size", defaultValue = "10") Integer size,
-                               @RequestParam(value = "sort", defaultValue = "id") String sort,
-                               @RequestParam(value = "order", defaultValue = "desc") String order,
-                               String content) {
+                                    @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                    @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                    @RequestParam(value = "order", defaultValue = "desc") String order,
+                                    String content) {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             Bulletin bulletin = new Bulletin();
@@ -60,7 +60,7 @@ public class AdminBulletinController {
                 bulletin.setContent(content);
             }
             List<Bulletin> bulletinList = bulletinService.queryList(bulletin);
-            bulletinList.stream().forEach(bl->{
+            bulletinList.stream().forEach(bl -> {
                 Merchant merchant = merchantService.queryDetail(bl.getPublishId());
                 bl.setPublishName(merchant.getMname());
             });
@@ -79,9 +79,9 @@ public class AdminBulletinController {
     public Object opeBulletin(UserEvt evt) {
         try {
             Bulletin bulletin = new Bulletin();
-            BeanUtils.copyProperties(evt,bulletin);
+            BeanUtils.copyProperties(evt, bulletin);
             int res = bulletinService.doEdit(bulletin);
-            return res>0?Result.success(): Result.error("操作失败");
+            return res > 0 ? Result.success() : Result.error("操作失败");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("操作公告异常");
@@ -103,7 +103,7 @@ public class AdminBulletinController {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
             bulletin.setPublishId(merchant.getId());
             int res = bulletinService.doAdd(bulletin);
-            return res>0?Result.success(bulletin):Result.error("发布公告失败");
+            return res > 0 ? Result.success(bulletin) : Result.error("发布公告失败");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("发布公告异常");
@@ -133,7 +133,7 @@ public class AdminBulletinController {
     public String toBulletinDetail(Long id, Model model) {
         try {
             Bulletin bulletin = bulletinService.queryDetail(id);
-            model.addAttribute("bulletin",bulletin);
+            model.addAttribute("bulletin", bulletin);
             return "bulletinDetail";
         } catch (Exception e) {
             e.printStackTrace();

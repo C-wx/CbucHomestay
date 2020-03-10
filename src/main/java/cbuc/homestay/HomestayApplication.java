@@ -29,11 +29,11 @@ public class HomestayApplication {
 
     private Connector createHTTPConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
-        //同时启用http（8080）、https（8443）两个端口
+        //同时启用http（8080）、https（8866）两个端口
         connector.setScheme("http");
         connector.setSecure(false);
         connector.setPort(8080);
-        connector.setRedirectPort(8443);
+        connector.setRedirectPort(8866);
         return connector;
     }
 }

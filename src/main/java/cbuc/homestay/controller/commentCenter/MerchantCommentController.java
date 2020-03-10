@@ -70,16 +70,19 @@ public class MerchantCommentController {
             }
             comment.setType("1");
             List<Comment> CommentList = commentService.queryList(comment);
+            /**此处理应放在service层，由于管理员端不用调用，因此放在controller层**/
             CommentList.stream().forEach(cl -> {
                 User user = userService.queryDetail(cl.getCommentor());
                 RoomInfo roomInfo = roomInfoService.queryDetail(cl.getRid());
                 cl.setOrigin(roomInfo.getTitle());
-                if (!CollectionUtils.isEmpty(commentService.queryList(Comment.builder().rid(cl.getId()).type("2").status("E").build()))) {
-                    Comment childComment = commentService.queryList(Comment.builder().rid(cl.getId()).type("2").status("E").build()).get(0);
-                    cl.setChildComment(childComment);
+                List<Comment> commentList = commentService.queryList(Comment.builder().rid(cl.getId()).type("2").status("E").build());
+                if (!CollectionUtils.isEmpty(commentList)) {
+                    Comment childComment = commentList.get(0);      //由于只能回复一次，因此取对头便可
+                    cl.setChildComment(childComment);           //设置二级评论
                 }
-                cl.setPublishName(user.getUname());
+                cl.setPublishName(user.getUname());             //设置评论者
             });
+            /**----END----**/
             PageInfo pageInfo = new PageInfo(CommentList, 10);
             return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
         } catch (Exception e) {
@@ -91,14 +94,20 @@ public class MerchantCommentController {
 
     @RequestMapping("/toReply")
     public String toReply(HttpSession session, Model model, Long oid, Long rid) {
-        Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
-        List<Comment> commentList = commentService.queryList(Comment.builder().commentor(merchant.getId()).rid(rid).type("2").oid(oid).build());
-        if (!CollectionUtils.isEmpty(commentList)) {
-            model.addAttribute("comment", commentList.get(0));
+        try {
+            Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+            Comment comment = Comment.builder().commentor(merchant.getId()).rid(rid).type("2").oid(oid).build();
+            List<Comment> commentList = commentService.queryList(comment);
+            if (!CollectionUtils.isEmpty(commentList)) {
+                model.addAttribute("comment", commentList.get(0));
+            }
+            model.addAttribute("commentor", merchant.getId());
+            model.addAttribute("oid", oid);
+            model.addAttribute("rid", rid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("查看评论异常");
         }
-        model.addAttribute("commentor", merchant.getId());
-        model.addAttribute("oid", oid);
-        model.addAttribute("rid", rid);
         return "merchant/reply";
     }
 
@@ -106,10 +115,16 @@ public class MerchantCommentController {
     @ResponseBody
     @RequestMapping("/doReply")
     public Object doReply(Comment comment) {
-        Comment c = commentService.queryDetail(comment.getRid());
-        c.setCommentCount(c.getCommentCount() + 1);
-        commentService.doEdit(c);
-        int res = commentService.doAdd(comment);
+        int res = 0;
+        try {
+            Comment c = commentService.queryDetail(comment.getRid());
+            c.setCommentCount(c.getCommentCount() + 1);
+            commentService.doEdit(c);
+            res = commentService.doAdd(comment);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("评论回复异常");
+        }
         return res > 0 ? Result.success() : Result.error();
     }
 }

@@ -30,11 +30,14 @@ layui.define(["form", "table", "element"], function (exports) {
                 , Width: 186
             }
             , {
-                field: 'origin'
-                , title: '评论房间'
+                field: 'o'
+                , title: '关联订单'
                 , align: 'center'
                 , width: 273
                 , event: 'origin_detail'
+                , templet: d => {
+                    return "<div style='color: #bf997c;cursor: pointer'>查看详情</div>"
+                }
             }
             , {
                 field: 'content'
@@ -42,12 +45,6 @@ layui.define(["form", "table", "element"], function (exports) {
                 , align: 'center'
                 , width: 264
                 , event: 'content_detail'
-            }
-            , {
-                field: 'likeCount'
-                , title: '点赞数'
-                , align: 'center'
-                , width: 155
             }
             , {
                 field: 'commentCount'
@@ -122,7 +119,13 @@ layui.define(["form", "table", "element"], function (exports) {
             var flag = obj.event.split("_")[0];
             var html = '';
             if (flag == 'origin') {
-                html += data.origin;
+                html = '<div style="margin-bottom: 10px"><span style="font-size: 16px;font-weight: 800;margin-right: 28px">订单编码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #ab9b55">' + data.order.orderCode + '</span></div>'
+                html +='<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住人名称:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.name + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">联系电话:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.phone + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">身份证号码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.cardno + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">订单留言:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.comment + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + Base.formatDate(data.order.endTime, 'yyyy/MM/dd') + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">退房时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + Base.formatDate(data.order.beginTime, 'yyyy/MM/dd') + '</span></div>';
             } else {
                 html += data.content;
             }

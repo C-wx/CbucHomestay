@@ -76,13 +76,17 @@ layui.define(["form", "table", "element"], function (exports) {
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
+                    let editHtml = "";
                     var auditHtml = d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="audit">审核</a>'
+                        ? '<a class="layui-btn layui-bg-green layui-btn-sm" lay-event="audit">审核</a>'
                         : '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
                     var ableHtml = d.status == 'E'
                         ? '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>'
                         : '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>';
-                    var totalHtml = auditHtml + ableHtml;
+                    if (d.self) {
+                        editHtml += '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="edit">编辑</a>';
+                    }
+                    var totalHtml = auditHtml + ableHtml + editHtml;
                     return totalHtml;
                 }
             }
@@ -135,7 +139,14 @@ layui.define(["form", "table", "element"], function (exports) {
                 , offset: 'auto'
                 , shadeClose: true
                 , id: 'layerDemo' + data.id
-                , content: '<div style="padding: 20px;">' + data.content + '</div>'
+                , content: '<div style="padding: 20px;">' +
+                    '<div style="color: #475d79;font-size: 18px;font-weight: 800">文章标题：</div>' +
+                    '<div style="color: #993333;text-align: center;font-size: 20px">' + data.title + '</div>' +
+                    '<div style="color: #475d79;font-size: 18px;font-weight: 800">文章摘要：</div>' +
+                    '<div style="color: #b5b5b5;text-align: center;font-size: 16px">' + data.summary + '</div>' +
+                    '<div style="color: #475d79;font-size: 18px;font-weight: 800">文章内容：</div>' +
+                    '<div style="margin-top: 20px">' + data.content + '</div>' +
+                    '</div>'
                 , shade: 0.3
                 , anim: 5
             });
@@ -160,7 +171,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , content: '/admin/toAuditHis?parentId=' + data.id + '&type=NEWS'
             });
         } else if (obj.event == 'disable') {
-            layer.confirm('是否禁用该公告?', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('是否禁用该资讯?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeNews", "POST", {'id': data.id, 'status': 'D'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});
@@ -174,7 +185,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 })
             });
         } else if (obj.event == 'enable') {
-            layer.confirm('是否启用该公告?', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('是否启用该资讯?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeNews", "POST", {'id': data.id, 'status': 'E'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});
@@ -186,6 +197,16 @@ layui.define(["form", "table", "element"], function (exports) {
                         layer.msg(res.msg, {icon: 5, time: 500});
                     }
                 })
+            });
+        } else if (obj.event == 'edit') {
+            layer.open({
+                type: 2
+                , title: '编辑'
+                , shadeClose: true
+                , shade: 0.2
+                , area: ['100%', '100%']
+                , offset: 'auto'
+                , content: '/admin/newPublish?id=' + data.id
             });
         }
     });

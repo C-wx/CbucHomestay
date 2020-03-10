@@ -1,7 +1,9 @@
 package cbuc.homestay.controller.foreCenter;
 
 import cbuc.homestay.base.Result;
+import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.bean.News;
+import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.service.NewsService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,16 @@ public class ForeNewsController {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private MerchantService merchantService;
+
     @ResponseBody
     @RequestMapping("/getNewsList")
     public Object getNewsList(@RequestParam(value = "merchantId", required = false) Long merchantId) {
         News news = News.builder().auditStatus("SA").status("E").build();
         if (merchantId != null) {
             news.setPublishId(merchantId);
-        }else{
+        } else {
             news.setValid(true);
         }
         List<News> newsList = newsService.queryList(news);
@@ -42,6 +47,8 @@ public class ForeNewsController {
     @RequestMapping("/getNewsDetail")
     public Object getNewsDetail(Long id) {
         News news = newsService.queryDetail(id);
+        Merchant merchant = merchantService.queryDetail(news.getPublishId());
+        news.setPublishName(merchant.getMname());
         return Result.success(news);
     }
 

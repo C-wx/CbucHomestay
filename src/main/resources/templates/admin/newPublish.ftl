@@ -24,6 +24,10 @@
 <body>
 <div class="layui-fluid layui-anim layui-anim-scale" style="padding: 30px;">
     <div class="layui-row layui-col-space20 layui-form">
+        <input type="hidden" name="id" value="<#if news.id??>${news.id}</#if>" id="id">
+        <input type="hidden" value="<#if news.beginTime??>${(news.beginTime)?string("yyyy-MM-dd HH:mm:ss")}</#if>"
+               id="begin">
+        <input type="hidden" value="<#if news.endTime??>${(news.endTime)?string("yyyy-MM-dd HH:mm:ss")}</#if>" id="end">
         <div class="layui-col-md9">
             <div class="layui-card">
                 <div class="layui-card-header">
@@ -31,7 +35,7 @@
                 </div>
                 <div class="layui-card-body">
                     <div id="content-editor" style="padding-top: 25px;">
-                        <textarea id="editor" style="display: none;"></textarea>
+                        <textarea id="editor" style="display: none;">${news.content!""}</textarea>
                     </div>
                     <br>
                     <button type="button" class="layui-btn layui-btn-warm layui-btn-radius" lay-submit
@@ -52,6 +56,7 @@
                 <div class="layui-card-body">
                     <div class="layui-form-item">
                         <input type="text" name="title" id="title" required lay-verify="required" placeholder="请输入文章标题"
+                               value="${news.title!""}"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -59,12 +64,13 @@
             <div class="layui-card">
                 <div class="layui-card-header">
                     <strong style="font-size: 18px;font-family: 'kaiti';letter-spacing: 2px">
-                        文章标题
+                        文章摘要
                     </strong>
                 </div>
                 <div class="layui-card-body">
                     <div class="layui-form-item">
-                        <textarea placeholder="请输入文章摘要" name="summary" class="layui-textarea"></textarea>
+                        <textarea placeholder="请输入文章摘要" name="summary" id="summary"
+                                  class="layui-textarea">${news.summary!""}</textarea>
                     </div>
                 </div>
             </div>
@@ -108,17 +114,26 @@
         element.render();
         form.render();
 
+        let beginTime, endTime;
+        console.log($("#bengin").val() != "" && $("#end").val() != "")
+        if ($("#id").val() != "") {
+            beginTime = $("#begin").val()
+            endTime = $("#end").val()
+        } else {
+            beginTime = new Date();
+            endTime = new Date(Date.parse(new Date()) + 100000000);
+        }
         laydate.render({
             elem: '#beginTime',
             type: 'datetime',
-            value: new Date(),
+            value: beginTime,
             min: 0,
             trigger: 'click'
         });
         laydate.render({
             elem: '#endTime',
             type: 'datetime',
-            value: new Date(Date.parse(new Date())+100000000),
+            value: endTime,
             min: 0,
             trigger: 'click'
         });
@@ -181,13 +196,24 @@
             if (content == "") {
                 return layer.msg("发布内容不能为空");
             }
-            Base.ajax("pubNews","PUT" ,data.field , function (res) {
+            Base.ajax("pubNews", "PUT", data.field, function (res) {
                 if (res.code == Base.status.success) {
-                    layer.msg("发布成功",{icon:6,time:500});
-                    setTimeout(function () {
-                        $("#title").val("");
-                        editor.html("");
-                    }, 500)
+                    if ($("#id").val() != "") {
+                        layer.msg("修改成功", {icon: 6, time: 500});
+                        setTimeout(function () {
+                            var index = parent.layer.getFrameIndex(window.name);
+                            parent.layer.close(index);
+                            parent.location.reload();
+                        }, 500)
+                    } else {
+                        layer.msg("发布成功", {icon: 6, time: 500});
+                        setTimeout(function () {
+                            $("#title").val("");
+                            $("#summary").val("");
+                            editor.html("");
+                        }, 500)
+                    }
+
                 } else {
                     layer.msg(res.msg);
                 }

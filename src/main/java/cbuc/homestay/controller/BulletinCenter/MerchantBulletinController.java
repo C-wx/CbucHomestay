@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/merchant")
-@Api(value = "商户端公告中心",description = "展示相关公告")
+@Api(value = "商户端公告中心", description = "展示相关公告")
 public class MerchantBulletinController {
 
     @Autowired
@@ -29,10 +29,10 @@ public class MerchantBulletinController {
 
     @ApiOperation("跳转公告中心页")
     @RequestMapping("/toBulletin")
-    public String toBulletin(Model model){
+    public String toBulletin(Model model) {
         Bulletin bulletin = Bulletin.builder().status("E").build();
         List<Bulletin> bulletinList = bulletinService.queryList(bulletin);
-        model.addAttribute("bulletinList",bulletinList);
+        model.addAttribute("bulletinList", bulletinList);
         return "merchant/bulletin";
     }
 

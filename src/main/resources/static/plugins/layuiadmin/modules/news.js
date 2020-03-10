@@ -81,7 +81,7 @@ layui.define(["form", "table", "element"], function (exports) {
                     let status = '';
                     switch (d.auditStatus) {
                         case "FA":
-                            status+="审核不通过";
+                            status += "审核不通过";
                             break;
                         case "SA":
                             status += "审核通过";
@@ -99,8 +99,12 @@ layui.define(["form", "table", "element"], function (exports) {
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
-                    var html =  '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del">删除</a>'+
-                         '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
+                    console.log(d)
+                    var html = '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="del">删除</a>' +
+                        '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
+                    if (d.self) {
+                        html += '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="edit">编辑</a>';
+                    }
                     return html;
                 }
             }
@@ -153,7 +157,14 @@ layui.define(["form", "table", "element"], function (exports) {
                 , offset: 'auto'
                 , shadeClose: true
                 , id: 'layerDemo' + data.id
-                , content: '<div style="padding: 20px;">' + data.content + '</div>'
+                , content: '<div style="padding: 20px;">' +
+                    '<div style="color: #475d79;font-size: 18px;font-weight: 800">文章标题：</div>' +
+                    '<div style="color: #993333;text-align: center;font-size: 20px">' + data.title + '</div>' +
+                    '<div style="color: #475d79;font-size: 18px;font-weight: 800">文章摘要：</div>' +
+                    '<div style="color: #b5b5b5;text-align: center;font-size: 16px">' + data.summary + '</div>' +
+                    '<div style="color: #475d79;font-size: 18px;font-weight: 800">文章内容：</div>' +
+                    '<div style="margin-top: 20px">' + data.content + '</div>' +
+                    '</div>'
                 , shade: 0.3
                 , anim: 5
             });
@@ -180,6 +191,16 @@ layui.define(["form", "table", "element"], function (exports) {
                 , area: ['742px', '350px']
                 , offset: 'auto'
                 , content: '/admin/toAuditHis?parentId=' + data.id + '&type=NEWS'
+            });
+        } else if (obj.event == 'edit') {
+            layer.open({
+                type: 2
+                , title: '编辑'
+                , shadeClose: true
+                , shade: 0.2
+                , area: ['100%', '100%']
+                , offset: 'auto'
+                , content: '/admin/newPublish?id=' + data.id
             });
         }
     });
