@@ -1,5 +1,6 @@
 package cbuc.homestay.controller.foreCenter;
 
+import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.AuditLog;
@@ -11,6 +12,7 @@ import cbuc.homestay.utils.QiniuCloudUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,9 +52,11 @@ public class ForeApplyController {
             if (file.isEmpty()) {
                 return Result.error("营业执照不能为空");
             }
-            String license = QiniuCloudUtil.uploadFile(file);
-            apply.setMlicense(license);
-            Apply einfo = Apply.builder().openId(apply.getOpenId()).status("D").build();
+            if (StringUtils.isNotBlank(file.getOriginalFilename())) {
+                String license = QiniuCloudUtil.uploadFile(file);
+                apply.setMlicense(license);
+            }
+            Apply einfo = Apply.builder().openId(apply.getOpenId()).status(StatusEnum.D.getValue()).build();
             applyService.doDel(einfo);
             res = applyService.doAdd(apply);
         } catch (Exception e) {
@@ -70,7 +74,7 @@ public class ForeApplyController {
         try {
             apply = applyService.getApplyDetail(openId);
             if (!Objects.isNull(apply)) {
-                if ("SA".equals(apply.getAuditStatus())) {
+                if (StatusEnum.SA.getValue().equals(apply.getAuditStatus())) {
                     Merchant merchant = merchantService.getMerchant(apply.getId());
                     apply.setMerchant(merchant);
                 } else {

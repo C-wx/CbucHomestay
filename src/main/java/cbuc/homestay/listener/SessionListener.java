@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 /**
- * @Explain: session监听器(用于监听session的创建销毁)
+ * @Explain: session监听器(用于监听session的创建销毁)   小程序端获取session
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/2/27

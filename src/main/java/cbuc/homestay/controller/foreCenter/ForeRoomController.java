@@ -20,11 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Explain: 小程序端房间控制器
@@ -73,11 +71,12 @@ public class ForeRoomController {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             RoomInfo room = new RoomInfo().builder().auditStatus("SA").build();
             if (StringUtils.isNotBlank(type) && !"undefined".equals(type)) {
-                room.setType(type);
+                room.setType(type);         //根据房源类型查询
             }
             if (StringUtils.isNotBlank(title)) {
-                room.setTitle(title);
+                room.setTitle(title);       //根据房源标题查询
             }
+            /**查询入住时间*/
             if (beginTime != null) {
                 Date bt = new Date(beginTime);
                 room.setBeginTime(bt);
@@ -86,16 +85,17 @@ public class ForeRoomController {
                 Date et = new Date(endTime);
                 room.setEndTime(et);
             }
+            /**---end---**/
             if (null != merchantId) {
-                room.setMid(merchantId);
+                room.setMid(merchantId);        //查询对应商家的店铺
             }
-            if (StringUtils.isNotBlank(status)) {
+            if (StringUtils.isNotBlank(status)) {           //根据房源状态查询
                 room.setStatus(status);
             }
             List<RoomInfo> roomInfoList = roomInfoService.queryList(room);
             roomInfoList.stream().forEach(roomInfo -> {
                 List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
-                roomInfo.setImages(images);
+                roomInfo.setImages(images);         //获取房源的图片信息
             });
             PageInfo pageInfo = new PageInfo(roomInfoList, 10);
             return Result.layuiTable(pageInfo.getTotal(), pageInfo.getList());
@@ -113,7 +113,7 @@ public class ForeRoomController {
         List<RoomInfo> roomInfoList = roomInfoService.queryActiveRoom();
         roomInfoList.stream().forEach(roomInfo -> {
             List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
-            roomInfo.setImages(images);
+            roomInfo.setImages(images);             //获取房源的图片信息
         });
         return Result.success(roomInfoList);
     }
@@ -125,7 +125,7 @@ public class ForeRoomController {
         List<RoomInfo> roomInfoList = roomInfoService.queryTopRoom();
         roomInfoList.stream().forEach(roomInfo -> {
             List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
-            roomInfo.setImages(images);
+            roomInfo.setImages(images);             //获取房源的图片信息
         });
         return Result.success(roomInfoList);
     }
@@ -170,24 +170,30 @@ public class ForeRoomController {
     @ResponseBody
     @RequestMapping("/doLikeRoom")
     public Object doLikeRoom(RoomInfo roomInfo, String openId) {
-        Favorite fe = favoriteService.queryDetail(roomInfo.getId(), openId);
-        Favorite favorite = Favorite.builder().rid(roomInfo.getId()).openId(openId).build();
-        if (roomInfo.getLikeCount() > 0) {
-            if (Objects.isNull(fe)) {
-                favoriteService.doAdd(favorite);
+        int res = 0;
+        try {
+            Favorite fe = favoriteService.queryDetail(roomInfo.getId(), openId);
+            Favorite favorite = Favorite.builder().rid(roomInfo.getId()).openId(openId).build();
+            if (roomInfo.getLikeCount() > 0) {
+                if (Objects.isNull(fe)) {
+                    favoriteService.doAdd(favorite);
+                } else {
+                    favorite.setStatus("E");
+                    favoriteService.doEdit(favorite);
+                }
             } else {
-                favorite.setStatus("E");
-                favoriteService.doEdit(favorite);
+                if (Objects.nonNull(fe)) {
+                    favorite.setStatus("D");
+                    favoriteService.doEdit(favorite);
+                }
             }
-        } else {
-            if (Objects.nonNull(fe)) {
-                favorite.setStatus("D");
-                favoriteService.doEdit(favorite);
-            }
+            RoomInfo ri = roomInfoService.queryDetail(roomInfo.getId());
+            ri.setLikeCount(ri.getLikeCount() + roomInfo.getLikeCount());
+            res = roomInfoService.doEdit(ri);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("点赞房源异常");
         }
-        RoomInfo ri = roomInfoService.queryDetail(roomInfo.getId());
-        ri.setLikeCount(ri.getLikeCount() + roomInfo.getLikeCount());
-        int res = roomInfoService.doEdit(ri);
         return res > 0 ? Result.success() : Result.error();
     }
 
@@ -223,36 +229,37 @@ public class ForeRoomController {
         return Result.success(roomInfoEvt);
     }
 
+    @ApiOperation("保存房源图片")
     @ResponseBody
     @RequestMapping("doSaveRoomImages")
     public Object doSaveRoomImages(@RequestParam(value = "file", required = false) MultipartFile file,
                                    @RequestParam(value = "rid", required = false) Long rid) {
         Image image = Image.builder().parentId(rid).origin("ROOM").build();
-        try {
-            byte[] bytes = file.getBytes();
-            String imageName = UUID.randomUUID().toString();
-            try {
-                String url = QiniuCloudUtil.put64image(bytes, imageName);
+        if (file != null) {
+            if (StringUtils.isNotBlank(file.getOriginalFilename())) {
+                String url = QiniuCloudUtil.uploadFile(file);
                 image.setUrl(url);
-                log.info("上传地址为----：" + url);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        } catch (IOException e) {
-            return Result.error("上传图片异常");
         }
         int res = imageService.doAdd(image);
         return res > 0 ? Result.success("上传成功") : Result.error("图片上传异常");
     }
 
+    @ApiOperation("操作房源信息")
     @ResponseBody
     @RequestMapping("/doOpeRoom")
     public Object doOpeRoom(RoomInfo roomInfo) {
         int res;
-        if ("DELETE".equals(roomInfo.getStatus())) {
-            res = roomInfoService.doDel(roomInfo);
-        } else {
-            res = roomInfoService.doEdit(roomInfo);
+        try {
+            if ("DELETE".equals(roomInfo.getStatus())) {
+                res = roomInfoService.doDel(roomInfo);
+            } else {
+                res = roomInfoService.doEdit(roomInfo);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            res = 0;
+            log.info("操作房源异常");
         }
         return res > 0 ? Result.success() : Result.error("操作异常");
     }

@@ -79,6 +79,7 @@ public class ForeOrderController {
         return Result.success(orderList);
     }
 
+    @ApiOperation("操作订单")
     @ResponseBody
     @RequestMapping("/doOpeOrder")
     public Object doOpeOrder(String status, Long id) {

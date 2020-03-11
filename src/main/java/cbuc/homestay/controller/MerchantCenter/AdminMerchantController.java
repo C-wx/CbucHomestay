@@ -1,25 +1,24 @@
 package cbuc.homestay.controller.MerchantCenter;
 
-import cbuc.homestay.CommonEnum.LevelEnum;
-import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
-import cbuc.homestay.bean.*;
+import cbuc.homestay.bean.Apply;
+import cbuc.homestay.bean.AuditLog;
+import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.evt.UserEvt;
-import cbuc.homestay.service.*;
-import cbuc.homestay.utils.SendMessageUtil;
+import cbuc.homestay.service.ApplyService;
+import cbuc.homestay.service.AuditLogService;
+import cbuc.homestay.service.MerchantService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,22 +37,10 @@ public class AdminMerchantController {
     private ApplyService applyService;
 
     @Autowired
-    private ImageService imageService;
-
-    @Autowired
     private AuditLogService auditLogService;
 
     @Autowired
     private MerchantService merchantService;
-
-    @Autowired
-    private BulletinService bulletinService;
-
-    @Autowired
-    private NewsService newsService;
-
-    @Autowired
-    private RoomInfoService roomInfoService;
 
     @ApiOperation("跳转数据统计页面")
     @GetMapping("/dataStatistic")
@@ -71,10 +58,10 @@ public class AdminMerchantController {
     @ResponseBody
     @GetMapping("/merchantApplyPage")
     public Object merchantApplyPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
-                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                              @RequestParam(value = "sort", defaultValue = "id") String sort,
-                              @RequestParam(value = "order", defaultValue = "desc") String order,
-                              String title) {
+                                    @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                    @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                    @RequestParam(value = "order", defaultValue = "desc") String order,
+                                    String title) {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             List<Apply> auditList = applyService.queryList(title);
@@ -101,34 +88,10 @@ public class AdminMerchantController {
     public Object doAudit(AuditLog auditLog) {
         try {
             int res = auditLogService.doAdd(auditLog);
-            switch (auditLog.getType()) {
-                case "MERCHANT":            //审核商家
-                    Apply apply = applyService.queryDetail(auditLog.getParentId());
-                    apply.setAuditStatus(auditLog.getAuditStatus());
-                    applyService.doEdit(apply);
-                    if (StatusEnum.SA.getValue().equals(auditLog.getAuditStatus())) {   //审核通过才建立商户信息
-                        Merchant merchant = new Merchant();
-                        BeanUtils.copyProperties(apply,merchant);
-                        String maccount = SendMessageUtil.getRandomCode(4)+"66";
-                        String mpwd = SendMessageUtil.getRandomCode(6);
-                        merchant.setAuditId(apply.getId());
-                        merchant.setMaccount(maccount);
-                        merchant.setMpwd(mpwd);
-                        merchant.setMlevel(LevelEnum.NORMAL.getValue());
-                        merchant.setCreateTime(new Date());
-                        merchantService.doAdd(merchant);
-                    }
-                    break;
-                case "NEWS":
-                    News news = News.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
-                    newsService.doEdit(news);
-                case "ROOM":
-                    RoomInfo roomInfo = RoomInfo.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
-                    roomInfoService.doEdit(roomInfo);
-            }
+            auditLogService.doAudit(auditLog);      //审核操作
             if (res > 0) {
                 return Result.success();
-            }else {
+            } else {
                 return Result.error("审核失败");
             }
         } catch (BeansException e) {
@@ -141,8 +104,8 @@ public class AdminMerchantController {
     @ApiOperation("弹出审核历史模态框")
     @GetMapping("/toAuditHis")
     public String toAuditHis(String parentId, String type, Model model) {
-        List<AuditLog> auditLogs = auditLogService.queryList(Long.valueOf(parentId),type);
-        model.addAttribute("auditLogs",auditLogs);
+        List<AuditLog> auditLogs = auditLogService.queryList(Long.valueOf(parentId), type);
+        model.addAttribute("auditLogs", auditLogs);
         return "admin/auditHistory";
     }
 
@@ -156,14 +119,14 @@ public class AdminMerchantController {
     @ResponseBody
     @GetMapping("/merchantPage")
     public Object merchantPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
-                              @RequestParam(value = "size", defaultValue = "10") Integer size,
-                              @RequestParam(value = "sort", defaultValue = "id") String sort,
-                              @RequestParam(value = "order", defaultValue = "desc") String order,
-                              String title) {
+                               @RequestParam(value = "size", defaultValue = "10") Integer size,
+                               @RequestParam(value = "sort", defaultValue = "id") String sort,
+                               @RequestParam(value = "order", defaultValue = "desc") String order,
+                               String title) {
         try {
             PageHelper.startPage(pn, size, sort + " " + order);     //pn:页码  10：页大小
             List<Merchant> merchantList = merchantService.queryList(title);
-            merchantList.stream().forEach(ml->{
+            merchantList.stream().forEach(ml -> {
                 Apply apply = applyService.queryDetail(ml.getAuditId());
                 ml.setApply(apply);
             });
@@ -182,12 +145,11 @@ public class AdminMerchantController {
     public Object opeMerchant(UserEvt evt) {
         try {
             int res = merchantService.doEdit(evt);
-            return res>0?Result.success(): Result.error("操作失败");
+            return res > 0 ? Result.success() : Result.error("操作失败");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("操作商户异常");
             return Result.error("操作商户异常");
         }
-
     }
 }

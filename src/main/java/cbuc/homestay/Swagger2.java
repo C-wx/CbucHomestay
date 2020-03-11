@@ -30,7 +30,7 @@ public class Swagger2 {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Cbuc")
-                .description("-----------------北墘民宿搭建，持续更新中...-----------------")
+                .description("-----------------北墘民宿-----------------")
                 .contact("@Cbuc")
                 .build();
     }

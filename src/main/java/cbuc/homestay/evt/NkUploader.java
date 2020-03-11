@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Explain    富文本上传组件返回的json实体类
+ * @Explain 富文本上传组件返回的json实体类
  * @Author Cbuc
  * @Version 1.0
  * @Date 2020/1/1

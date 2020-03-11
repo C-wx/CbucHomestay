@@ -7,6 +7,7 @@ import cbuc.homestay.service.ApplyService;
 import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.utils.QiniuCloudUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.UUID;
 
 /**
  * @Explain:
@@ -37,29 +36,20 @@ public class MerchantController {
     @Autowired
     private ApplyService applyService;
 
+    @ApiOperation("跳转商户信息编辑页")
     @RequestMapping("/toMerchantInfo")
     public String toMerchantInfo() {
         return "merchant/merchantInfo";
     }
 
+    @ApiOperation("修改商户信息")
     @ResponseBody
     @RequestMapping("/doEditInfo")
     public Object doEditInfo(@RequestParam(value = "file", required = false) MultipartFile file, Merchant merchant, HttpSession session) {
         if (file != null) {
             if (StringUtils.isNotBlank(file.getOriginalFilename())) {
-                try {
-                    byte[] bytes = file.getBytes();
-                    String imageName = UUID.randomUUID().toString();
-                    try {
-                        String avatarUrl = QiniuCloudUtil.put64image(bytes, imageName);
-                        merchant.setAvatarUrl(avatarUrl);
-                        log.info("上传地址为----：" + avatarUrl);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (IOException e) {
-                    return Result.error("上传图片异常");
-                }
+                String avatarUrl = QiniuCloudUtil.uploadFile(file);
+                merchant.setAvatarUrl(avatarUrl);
             }
         }
         int res = merchantService.doEdit(merchant);

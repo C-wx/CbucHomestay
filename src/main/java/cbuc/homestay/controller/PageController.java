@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpSession;
 
 /**
- * @Explain:
+ * @Explain: 页面跳转控制器
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/2
@@ -40,12 +40,12 @@ public class PageController {
     @GetMapping("/home/{mlevel}")
     public String toIndex(@PathVariable("mlevel") String mlevel, HttpSession session, Model model) {
         Merchant login_merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
-        String receiveType = login_merchant.getMlevel().equals(LevelEnum.ADMIN.getValue())?LevelEnum.ADMIN.getValue():"MERCHANT";
+        String receiveType = login_merchant.getMlevel().equals(LevelEnum.ADMIN.getValue()) ? LevelEnum.ADMIN.getValue() : "MERCHANT";
         Message message = Message.builder().ifMerchant(true).receiveId(login_merchant.getId()).receiveType(receiveType).readStatus("WR").build();
         int msgNum = messageService.queryList(message).size();
-        model.addAttribute("msgNum",msgNum);
-        model.addAttribute("LOGIN_MERCHANT",login_merchant);
-        model.addAttribute("MLEVEL",mlevel);
+        model.addAttribute("msgNum", msgNum);
+        model.addAttribute("LOGIN_MERCHANT", login_merchant);
+        model.addAttribute("MLEVEL", mlevel);
         return "home";
     }
 

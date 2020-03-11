@@ -71,7 +71,7 @@ public class BaseController {
         message.setReceiveId(message.getReceiveId());
         message.setReceiveType("MERCHANT");
         List<Message> messageList = messageService.queryList(message);
-        model.addAttribute("messageList",messageList);
+        model.addAttribute("messageList", messageList);
         return "msgHistory";
     }
 
@@ -85,21 +85,21 @@ public class BaseController {
     @ResponseBody
     @GetMapping("/msgCenterPage")
     public Object msgCenterPage(@RequestParam(value = "current", defaultValue = "1") Integer pn,
-                                    @RequestParam(value = "size", defaultValue = "10") Integer size,
-                                    @RequestParam(value = "sort", defaultValue = "id") String sort,
-                                    @RequestParam(value = "order", defaultValue = "desc") String order,
-                                    HttpSession session,
-                                    String content) {
+                                @RequestParam(value = "size", defaultValue = "10") Integer size,
+                                @RequestParam(value = "sort", defaultValue = "id") String sort,
+                                @RequestParam(value = "order", defaultValue = "desc") String order,
+                                HttpSession session,
+                                String content) {
         try {
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
-            String receiveType = merchant.getMlevel().equals(LevelEnum.ADMIN.getValue())?LevelEnum.ADMIN.getValue():"MERCHANT";
+            String receiveType = merchant.getMlevel().equals(LevelEnum.ADMIN.getValue()) ? LevelEnum.ADMIN.getValue() : "MERCHANT";
             Message message = Message.builder().receiveId(merchant.getId()).receiveType(receiveType).ifMerchant(true).build();
             if (StringUtils.isNotBlank(content)) {
                 message.setContent(content);
             }
             PageHelper.startPage(pn, size, sort + " " + order);
             List<Message> messageList = messageService.queryList(message);
-            messageList.stream().forEach(ml->{
+            messageList.stream().forEach(ml -> {
                 Merchant mc = merchantService.queryDetail(ml.getSendId());
                 ml.setSendName(mc.getMname());
             });
@@ -112,6 +112,7 @@ public class BaseController {
         }
     }
 
+    @ApiOperation("设置读取状态")
     @ResponseBody
     @RequestMapping("/checkReadStatus")
     public Object checkReadStatus(Message message) {
@@ -123,7 +124,7 @@ public class BaseController {
                 messagei.setIfMerchant(true);
                 int msgNum = messageService.queryList(messagei).size();
                 return Result.success(msgNum);
-            }else {
+            } else {
                 return Result.error("更新状态失败");
             }
         } catch (Exception e) {

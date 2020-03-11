@@ -32,7 +32,7 @@ layui.define(["form", "table", "element"], function (exports) {
             }
             , {
                 field: 'origin'
-                , title: '评论源'
+                , title: '订单编码'
                 , align: 'center'
                 , width: 273
                 , event: 'origin_detail'

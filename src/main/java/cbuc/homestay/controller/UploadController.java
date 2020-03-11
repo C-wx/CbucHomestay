@@ -3,6 +3,7 @@ package cbuc.homestay.controller;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.evt.NkUploader;
 import cbuc.homestay.utils.QiniuCloudUtil;
+import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 @Slf4j
 @RestController
+@Api(value = "上传工具控制器", description = "用于富文本图片上传")
 public class UploadController {
 
     private final HttpServletRequest request;

@@ -20,13 +20,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * @Explain:    发送验证码
+ * @Explain: 发送验证码
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/2
  */
 @Slf4j
-@Api(value = "验证码生成控制器",description = "生成验证码")
+@Api(value = "验证码生成控制器", description = "生成验证码")
 @Controller
 public class KaptchaController {
 

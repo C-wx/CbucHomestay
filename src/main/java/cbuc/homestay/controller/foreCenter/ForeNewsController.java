@@ -6,6 +6,7 @@ import cbuc.homestay.bean.News;
 import cbuc.homestay.service.MerchantService;
 import cbuc.homestay.service.NewsService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,7 @@ public class ForeNewsController {
     @Autowired
     private MerchantService merchantService;
 
+    @ApiOperation("获取资讯列表")
     @ResponseBody
     @RequestMapping("/getNewsList")
     public Object getNewsList(@RequestParam(value = "merchantId", required = false) Long merchantId) {
@@ -43,6 +45,7 @@ public class ForeNewsController {
         return Result.success(newsList);
     }
 
+    @ApiOperation("获取资讯详情")
     @ResponseBody
     @RequestMapping("/getNewsDetail")
     public Object getNewsDetail(Long id) {

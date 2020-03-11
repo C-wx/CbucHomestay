@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * @Explain: 商户端房源控制器
@@ -83,6 +82,7 @@ public class MerchantRoomController {
         }
     }
 
+    @ApiOperation("跳转操作房源页面")
     @RequestMapping("/toOpeRoom")
     public String toOpeRoom(String type,
                             @RequestParam(value = "rid", required = false) Long rid,
@@ -96,6 +96,7 @@ public class MerchantRoomController {
         return "merchant/opeRoom";
     }
 
+    @ApiOperation("操作房源保存")
     @ResponseBody
     @RequestMapping("/doSaveRoom")
     public Object doSaveRoom(@RequestParam(value = "myFiles", required = false) MultipartFile[] myFiles,
@@ -116,18 +117,11 @@ public class MerchantRoomController {
             rid = roomInfoService.doSaveRoomInfo(roomInfoEvt, merchantId, roomInfoEvt.getId());
             if (null != myFiles && myFiles.length > 0) {
                 for (MultipartFile myFile : myFiles) {
-                    byte[] bytes = myFile.getBytes();
-                    String imageName = UUID.randomUUID().toString();
-                    try {
-                        String url = QiniuCloudUtil.put64image(bytes, imageName);
-                        Image image = Image.builder().parentId(rid).url(url).origin("ROOM").build();
-                        imageService.doAdd(image);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    String url = QiniuCloudUtil.uploadFile(myFile);
+                    Image image = Image.builder().parentId(rid).url(url).origin("ROOM").build();
+                    imageService.doAdd(image);
                 }
             }
-
         } catch (Exception e) {
             rid = null;
             return Result.error("操作异常,请重新尝试");
