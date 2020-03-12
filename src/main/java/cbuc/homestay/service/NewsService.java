@@ -41,6 +41,8 @@ public class NewsService {
         if (StringUtils.isNotBlank(news.getAuditStatus())) {
             criteria.andAuditStatusEqualTo(news.getAuditStatus());
         }
+        criteria.andStatusNotEqualTo("D");
+        newsExample.setOrderByClause("id desc");
         return newsMapper.selectByExampleWithBLOBs(newsExample);
     }
 

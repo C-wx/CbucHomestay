@@ -30,12 +30,6 @@ import java.util.Objects;
 @Api(value = "小程序api接口跳转", description = "解决小程序HTTPS问题  (登录)")
 public class AppController {
 
-    @Value("${weixin.appid}")
-    private String appId;
-
-    @Value("${weixin.secret}")
-    private String secret;
-
     @Value("${weixin.grantType}")
     private String grant_type;
 
@@ -50,7 +44,7 @@ public class AppController {
     public Object getJscode2session(User user) {
         try {
             String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" +
-                    appId + "&secret=" + secret + "&js_code=" + user.getJs_code() + "&grant_type=" + grant_type;
+                    user.getAppId() + "&secret=" + user.getSecret() + "&js_code=" + user.getJs_code() + "&grant_type=" + grant_type;
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder().url(url).build();
             Response response;

@@ -73,7 +73,7 @@ public class OrderService {
             });
             criteria.andRidIn(values);
         }
-
+        orderExample.setOrderByClause("id desc");
         return orderMapper.selectByExample(orderExample);
     }
 

@@ -30,4 +30,9 @@ public class User {
 
     private String js_code;
 
+    private String appId;
+
+    private String secret;
+
+    private String loginType;
 }

@@ -435,7 +435,7 @@
       limit 1;
   </select>
   <select id="queryMerOrderList" resultType="cbuc.homestay.bean.Order">
-    SELECT t1.* FROM `ms_order` t1 left join ms_roominfo t2 on t1.RID = t2.ID where t2.MID = #{id} and t1.Status &lt;&gt; 'D' and t1.status like #{status}
+    SELECT t1.* FROM `ms_order` t1 left join ms_roominfo t2 on t1.RID = t2.ID where t2.MID = #{id} and t1.Status &lt;&gt; 'D' and t1.Status &lt;&gt; 'DD' and t1.status like #{status} order by id desc
   </select>
   <select id="getCustomerList" resultType="java.util.Map">
     SELECT t1.OPEN_ID openId, count( 1 ) sales FROM `ms_order` t1 LEFT JOIN ms_roominfo t2 ON t1.RID = t2.ID  WHERE t2.MID = #{id} AND t1.STATUS &lt;&gt; 'DD'  GROUP BY t1.OPEN_ID

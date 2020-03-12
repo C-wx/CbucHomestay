@@ -29,6 +29,7 @@ public class FavoriteService {
         FavoriteExample.Criteria criteria = favoriteExample.createCriteria();
         criteria.andOpenIdEqualTo(openId);
         criteria.andStatusEqualTo("E");
+        favoriteExample.setOrderByClause("id desc");
         return favoriteMapper.selectByExample(favoriteExample);
     }
 

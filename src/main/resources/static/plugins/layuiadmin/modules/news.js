@@ -42,6 +42,21 @@ layui.define(["form", "table", "element"], function (exports) {
                 }
             }
             , {
+                field: 'status'
+                , title: '资讯状态'
+                , align: 'center'
+                , width: 232
+                , templet: (d) => {
+                    let html = "";
+                    if (new Date(d.endTime) < new Date()) {
+                        html += "已过期"
+                    } else {
+                        html += "展示中";
+                    }
+                    return html;
+                }
+            }
+            , {
                 field: 'createTime'
                 , title: '发布时间'
                 , align: 'center'
@@ -58,7 +73,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , Width: 200
                 , sort: true
                 , templet: (d) => {
-                    return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
+                    return Base.formatDate(d.beginTime, 'yy/MM/dd HH:mm:ss');
                 }
             }
             , {
@@ -68,7 +83,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , Width: 200
                 , sort: true
                 , templet: (d) => {
-                    return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
+                    return Base.formatDate(d.endTime, 'yy/MM/dd HH:mm:ss');
                 }
             }
             ,
@@ -169,7 +184,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , anim: 5
             });
         } else if (obj.event == 'del') {                       //点击审核商家
-            layer.confirm('是否禁用该公告?', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('是否禁用该资讯?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeNews", "POST", {'id': data.id, 'status': 'D'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});

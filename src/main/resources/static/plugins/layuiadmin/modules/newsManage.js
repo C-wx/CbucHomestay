@@ -41,13 +41,28 @@ layui.define(["form", "table", "element"], function (exports) {
                 }
             }
             , {
+                field: 'status'
+                , title: '资讯状态'
+                , align: 'center'
+                , width: 232
+                , templet: (d) => {
+                    let html = "";
+                    if (new Date(d.endTime) < new Date()) {
+                        html += "已过期"
+                    } else {
+                        html += "展示中";
+                    }
+                    return html;
+                }
+            }
+            , {
                 field: 'createTime'
                 , title: '申请时间'
                 , align: 'center'
                 , Width: 200
                 , sort: true
                 , templet: (d) => {
-                    return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
+                    return Base.formatDate(d.createTime, 'yyyy/MM/dd HH:mm:ss');
                 }
             }
             , {
@@ -57,7 +72,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , Width: 200
                 , sort: true
                 , templet: (d) => {
-                    return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
+                    return Base.formatDate(d.beginTime, 'yyyy/MM/dd HH:mm:ss');
                 }
             }
             , {
@@ -67,7 +82,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , Width: 200
                 , sort: true
                 , templet: (d) => {
-                    return Base.formatDate(d.createTime, 'yy/MM/dd HH:mm:ss');
+                    return Base.formatDate(d.endTime, 'yyyy/MM/dd HH:mm:ss');
                 }
             }
             , {
@@ -80,9 +95,7 @@ layui.define(["form", "table", "element"], function (exports) {
                     var auditHtml = d.auditStatus == 'WA'
                         ? '<a class="layui-btn layui-bg-green layui-btn-sm" lay-event="audit">审核</a>'
                         : '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
-                    var ableHtml = d.status == 'E'
-                        ? '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>'
-                        : '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>';
+                    var ableHtml = '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">删除</a>';
                     if (d.self) {
                         editHtml += '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="edit">编辑</a>';
                     }
@@ -171,22 +184,8 @@ layui.define(["form", "table", "element"], function (exports) {
                 , content: '/admin/toAuditHis?parentId=' + data.id + '&type=NEWS'
             });
         } else if (obj.event == 'disable') {
-            layer.confirm('是否禁用该资讯?', {icon: 3, title: '提示'}, function (index) {
+            layer.confirm('是否删除该资讯?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeNews", "POST", {'id': data.id, 'status': 'D'}, (res) => {
-                    if (res.code === Base.status.success) {
-                        layer.msg("操作成功", {icon: 6, time: 800});
-                        setTimeout(() => {
-                            layer.close(index);
-                            $(".layui-icon-refresh").click();
-                        }, 800)
-                    } else {
-                        layer.msg(res.msg, {icon: 5, time: 500});
-                    }
-                })
-            });
-        } else if (obj.event == 'enable') {
-            layer.confirm('是否启用该资讯?', {icon: 3, title: '提示'}, function (index) {
-                Base.ajax("/admin/opeNews", "POST", {'id': data.id, 'status': 'E'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});
                         setTimeout(() => {

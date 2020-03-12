@@ -80,9 +80,11 @@ public class AuditLogService {
             case "NEWS":            //审核资讯
                 News news = News.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
                 newsService.doEdit(news);
+                break;
             case "ROOM":            //审核房源
                 RoomInfo roomInfo = RoomInfo.builder().id(auditLog.getParentId()).auditStatus(auditLog.getAuditStatus()).build();
                 roomInfoService.doEdit(roomInfo);
+                break;
         }
     }
 }
