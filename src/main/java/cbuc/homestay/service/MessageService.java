@@ -68,8 +68,12 @@ public class MessageService {
         return messageMapper.queryLast(mid, type);
     }
 
-    public List<Message> getList(Message message) {
-        return messageMapper.getList(message);
+    public List<Message> getPullList(Message message) {
+        return messageMapper.getPullList(message);
+    }
+
+    public List<Message> getPushList(Message message) {
+        return messageMapper.getPushList(message);
     }
 
     public List<Message> queryChatList(Long id, Long mId) {

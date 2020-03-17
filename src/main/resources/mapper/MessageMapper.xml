@@ -91,7 +91,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from ms_message
     where ID = #{id,jdbcType=BIGINT}
@@ -293,8 +293,38 @@
     where ID = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="getList" resultType="cbuc.homestay.bean.Message">
-     SELECT RECEIVE_ID,MIN(CONTENT) content,MAX(CREATE_TIME) createTime FROM `ms_message` where SEND_ID = #{message.sendId} and SEND_TYPE = #{message.sendType} and status != "D" GROUP BY RECEIVE_ID;
+  <select id="getPullList" resultType="cbuc.homestay.bean.Message">
+    SELECT t3.*,
+    ( SELECT count( 1 ) FROM ms_message WHERE RECEIVE_ID = #{message.receiveId} AND RECEIVE_TYPE = #{message.receiveType} AND STATUS != "D" AND READ_STATUS = 'WR' ) unreadCount
+    from (SELECT
+	    max( ID ) ID
+    FROM
+        ms_message t1
+    WHERE
+        t1.RECEIVE_ID = #{message.receiveId}
+        AND t1.RECEIVE_TYPE = #{message.receiveType}
+        AND t1.STATUS != "D"
+    GROUP BY
+	  SEND_ID) t2 LEFT JOIN ms_message t3 on t2.ID = t3.ID
+  </select>
+
+  <select id="getPushList" resultType="cbuc.homestay.bean.Message">
+  SELECT
+      t3.*
+  FROM
+      (
+  SELECT
+      max( ID ) ID
+  FROM
+      ms_message t1
+  WHERE
+      t1.SEND_ID = #{message.sendId}
+      AND t1.SEND_TYPE = #{message.sendType}
+      AND t1.STATUS != "D"
+  GROUP BY
+      SEND_ID
+      ) t2
+      LEFT JOIN ms_message t3 ON t2.ID = t3.ID
   </select>
 
   <select id="getKefuList" resultType="cbuc.homestay.bean.Message">

@@ -37,7 +37,8 @@ public class Message {
     private String receiveName;
     private String isSelf;
     private boolean ifMerchant;
-    private String avatarUrl;
+    private String avatarUrl;       //头像
+    private Integer unreadCount;    //未读数量
     /**----------------------------*/
 
     public Long getId() {
@@ -160,5 +161,13 @@ public class Message {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public Integer getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(Integer unreadCount) {
+        this.unreadCount = unreadCount;
     }
 }

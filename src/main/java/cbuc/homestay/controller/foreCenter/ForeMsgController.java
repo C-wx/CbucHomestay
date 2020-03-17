@@ -47,14 +47,24 @@ public class ForeMsgController {
         try {
             User user = userService.queryDetail(openId);
             Message message = new Message();
-            message.setSendId(user.getId());
-            message.setSendType("USER");
-            messages = messageService.getList(message);
-            messages.stream().forEach(msg -> {
-                Merchant merchant = merchantService.queryDetail(msg.getReceiveId());
-                msg.setReceiveName(merchant.getMname());
-                msg.setAvatarUrl(merchant.getAvatarUrl());
-            });
+            message.setReceiveId(user.getId());
+            message.setReceiveType("USER");
+            messages = messageService.getPullList(Message.builder().receiveId(user.getId()).receiveType("USER").build());
+            if (messages.size() <= 0 || messages == null) {
+                messages = messageService.getPushList(Message.builder().sendId(user.getId()).sendType("USER").build());
+                messages.stream().forEach(msg -> {
+                    Merchant merchant = merchantService.queryDetail(msg.getReceiveId());
+                    msg.setSendName(merchant.getMname());
+                    msg.setAvatarUrl(merchant.getAvatarUrl());
+                    msg.setSendId(msg.getReceiveId());
+                });
+            } else {
+                messages.stream().forEach(msg -> {
+                    Merchant merchant = merchantService.queryDetail(msg.getSendId());
+                    msg.setSendName(merchant.getMname());
+                    msg.setAvatarUrl(merchant.getAvatarUrl());
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
             log.info("获取消息列表异常");
@@ -77,6 +87,8 @@ public class ForeMsgController {
                 } else {
                     ml.setIsSelf("false");
                     Merchant merchant = merchantService.queryDetail(ml.getSendId());
+                    ml.setReadStatus("YR");
+                    messageService.doEdit(ml);
                     ml.setAvatarUrl(merchant.getAvatarUrl());
                 }
             });
@@ -190,6 +202,23 @@ public class ForeMsgController {
             log.info("发送回复消息异常");
         }
         return res > 0 ? Result.success(message) : Result.error();
+    }
+
+    @ResponseBody
+    @RequestMapping("/home/getUnreadMsg")
+    public Object getUnreadMsg(HttpSession session) {
+        try {
+            Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+            List<Message> messages = messageService.queryList(Message.builder()
+                    .receiveId(merchant.getId())
+                    .receiveType("MERCHANT")
+                    .sendType("USER")
+                    .readStatus("WR").build());
+            return Result.success(messages.size());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Result.error();
     }
 
 }

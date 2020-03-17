@@ -68,6 +68,9 @@
         font-family: kaiti;
         color: #0C0C0C;
     }
+    .layui-layer-setwin>.layui-layer-ico {
+        display: none;
+    }
 </style>
 <script>
     layui.use(['form'], function () {
@@ -76,17 +79,18 @@
                 type: 2
                 , id: 1
                 , title: false
+                , shadeClose: true
                 , zIndex: layer.zIndex
                 , content: '/showChat?uid=' + id
                 , anim: 5
             });
             layer.style(idx, {
-                "width": '400px'
-                , "height": '600px'
+                "width": '700px'
+                , "height": '590px'
                 , "top": '80px'
-                , "left": '600px'
+                , "left": '400px'
                 , "border-radius": '10px'
-                , "background": '#fff'
+                , "background": '#c3c3c3'
             });
         }
     })

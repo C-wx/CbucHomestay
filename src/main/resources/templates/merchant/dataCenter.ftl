@@ -175,7 +175,7 @@
                         </p>
                     </div>
                 <#else >
-                    暂无消息数据
+                     <span style="margin-left: 40%;font-size: 16px;color: #F00;">暂无消息数据</span>
                 </#if>
             </div>
 

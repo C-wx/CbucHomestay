@@ -111,7 +111,8 @@
                         <div class="layui-card-body">
                             <div class="layui-input-inline">
                                 <span style="position: relative;left: 10px;top: 12px;">统计周期:</span>
-                                <input type="text" name="date" id="date" class="layui-input" style="position: relative;left: 100px;top: -20px;">
+                                <input type="text" name="date" id="date" class="layui-input"
+                                       style="position: relative;left: 100px;top: -20px;">
                             </div>
                             <div id="main" style="width: 1000px;height:400px;position: relative;top: -20px;"></div>
                         </div>
@@ -184,22 +185,26 @@
                 <div class="layui-card-header">
                     <strong style="font-size: 20px;font-family: 'kaiti';letter-spacing: 2px">最新消息</strong>
                 </div>
-                <div class="layui-card-body layadmin-takerates">
-                    <p>
-                        <span class="layui-word-aux">用户：</span>
-                        <span>${lastMap.lastMessage.sendName!}</span>
-                    </p>
-                    <hr>
-                    <p style="word-break: break-all;">
-                        <span class="layui-word-aux">留言：</span>
-                        <span>${lastMap.lastMessage.content!}</span>
-                    </p>
-                    <hr>
-                    <p th:inline="text">
-                        <span class="layui-word-aux">时间：</span>
-                        <span>${lastMap.lastMessage.createTime?string('yyyy-MM-dd hh:mm:ss')}</span>
-                    </p>
-                </div>
+                <#if lastMap.lastMessage??>
+                    <div class="layui-card-body layadmin-takerates">
+                        <p>
+                            <span class="layui-word-aux">用户：</span>
+                            <span>${lastMap.lastMessage.sendName!}</span>
+                        </p>
+                        <hr>
+                        <p style="word-break: break-all;">
+                            <span class="layui-word-aux">留言：</span>
+                            <span>${lastMap.lastMessage.content!}</span>
+                        </p>
+                        <hr>
+                        <p th:inline="text">
+                            <span class="layui-word-aux">时间：</span>
+                            <span>${lastMap.lastMessage.createTime?string('yyyy-MM-dd hh:mm:ss')}</span>
+                        </p>
+                    </div>
+                <#else >
+                        <span style="margin-left: 40%;font-size: 16px;color: #F00;">暂无消息数据</span>
+                </#if>
             </div>
 
         </div>

@@ -137,6 +137,15 @@ public class ForeRoomController {
         RoomInfo roomInfo = roomInfoService.queryDetail(id);
         List<Comment> commentList = commentService.queryList(Comment.builder().rid(roomInfo.getId()).type("1").build());    //当前房间的评论列表
         List<Comment> allComment = commentService.getSelfComment(roomInfo.getMid());    //获取当前房东下的所有评论列表
+        commentList.forEach(comment -> {
+            List<Comment> comments = commentService.queryList(Comment.builder().rid(comment.getId()).type("2").build());
+            Comment replyComment = comments.size() > 0 ? comments.get(0) : null;
+            if (!Objects.isNull(replyComment)) {
+                Merchant merchant = merchantService.queryDetail(replyComment.getRid());
+                replyComment.setPublishName(merchant.getMname());
+                comment.setChildComment(replyComment);
+            }
+        });
         List<Image> images = imageService.queryList(Image.builder().parentId(roomInfo.getId()).origin("ROOM").status("E").build());
         PropertyExample propertyExample = new PropertyExample();
         propertyExample.createCriteria().andRidEqualTo(roomInfo.getId()).andStatusEqualTo("E");

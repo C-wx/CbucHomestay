@@ -4,12 +4,10 @@
 <head>
     <meta charset="utf-8">
     <title>北墘小屋</title>
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <script src="${base}/js/jquery-1.11.2.min.js" type="application/javascript"></script>
     <!-- layui -->
     <script src="${base}/plugins/layui/layui.all.js" type="application/javascript"></script>
+    <script src="${base}/js/Base.js"></script>
     <script src="${base}/plugins/layui/layui.js"></script>
     <link rel="stylesheet" href="${base}/plugins/layui/css/layui.css">
     <!-- 客户端-->
@@ -20,6 +18,9 @@
 <body class="layui-layout-body">
 
 <div id="LAY_app">
+
+    <input type="hidden" id="authority" value="${(MLEVEL?index_of('ADMIN')== -1)?string('merchant','admin')}" >
+
     <div class="layui-layout layui-layout-admin">
         <div class="layui-header">
             <!-- 头部区域 -->
@@ -202,7 +203,7 @@
                     <#if MLEVEL?index_of("ADMIN")== -1>
                         <li data-name="kefu" class="layui-nav-item">
                             <a lay-href='/toMerchantInfo' href="javascript:;" lay-tips="客服中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-service" style="color: #f7ab8e;"></i>
+                                <i class="layui-icon layui-icon-chat" style="color: #f7ab8e;"></i>
                                 <cite>店铺中心</cite>
                             </a>
                         </li>
@@ -240,6 +241,41 @@
     }).extend({
         index: 'lib/index' //主入口模块
     }).use('index');
+
+    $(function () {
+        if ($("#authority").val() == 'merchant') {
+            getUnreadMsg();
+            setInterval(()=>{
+                getUnreadMsg()
+            },1000*3)
+        }
+    })
+
+    getUnreadMsg= ()=>{
+        Base.ajax("getUnreadMsg","GET",null,(res)=>{
+            if (res.data > 0) {
+                layer.open({
+                    type: 1
+                    , title: false //不显示标题栏
+                    , closeBtn: false
+                    , offset:  'rb'
+                    , area: ['300px','200px']
+                    , shade: 0
+                    , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    , btn: ['立即前往', '我知道了']
+                    , btnAlign: 'c'
+                    , moveType: 1 //拖拽模式，0或者1
+                    , content: '<div style="padding: 60px 10px;font-size: 18px;letter-spacing: 5px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 800;text-align: center">您有<span style="color: #f00;">'+res.data+'</span>条客服消息待处理</div>'
+                    , success: function (layero) {
+                        var btn = layero.find('.layui-layer-btn');
+                        btn.find('.layui-layer-btn0').attr({
+                            'lay-href':'/toKefuCenter'
+                        });
+                    }
+                });
+            }
+        })
+    }
 </script>
 </body>
 </html>
