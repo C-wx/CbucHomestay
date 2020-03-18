@@ -28,16 +28,19 @@
                 <input type="hidden" name="sendType" value="${sendType!}">
                 <input type="hidden" name="receiveId" value="${receiveId!}">
                 <input type="hidden" name="receiveType" value="${receiveType!}">
+                <input type="hidden" name="originId" value="${originId!}">
                 <div class="layui-form-item">
                     <label><em>*</em>&nbsp;&nbsp;通知人：</label>
                     <div style="margin-left: 85px">
-                        <input type="text" class="layui-input" value="${mName}" disabled style="cursor: not-allowed;background-color: #dedede">
+                        <input type="text" class="layui-input" value="${mName}" disabled
+                               style="cursor: not-allowed;background-color: #dedede">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label><em>*</em>&nbsp;&nbsp;发送时间：</label><br>
                     <div style="margin-left: 85px">
-                        <input type="text" name="createTime" id="date" lay-verify="datetime" placeholder="yyyy-MM-dd HH:mm:ss"
+                        <input type="text" name="createTime" id="date" lay-verify="datetime"
+                               placeholder="yyyy-MM-dd HH:mm:ss"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -71,18 +74,23 @@
             , theme: '#393D49'
             , trigger: 'click'
         });
-        form.on('submit(sendSumbit)', function(data){
-            Base.ajax("/sendMsg","PUT",data.field,(res)=>{
+        form.on('submit(sendSumbit)', function (data) {
+            Base.ajax("/sendMsg", "PUT", data.field, (res) => {
                 if (res.code === Base.status.success) {
-                    layer.msg("操作成功",{icon:6,time:800});
-                    setTimeout(()=>{
+                    layer.msg("操作成功", {icon: 6, time: 800});
+                    if (res.data < 1) {
+                        $("#msgNum", window.parent.parent.document).html(' ');
+                    } else {
+                        $("#msgNum", window.parent.parent.document).html(res.data);
+                    }
+                    setTimeout(() => {
                         parent.$(".layuiadmin-btn-forum-list").click();
                         var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
                         parent.layer.close(index)
-                    },800)
+                    }, 800)
 
-                }else{
-                    layer.msg(res.msg,{icon:5,time:800});
+                } else {
+                    layer.msg(res.msg, {icon: 5, time: 800});
                 }
             });
             return false;

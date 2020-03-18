@@ -140,7 +140,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , shade: 0.2
                 , area: ['396px', '505px']
                 , offset: 'auto'
-                , content: '/sendMsg?receiveId=' + data.sendId + '&sendType=MERCHANT' + '&mName=' + data.sendName + '&receiveType=' + data.sendType
+                , content: '/sendMsg?receiveId=' + data.sendId + '&sendType=MERCHANT' + '&mName=' + data.sendName + '&receiveType=' + data.sendType + '&originId=' + data.id
             });
         }
     });

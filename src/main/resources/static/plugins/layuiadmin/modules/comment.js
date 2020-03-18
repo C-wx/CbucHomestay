@@ -119,19 +119,20 @@ layui.define(["form", "table", "element"], function (exports) {
             var flag = obj.event.split("_")[0];
             var html = '';
             if (flag == 'origin') {
-                html = '<div style="margin-bottom: 10px"><span style="font-size: 16px;font-weight: 800;margin-right: 28px">订单编码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #ab9b55">' + data.order.orderCode + '</span></div>'
-                html +='<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住人名称:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.name + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">联系电话:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.phone + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">身份证号码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.cardno + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">订单留言:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + data.order.comment + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + Base.formatDate(data.order.endTime, 'yyyy/MM/dd') + '</span></div>'+
-                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">退房时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #993333">' + Base.formatDate(data.order.beginTime, 'yyyy/MM/dd') + '</span></div>';
+                html = '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">订单编码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #ab9b55">' + data.order.orderCode + '</span></div>'
+                html +='<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住人名称:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #997d77">' + data.order.name + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">联系电话:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #997d77">' + data.order.phone + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">身份证号码:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #997d77">' + data.order.cardno + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">订单留言:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #997d77">' + (data.order.comment==null?"无留言":data.order.comment) + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">入住时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #997d77">' + Base.formatDate(data.order.endTime, 'yyyy/MM/dd') + '</span></div>'+
+                    '<div style="margin-bottom: 10px"><span style="font-size: 14px;font-weight: 800;margin-right: 28px">退房时间:</span><span style="font-size: 20px;font-weight: 800;font-family: kaiti;color: #997d77">' + Base.formatDate(data.order.beginTime, 'yyyy/MM/dd') + '</span></div>';
             } else {
+                console.log(data)
                 html += data.content;
             }
             layer.open({
-                type: 0
-                , title: '内容详情'
+                type: 1
+                , title: ''
                 , offset: 'auto'
                 , shadeClose: true
                 , id: 'layerDemo' + data.id

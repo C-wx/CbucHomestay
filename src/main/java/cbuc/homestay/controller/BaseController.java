@@ -1,6 +1,7 @@
 package cbuc.homestay.controller;
 
 import cbuc.homestay.CommonEnum.LevelEnum;
+import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.bean.Message;
@@ -39,12 +40,13 @@ public class BaseController {
 
     @ApiOperation("弹出消息发送模态框")
     @GetMapping("/sendMsg")
-    public String toSendMsg(Message message, String mName, Model model, HttpSession session) {
+    public String toSendMsg(Message message, String mName, Long originId, Model model, HttpSession session) {
         Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
         model.addAttribute("sendId", merchant.getId());
         model.addAttribute("receiveId", message.getReceiveId());
         model.addAttribute("sendType", message.getSendType());
         model.addAttribute("receiveType", message.getReceiveType());
+        model.addAttribute("originId", originId);
         model.addAttribute("mName", mName);
         return "sendMsg";
     }
@@ -52,10 +54,16 @@ public class BaseController {
     @ApiOperation("消息发送操作")
     @ResponseBody
     @PutMapping("/sendMsg")
-    public Object doSendMsg(Message message) {
+    public Object doSendMsg(Message message, Long originId) {
         try {
-            int res = messageService.doAdd(message);
-            return res > 0 ? Result.success() : Result.error("发送消息失败");
+            int res = messageService.doSendMsg(message, originId);
+            Message ms = Message.builder()
+                    .sendType(LevelEnum.ADMIN.getValue())
+                    .receiveId(message.getSendId())
+                    .receiveType(StatusEnum.WR.getValue())
+                    .build();
+            int msgNum = messageService.queryList(ms).size();
+            return res > 0 ? Result.success(msgNum) : Result.error("发送消息失败");
         } catch (Exception e) {
             e.printStackTrace();
             log.error("发送消息异常");

@@ -1,5 +1,6 @@
 package cbuc.homestay.controller.foreCenter;
 
+import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Merchant;
 import cbuc.homestay.bean.Message;
@@ -153,10 +154,6 @@ public class ForeMsgController {
     public String toKefuCenter(HttpSession session, Model model) {
         Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
         List<Message> messages = messageService.getKefuList(merchant.getId());
-        messages.stream().forEach(message -> {
-            User user = userService.queryDetail(message.getSendId());
-            message.setSendName(user.getUname());
-        });
         model.addAttribute("msgList", messages);
         return "merchant/kefu";
     }
@@ -175,6 +172,9 @@ public class ForeMsgController {
                     message1.setIsSelf("false");
                     User user = userService.queryDetail(message1.getSendId());
                     message1.setSendName(user.getUname());
+                    messageService.doEdit(Message.builder().
+                            id(message1.getId())
+                            .readStatus(StatusEnum.YR.getValue()).build());
                 }
             });
             model.addAttribute("chatList", messages);

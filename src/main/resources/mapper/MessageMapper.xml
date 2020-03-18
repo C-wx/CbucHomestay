@@ -328,7 +328,24 @@
   </select>
 
   <select id="getKefuList" resultType="cbuc.homestay.bean.Message">
-    SELECT ID , SEND_ID , CONTENT , CREATE_TIME FROM `ms_message` where id in ( SELECT MAX(ID) FROM ms_message WHERE RECEIVE_ID = #{mid} AND RECEIVE_TYPE = 'MERCHANT' AND SEND_TYPE = 'USER' GROUP BY SEND_ID ) ORDER BY CREATE_TIME DESC
+   SELECT
+	t2.*,
+	( SELECT count( 1 ) FROM ms_message WHERE RECEIVE_ID = #{mid} AND RECEIVE_TYPE = "MERCHANT"  AND SEND_TYPE = "USER"  AND STATUS != "D" AND READ_STATUS = 'WR' ) unreadCount
+    FROM
+        (
+    SELECT
+        max( ID ) id
+    FROM
+        ms_message
+    WHERE
+        RECEIVE_ID = #{mid}
+        AND RECEIVE_TYPE = "MERCHANT"
+        AND SEND_TYPE = "USER"
+         AND STATUS != "D"
+    GROUP BY
+        SEND_ID
+        ) t1
+	LEFT JOIN ms_message t2 ON t1.id = t2.id
   </select>
 
 </mapper>

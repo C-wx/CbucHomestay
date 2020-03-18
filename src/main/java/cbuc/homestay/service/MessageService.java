@@ -3,6 +3,7 @@ package cbuc.homestay.service;
 import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.bean.Message;
 import cbuc.homestay.bean.MessageExample;
+import cbuc.homestay.bean.User;
 import cbuc.homestay.mapper.MessageMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class MessageService {
 
     @Autowired
     private MessageMapper messageMapper;
+
+    @Autowired
+    private UserService userService;
 
 
     public int doAdd(Message message) {
@@ -93,7 +97,12 @@ public class MessageService {
     }
 
     public List<Message> getKefuList(Long id) {
-        return messageMapper.getKefuList(id);
+        List<Message> messages = messageMapper.getKefuList(id);
+        messages.stream().forEach(message -> {
+            User user = userService.queryDetail(message.getSendId());
+            message.setSendName(user.getUname());
+        });
+        return messages;
     }
 
     public int doRemove(Message mi, Message message) {
@@ -110,5 +119,20 @@ public class MessageService {
                 .andReceiveIdEqualTo(message.getSendId());
         example.or(criteria);
         return messageMapper.updateByExampleSelective(mi, example);
+    }
+
+    public void doRead(Message msg) {
+        MessageExample messageExample = new MessageExample();
+        messageExample.createCriteria()
+                .andReceiveIdEqualTo(msg.getReceiveId())
+                .andReceiveTypeEqualTo(msg.getReceiveType());
+        messageMapper.updateByExampleSelective(msg, messageExample);
+    }
+
+    public int doSendMsg(Message message, Long originId) {
+        if (originId != null) {
+            messageMapper.updateByPrimaryKeySelective(Message.builder().id(originId).readStatus(StatusEnum.YR.getValue()).build());
+        }
+        return messageMapper.insertSelective(message);
     }
 }

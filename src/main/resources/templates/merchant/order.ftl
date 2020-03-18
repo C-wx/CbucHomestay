@@ -45,6 +45,11 @@
         </div>
     </div>
 </div>
+<style>
+    .layui-layer-setwin > .layui-layer-ico {
+        display: none;
+    }
+</style>
 <script>
     layui.config({
         base: '/plugins/layuiadmin/' //静态资源所在路径

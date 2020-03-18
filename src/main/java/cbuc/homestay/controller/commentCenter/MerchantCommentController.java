@@ -1,11 +1,9 @@
 package cbuc.homestay.controller.commentCenter;
 
 import cbuc.homestay.base.Result;
-import cbuc.homestay.bean.Comment;
-import cbuc.homestay.bean.Merchant;
-import cbuc.homestay.bean.RoomInfo;
-import cbuc.homestay.bean.User;
+import cbuc.homestay.bean.*;
 import cbuc.homestay.service.CommentService;
+import cbuc.homestay.service.OrderService;
 import cbuc.homestay.service.RoomInfoService;
 import cbuc.homestay.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -47,6 +45,10 @@ public class MerchantCommentController {
     @Autowired
     private RoomInfoService roomInfoService;
 
+    @Autowired
+    private OrderService orderService;
+
+
     @ApiOperation("跳转评论管理界面")
     @RequestMapping("/toCommentManage")
     public String bulletinAudit() {
@@ -77,10 +79,12 @@ public class MerchantCommentController {
                 cl.setOrigin(roomInfo.getTitle());
                 List<Comment> commentList = commentService.queryList(Comment.builder().rid(cl.getId()).type("2").status("E").build());
                 if (!CollectionUtils.isEmpty(commentList)) {
-                    Comment childComment = commentList.get(0);      //由于只能回复一次，因此取对头便可
+                    Comment childComment = commentList.get(0);      //由于只能回复一次，因此取队头便可
                     cl.setChildComment(childComment);           //设置二级评论
                 }
                 cl.setPublishName(user.getUname());             //设置评论者
+                Order o = orderService.queryDetail(cl.getOid());
+                cl.setOrder(o);                                 //设置关联订单
             });
             /**----END----**/
             PageInfo pageInfo = new PageInfo(CommentList, 10);

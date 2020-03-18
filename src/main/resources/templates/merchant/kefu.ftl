@@ -32,7 +32,13 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${(msg.createTime)?string("yyyy/MM/dd HH:mm:ss")}</h3>
                     <p>
                         ${msg.content}
+                        <#if msg.unreadCount gt 0>
+                        <span class="layui-badge">${msg.unreadCount}</span>
+                        <#else>
+                        <span class="layui-badge-rim">已读</span>
+                        </#if>
                     </p>
+
                 </div>
             </li>
         </#list>
@@ -68,7 +74,8 @@
         font-family: kaiti;
         color: #0C0C0C;
     }
-    .layui-layer-setwin>.layui-layer-ico {
+
+    .layui-layer-setwin > .layui-layer-ico {
         display: none;
     }
 </style>

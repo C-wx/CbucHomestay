@@ -1,7 +1,7 @@
 package cbuc.homestay.CommonEnum;
 
 /**
- * @Explain:    商户等级枚举
+ * @Explain: 商户等级枚举
  * @Author: Cbuc
  * @Version: 1.0
  * @Date: 2020/1/2
@@ -26,9 +26,26 @@ public enum LevelEnum {
     /**
      * 普通商家
      */
-    NORMAL("NORMAL");
+    NORMAL("NORMAL"),
+    /**
+     * 商家
+     */
+    MERCHANT("MERCHANT"),
+    /***
+     * 用户
+     */
+    USER("USER");
     private String value;
-    LevelEnum(String value) {this.value = value;}
-    public String getValue() {return value;}
-    public void setValue(String value) {this.value = value;}
+
+    LevelEnum(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }
