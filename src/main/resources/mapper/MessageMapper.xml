@@ -295,7 +295,11 @@
 
   <select id="getPullList" resultType="cbuc.homestay.bean.Message">
     SELECT t3.*,
-    ( SELECT count( 1 ) FROM ms_message WHERE RECEIVE_ID = #{message.receiveId} AND RECEIVE_TYPE = #{message.receiveType} AND STATUS != "D" AND READ_STATUS = 'WR' ) unreadCount
+    ( SELECT count( 1 ) FROM ms_message WHERE RECEIVE_ID = #{message.receiveId} AND RECEIVE_TYPE = #{message.receiveType} AND STATUS != "D"
+    <if test="message.sendType != null">
+      AND SEND_TYPE = #{message.sendType}
+    </if>
+    AND READ_STATUS = 'WR' ) unreadCount
     from (SELECT
 	    max( ID ) ID
     FROM
@@ -303,6 +307,9 @@
     WHERE
         t1.RECEIVE_ID = #{message.receiveId}
         AND t1.RECEIVE_TYPE = #{message.receiveType}
+    <if test="message.sendType != null">
+      AND SEND_TYPE = #{message.sendType}
+    </if>
         AND t1.STATUS != "D"
     GROUP BY
 	  SEND_ID) t2 LEFT JOIN ms_message t3 on t2.ID = t3.ID

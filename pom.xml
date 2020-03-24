@@ -165,6 +165,16 @@
             <version>4.2.2</version>
         </dependency>
 
+        <!--AOP相关-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

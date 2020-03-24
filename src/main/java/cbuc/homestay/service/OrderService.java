@@ -73,6 +73,7 @@ public class OrderService {
             });
             criteria.andRidIn(values);
         }
+        criteria.andStatusNotEqualTo(StatusEnum.D.getValue());
         orderExample.setOrderByClause("id desc");
         return orderMapper.selectByExample(orderExample);
     }
@@ -106,16 +107,16 @@ public class OrderService {
         return customerMap;
     }
 
-    public Map<String, Object> getTodayData(Long mid,int i) {
-        return orderMapper.getSalesData(mid,i);
+    public Map<String, Object> getTodayData(Long mid, int i) {
+        return orderMapper.getSalesData(mid, i);
     }
 
     public Map<String, Object> getTotalCountAndPrice(Long mid) {
         return orderMapper.getTotalCountAndPrice(mid);
     }
 
-    public Integer getUserCount(Boolean currentMonth,Long mid) {
-        return orderMapper.getUserCount(currentMonth,mid);
+    public Integer getUserCount(Boolean currentMonth, Long mid) {
+        return orderMapper.getUserCount(currentMonth, mid);
     }
 
     public Integer getUnreadOrderCount(Long mid) {
@@ -124,5 +125,11 @@ public class OrderService {
 
     public int doUpdateReadStatus(Long mid) {
         return orderMapper.doUpdateReadStatus(mid);
+    }
+
+    public int doService(Order order) {
+        OrderExample orderExample = new OrderExample();
+        orderExample.createCriteria().andOrderCodeEqualTo(order.getOrderCode());
+        return orderMapper.updateByExampleSelective(order, orderExample);
     }
 }

@@ -23,6 +23,9 @@ public enum StatusEnum {
      * FR：  空闲中
      * YR：  已读
      * R：   已评价
+     * WDD:  退款中
+     * SDD:  退款成功
+     * FDD:  退款失败
      */
     B("B")
     , WA("WA")
@@ -37,7 +40,10 @@ public enum StatusEnum {
     , FA("FA")
     , FR("FR")
     , YR("YR")
-    , R("R");
+    , R("R")
+    , WDD("WDD")
+    , SDD("SDD")
+    , FDD("FDD");
     private String value;
     StatusEnum(String value) {this.value = value;}
     public String getValue() {return value;}

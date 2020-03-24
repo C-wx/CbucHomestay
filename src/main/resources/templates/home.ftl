@@ -202,14 +202,6 @@
                     </#if>
                     <#if MLEVEL?index_of("ADMIN")== -1>
                         <li data-name="kefu" class="layui-nav-item">
-                            <a lay-href='/toServiceCenter' href="javascript:;" lay-tips="售后中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-log" style="color: #f7ab8e;"></i>
-                                <cite>售后中心</cite>
-                            </a>
-                        </li>
-                    </#if>
-                    <#if MLEVEL?index_of("ADMIN")== -1>
-                        <li data-name="kefu" class="layui-nav-item">
                             <a lay-href='/toMerchantInfo' href="javascript:;" lay-tips="客服中心" lay-direction="2">
                                 <i class="layui-icon layui-icon-chat" style="color: #f7ab8e;"></i>
                                 <cite>店铺中心</cite>

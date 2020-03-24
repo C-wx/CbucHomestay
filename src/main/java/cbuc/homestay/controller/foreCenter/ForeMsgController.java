@@ -1,5 +1,6 @@
 package cbuc.homestay.controller.foreCenter;
 
+import cbuc.homestay.CommonEnum.LevelEnum;
 import cbuc.homestay.CommonEnum.StatusEnum;
 import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Merchant;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @Explain: 小程序端消息控制器
@@ -40,7 +43,7 @@ public class ForeMsgController {
     @Autowired
     private MerchantService merchantService;
 
-    @ApiOperation("获取消息列表")
+    @ApiOperation("用户端获取消息列表")
     @ResponseBody
     @RequestMapping("getMsgList")
     public Object getMsgList(String openId) {
@@ -50,9 +53,9 @@ public class ForeMsgController {
             Message message = new Message();
             message.setReceiveId(user.getId());
             message.setReceiveType("USER");
-            messages = messageService.getPullList(Message.builder().receiveId(user.getId()).receiveType("USER").build());
+            messages = messageService.getPullList(Message.builder().receiveId(user.getId()).receiveType(LevelEnum.USER.getValue()).build());
             if (messages.size() <= 0 || messages == null) {
-                messages = messageService.getPushList(Message.builder().sendId(user.getId()).sendType("USER").build());
+                messages = messageService.getPushList(Message.builder().sendId(user.getId()).sendType(LevelEnum.USER.getValue()).build());
                 messages.stream().forEach(msg -> {
                     Merchant merchant = merchantService.queryDetail(msg.getReceiveId());
                     msg.setSendName(merchant.getMname());
@@ -64,6 +67,28 @@ public class ForeMsgController {
                     Merchant merchant = merchantService.queryDetail(msg.getSendId());
                     msg.setSendName(merchant.getMname());
                     msg.setAvatarUrl(merchant.getAvatarUrl());
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("获取消息列表异常");
+        }
+        return Result.success(messages);
+    }
+
+    @ApiOperation("商户端获取消息列表")
+    @ResponseBody
+    @RequestMapping("getMerMsgList")
+    public Object getMerMsgList(Long mid) {
+        List<Message> messages = null;
+        try {
+            messages = messageService.getPullList(Message.builder().receiveType(LevelEnum.MERCHANT.getValue()).receiveId(mid).sendType(LevelEnum.USER.getValue()).build());
+            if (messages.size() > 0 || messages != null) {
+                messages.stream().forEach(message -> {
+                    User user = userService.queryDetail(message.getSendId());
+                    message.setSendName(user.getUname());
+                    message.setAvatarUrl(user.getAvatarUrl());
+                    message.setSendId(user.getId());
                 });
             }
         } catch (Exception e) {
@@ -100,6 +125,20 @@ public class ForeMsgController {
         return Result.success(messageList);
     }
 
+    @ApiOperation(("/商家端拉取聊天详情"))
+    @ResponseBody
+    @RequestMapping("getMerChats")
+    public Object getMerChats(Long uid, Long mid) {
+        List<Message> merChatList = null;
+        try {
+            merChatList = getMerChatList(null, mid, uid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.info("获取聊天详情异常");
+        }
+        return Result.success(merChatList);
+    }
+
     @ApiOperation("聊天界面发送消息")
     @ResponseBody
     @RequestMapping("doSendMsg")
@@ -125,13 +164,19 @@ public class ForeMsgController {
     @ApiOperation("移除聊天记录")
     @ResponseBody
     @RequestMapping("/removeMsg")
-    public Object removeMsg(Long mid, String openId) {
+    public Object removeMsg(Long mid, String openId, Long uid) {
         int res = 0;
         try {
-            User user = userService.queryDetail(openId);
+            Long id;
+            if (openId != null) {
+                User user = userService.queryDetail(openId);
+                id = user.getId();
+            } else {
+                id = uid;
+            }
             Message message = Message
                     .builder()
-                    .sendId(user.getId())
+                    .sendId(id)
                     .sendType("USER")
                     .receiveId(mid)
                     .receiveType("MERCHANT")
@@ -162,21 +207,7 @@ public class ForeMsgController {
     @RequestMapping("/showChat")
     public String showChat(Long uid, HttpSession session, Model model) {
         try {
-            Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
-            List<Message> messages = messageService.queryChatList(uid, merchant.getId());
-            messages.stream().forEach(message1 -> {
-                if (message1.getSendId() == merchant.getId()) {
-                    message1.setIsSelf("true");
-                    message1.setSendName(merchant.getMname());
-                } else {
-                    message1.setIsSelf("false");
-                    User user = userService.queryDetail(message1.getSendId());
-                    message1.setSendName(user.getUname());
-                    messageService.doEdit(Message.builder().
-                            id(message1.getId())
-                            .readStatus(StatusEnum.YR.getValue()).build());
-                }
-            });
+            List<Message> messages = getMerChatList(session, null, uid);
             model.addAttribute("chatList", messages);
             model.addAttribute("uid", uid);
         } catch (Exception e) {
@@ -189,13 +220,19 @@ public class ForeMsgController {
     @ApiOperation("发送回复消息")
     @ResponseBody
     @RequestMapping("/doSendReply")
-    public Object doSendReply(HttpSession session, Message message) {
+    public Object doSendReply(HttpSession session, Message message, Long mid) {
         int res = 0;
         try {
+            Long id;
             Merchant merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
-            message.setSendId(merchant.getId());
-            message.setSendType("MERCHANT");
-            message.setReceiveType("USER");
+            if (Objects.isNull(merchant)) {
+                id = mid;
+            } else {
+                id = merchant.getId();
+            }
+            message.setSendId(id);
+            message.setSendType(LevelEnum.MERCHANT.getValue());
+            message.setReceiveType(LevelEnum.USER.getValue());
             res = messageService.doAdd(message);
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,6 +241,7 @@ public class ForeMsgController {
         return res > 0 ? Result.success(message) : Result.error();
     }
 
+    @ApiOperation("获取未读消息")
     @ResponseBody
     @RequestMapping("/home/getUnreadMsg")
     public Object getUnreadMsg(HttpSession session) {
@@ -219,6 +257,37 @@ public class ForeMsgController {
             e.printStackTrace();
         }
         return Result.error();
+    }
+
+    /**
+     * 商家端拉取聊天列表
+     */
+    public List<Message> getMerChatList(HttpSession session, Long mid, Long uid) {
+        Merchant merchant;
+        if (session == null) {
+            merchant = merchantService.queryDetail(mid);
+        } else {
+            merchant = (Merchant) session.getAttribute("LOGIN_MERCHANT");
+        }
+        AtomicReference atomicReference = new AtomicReference(merchant);
+        Merchant m = (Merchant) atomicReference.get();
+        List<Message> messages = messageService.queryChatList(uid, m.getId());
+        messages.stream().forEach(message1 -> {
+            if (message1.getSendId() == m.getId()) {
+                message1.setIsSelf("true");
+                message1.setSendName(m.getMname());
+                message1.setAvatarUrl(m.getAvatarUrl());
+            } else {
+                message1.setIsSelf("false");
+                User user = userService.queryDetail(message1.getSendId());
+                message1.setSendName(user.getUname());
+                message1.setAvatarUrl(user.getAvatarUrl());
+                messageService.doEdit(Message.builder().
+                        id(message1.getId())
+                        .readStatus(StatusEnum.YR.getValue()).build());
+            }
+        });
+        return messages;
     }
 
 }
