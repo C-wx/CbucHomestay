@@ -90,16 +90,20 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     var auditHtml = d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="audit">审核</a>'
-                        : '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
+                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" title="审核"><i class="fa fa-glass" style="color: red"></i></a>'
+                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" title="审核历史"><i class="fa fa-eye"></i></a>';
                     var ableHtml = d.status == 'D'
-                        ? '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>'
-                        : '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>';
-                    var detail = '<a lay-href="/admin/roomDetail?rid='+d.id+'" class="layui-btn layui-bg-cyan layui-btn-sm" href="javascript:;" >详情</a>';
+                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" title="启用"><i class="fa fa-check" style="color: #ffa022"></i></a>'
+                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="disable" title="禁用"><i class="fa fa-minus-circle" style="color: #ff6017"></i></a>';
+                    var detail = '<a lay-href="/admin/roomDetail?rid='+d.id+'" class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" ><i class="fa fa-navicon"></i></a>';
                     return auditHtml + ableHtml + detail;
                 }
             }
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            tableList = res.data;
+            $('th').css({'background-color': '#86b6c6', 'color': '#fff', 'font-weight': 'bold'})
+        }
     });
 
     /**

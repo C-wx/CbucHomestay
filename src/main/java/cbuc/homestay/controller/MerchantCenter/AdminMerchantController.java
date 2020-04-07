@@ -4,10 +4,12 @@ import cbuc.homestay.base.Result;
 import cbuc.homestay.bean.Apply;
 import cbuc.homestay.bean.AuditLog;
 import cbuc.homestay.bean.Merchant;
+import cbuc.homestay.bean.RoomInfo;
 import cbuc.homestay.evt.UserEvt;
 import cbuc.homestay.service.ApplyService;
 import cbuc.homestay.service.AuditLogService;
 import cbuc.homestay.service.MerchantService;
+import cbuc.homestay.service.RoomInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -20,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @Explain:
@@ -41,6 +44,9 @@ public class AdminMerchantController {
 
     @Autowired
     private MerchantService merchantService;
+
+    @Autowired
+    private RoomInfoService roomInfoService;
 
     @ApiOperation("跳转数据统计页面")
     @GetMapping("/dataStatistic")
@@ -145,6 +151,37 @@ public class AdminMerchantController {
     public Object opeMerchant(UserEvt evt) {
         try {
             int res = merchantService.doEdit(evt);
+            return res > 0 ? Result.success() : Result.error("操作失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("操作商户异常");
+            return Result.error("操作商户异常");
+        }
+    }
+
+    @ApiOperation("/编辑商户#跳转")
+    @GetMapping("/editMerchant")
+    public String editMerchant(Long id, Model model) {
+        AtomicInteger salesCount = new AtomicInteger(0);
+        Merchant merchant = merchantService.queryDetail(id);
+        Apply apply = applyService.queryDetail(merchant.getAuditId());
+        List<RoomInfo> roomInfoList = roomInfoService.queryList(RoomInfo.builder().mid(merchant.getId()).build());
+        roomInfoList.stream().forEach(roomInfo -> {
+            salesCount.addAndGet(roomInfo.getSales());
+        });
+        merchant.setSalesCount(salesCount);
+        merchant.setApply(apply);
+        model.addAttribute("merchant", merchant);
+        return "admin/merchantEdit";
+    }
+
+    @ApiOperation("/编辑商户#修改")
+    @ResponseBody
+    @PostMapping("/editMerchant")
+    public Object editMerchant(Merchant merchant) {
+        try {
+            int res = merchantService.doEdit(merchant);
+            applyService.doEdit(merchant.getApply());
             return res > 0 ? Result.success() : Result.error("操作失败");
         } catch (Exception e) {
             e.printStackTrace();

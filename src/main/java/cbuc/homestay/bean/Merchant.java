@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @AllArgsConstructor
@@ -38,5 +39,6 @@ public class Merchant {
 
     /**--------非表字段----------*/
     private Apply apply;
+    private AtomicInteger salesCount;
     /**-------------------------*/
 }

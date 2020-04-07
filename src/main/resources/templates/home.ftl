@@ -81,15 +81,15 @@
                         <a href="javascript:;"
                            lay-href=${(MLEVEL == 'ADMIN')?string('/admin/dataCenter','/dataCenter')} lay-tips="数据统计"
                            lay-direction="2">
-                            <i class="layui-icon layui-icon-tabs" style="color: #f7ab8e;"></i>
-                            <cite>数据统计</cite>
+                            <i class="layui-icon layui-icon-chart-screen" style="font-size:22px;color: #C2BE9E;"></i>
+                            <cite style="margin-left: 10px">数据统计</cite>
                         </a>
                     </li>
                     <#if MLEVEL == 'ADMIN'>
                         <li data-name="merchant" class="layui-nav-item">
                             <a href="javascript:;" lay-tips="商户中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-survey" style="color: #f7ab8e;"></i>
-                                <cite>商户中心</cite>
+                                <i class="layui-icon layui-icon-survey" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">商户中心</cite>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd data-name="merchantAudit">
@@ -104,31 +104,31 @@
                     <#if MLEVEL?index_of("ADMIN")== -1>
                         <li data-name="order" class="layui-nav-item">
                             <a lay-href='/toOrderCenter' href="javascript:;" lay-tips="订单中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-chart-screen" style="color: #f7ab8e;"></i>
-                                <cite>订单中心</cite>
+                                <i class="layui-icon layui-icon-form" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">订单中心</cite>
                             </a>
                         </li>
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
                         <li data-name="home" class="layui-nav-item">
                             <a lay-href="/admin/roomManage" href="javascript:;" lay-tips="房源中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-home" style="color: #f7ab8e;"></i>
-                                <cite>房源管理</cite>
+                                <i class="layui-icon layui-icon-home" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">房源管理</cite>
                             </a>
                         </li>
                     <#else >
                         <li data-name="home" class="layui-nav-item">
                             <a lay-href="/merchant/toRoom" href="javascript:;" lay-tips="房源中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-home" style="color: #f7ab8e;"></i>
-                                <cite>房源管理</cite>
+                                <i class="layui-icon layui-icon-home" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">房源管理</cite>
                             </a>
                         </li>
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
                     <li data-name="news" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="资讯中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-template" style="color: #f7ab8e;"></i>
-                            <cite>资讯中心</cite>
+                            <i class="layui-icon layui-icon-template" style="color: #C2BE9E;font-size: 18px"></i>
+                            <cite style="margin-left: 10px">资讯中心</cite>
                         </a>
                         <dl class="layui-nav-child">
                             <dd data-name="newsManage">
@@ -142,8 +142,8 @@
                     <#else >
                         <li data-name="news" class="layui-nav-item">
                             <a href="javascript:;" lay-tips="资讯中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-template" style="color: #f7ab8e;"></i>
-                                <cite>资讯中心</cite>
+                                <i class="layui-icon layui-icon-template" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">资讯中心</cite>
                             </a>
                             <dl class="layui-nav-child">
                                 <dd data-name="toNews">
@@ -158,53 +158,53 @@
                     <#if MLEVEL == 'ADMIN'>
                     <li data-name="comment" class="layui-nav-item">
                         <a lay-href="/admin/commentManage" href="javascript:;" lay-tips="评论管理" lay-direction="2">
-                            <i class="layui-icon layui-icon-survey" style="color: #f7ab8e;"></i>
-                            <cite>评论管理</cite>
+                            <i class="layui-icon layui-icon-survey" style="color: #C2BE9E;font-size: 18px"></i>
+                            <cite style="margin-left: 10px">评论管理</cite>
                         </a>
                     </li>
                     <#else >
                         <li data-name="comment" class="layui-nav-item">
                             <a lay-href="/merchant/toCommentManage" href="javascript:;" lay-tips="评论管理"
                                lay-direction="2">
-                                <i class="layui-icon layui-icon-survey" style="color: #f7ab8e;"></i>
-                                <cite>评论管理</cite>
+                                <i class="layui-icon layui-icon-survey" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">评论管理</cite>
                             </a>
                         </li>
                     </#if>
                     <#if MLEVEL == 'ADMIN'>
                         <li data-name="bulletin" class="layui-nav-item">
                             <a lay-href="/admin/bulletinPublish" href="javascript:;" lay-tips="公告管理" lay-direction="2">
-                                <i class="layui-icon layui-icon-list" style="color: #f7dbbb;"></i>
-                                <cite>公告中心</cite>
+                                <i class="layui-icon layui-icon-menu-fill" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">公告中心</cite>
                             </a>
                         </li>
                     <#else >
                         <li data-name="bulletin" class="layui-nav-item">
                             <a lay-href="/merchant/toBulletin" href="javascript:;" lay-tips="公告管理" lay-direction="2">
-                                <i class="layui-icon layui-icon-list" style="color: #f7ab8e;"></i>
-                                <cite>公告中心</cite>
+                                <i class="layui-icon layui-icon-menu-fill" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">公告中心</cite>
                             </a>
                         </li>
                     </#if>
                     <li data-name="message" class="layui-nav-item">
                         <a lay-href='/toMessageCenter' href="javascript:;" lay-tips="消息中心" lay-direction="2">
-                            <i class="layui-icon layui-icon-reply-fill" style="color: #f7ab8e;"></i>
-                            <cite>消息中心</cite>
+                            <i class="layui-icon layui-icon-reply-fill" style="color: #C2BE9E;font-size: 18px"></i>
+                            <cite style="margin-left: 10px">消息中心</cite>
                         </a>
                     </li>
                     <#if MLEVEL?index_of("ADMIN")== -1>
                         <li data-name="kefu" class="layui-nav-item">
                             <a lay-href='/toKefuCenter' href="javascript:;" lay-tips="客服中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-service" style="color: #f7ab8e;"></i>
-                                <cite>客服中心</cite>
+                                <i class="layui-icon layui-icon-service" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">客服中心</cite>
                             </a>
                         </li>
                     </#if>
                     <#if MLEVEL?index_of("ADMIN")== -1>
                         <li data-name="kefu" class="layui-nav-item">
                             <a lay-href='/toMerchantInfo' href="javascript:;" lay-tips="客服中心" lay-direction="2">
-                                <i class="layui-icon layui-icon-chat" style="color: #f7ab8e;"></i>
-                                <cite>店铺中心</cite>
+                                <i class="layui-icon layui-icon-chat" style="color: #C2BE9E;font-size: 18px"></i>
+                                <cite style="margin-left: 10px">店铺中心</cite>
                             </a>
                         </li>
                     </#if>

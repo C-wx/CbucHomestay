@@ -1,4 +1,3 @@
-
 /**
  *  @author   Caiwx
  *  @Explain  商户管理脚本
@@ -34,8 +33,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 field: 'maccount'
                 , title: '商户账号'
                 , align: 'center'
-                , width: 189
-                , event: 'remark_detail'
+                , width: 159
             }
             , {
                 field: 'mphone'
@@ -49,7 +47,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , align: 'center'
                 , width: 185
                 , templet: (d) => {
-                    return d.apply==null?'':'<span>'+d.apply.mcardno+'</span>';
+                    return d.apply == null ? '' : '<span>' + d.apply.mcardno + '</span>';
                 }
             }
             , {
@@ -59,7 +57,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , width: 281
                 , event: 'maddr'
                 , templet: (d) => {
-                    return d.apply==null?'':d.apply.maddr;
+                    return d.apply == null ? '' : d.apply.maddr;
                 }
             }
             , {
@@ -67,21 +65,20 @@ layui.define(["form", "table", "element"], function (exports) {
                 , title: '商户称号'
                 , align: 'center'
                 , width: 182
-                , event: 'remark_detail'
                 , templet: (d) => {
                     let level = '';
                     switch (d.mlevel) {
                         case "NORMAL":
-                            level += '普通商家';
+                            level += '<div >普通商家</div>';
                             break;
                         case "GOLD":
-                            level += '金牌商家';
+                            level += '<div style="color: #cecf00;">金牌商家</div>';
                             break;
                         case "SLIVER":
-                            level += '银牌商家';
+                            level += '<div style="color: #bbb6b3;">银牌商家</div>';
                             break;
                         case "COPPER":
-                            level += '铜牌商家';
+                            level += '<div style="color: #c9943f;">铜牌商家</div>';
                             break;
                     }
                     return level;
@@ -99,19 +96,24 @@ layui.define(["form", "table", "element"], function (exports) {
             }
             , {
                 title: '操作'
-                , width: 203
+                , width: 253
                 , align: 'center'
                 , fixed: 'right'
                 , templet: (d) => {
                     var html = '';
-                    d.status == 'E' ? html+='<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">禁用</a>'
-                                    : html+='<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">启用</a>'
-                    return '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="notify">通知</a>'
-                            + '<a class="layui-btn layui-btn-sm" lay-event="msgHistory">查看</a>'
-                            + html;
+                    d.status == 'E' ? html += '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="disable" title="禁用商家"><i class="fa fa-minus-circle" style="color: #ff6017"></i></a>'
+                        : html += '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" title="启用商家"><i class="fa fa-check" style="color: #ffa022"></i></a>'
+                    return '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="notify" title="通知"><i class="fa fa-bullhorn"></i></a>'
+                        + '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="msgHistory" title="通知记录"><i class="fa fa-ellipsis-h"></i></a>'
+                        + html
+                        + '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="editMerchant" title="编辑商家"><i class="fa fa-pencil-square-o"></i></a>';
                 }
             }
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            tableList = res.data;
+            $('th').css({'background-color': '#86b6c6', 'color': '#fff', 'font-weight': 'bold'})
+        }
     });
 
     /**
@@ -164,53 +166,75 @@ layui.define(["form", "table", "element"], function (exports) {
                 , shade: 0.3
                 , anim: 5
             });
-        }else if (obj.event == 'disable') {
-            layer.confirm('是否禁用该商户?', {icon: 3, title:'提示'}, function(index){
-                Base.ajax("/admin/opeMerchant","POST",{'id':data.id,'status':'D'},(res)=>{
+        } else if (obj.event == 'disable') {
+            layer.confirm('是否禁用该商户?', {icon: 3, title: '提示'}, function (index) {
+                Base.ajax("/admin/opeMerchant", "POST", {'id': data.id, 'status': 'D'}, (res) => {
                     if (res.code === Base.status.success) {
-                        layer.msg("操作成功",{icon:6,time:800});
-                        setTimeout(()=>{
+                        layer.msg("操作成功", {icon: 6, time: 800});
+                        setTimeout(() => {
                             layer.close(index);
                             $(".layui-icon-refresh").click();
-                        },800)
-                    }else{
-                        layer.msg(res.msg,{icon:5,time:500});
+                        }, 800)
+                    } else {
+                        layer.msg(res.msg, {icon: 5, time: 500});
                     }
                 })
             });
-        }else if (obj.event == 'enable') {
-            layer.confirm('是否启用该商户?', {icon: 3, title:'提示'}, function(index){
-                Base.ajax("/admin/opeMerchant","POST",{'id':data.id,'status':'E'},(res)=>{
+        } else if (obj.event == 'enable') {
+            layer.confirm('是否启用该商户?', {icon: 3, title: '提示'}, function (index) {
+                Base.ajax("/admin/opeMerchant", "POST", {'id': data.id, 'status': 'E'}, (res) => {
                     if (res.code === Base.status.success) {
-                        layer.msg("操作成功",{icon:6,time:800});
-                        setTimeout(()=>{
+                        layer.msg("操作成功", {icon: 6, time: 800});
+                        setTimeout(() => {
                             layer.close(index);
                             $(".layui-icon-refresh").click();
-                        },800)
-                    }else{
-                        layer.msg(res.msg,{icon:5,time:500});
+                        }, 800)
+                    } else {
+                        layer.msg(res.msg, {icon: 5, time: 500});
                     }
                 })
             });
-        }else if (obj.event == 'notify') {
+        } else if (obj.event == 'notify') {
             layer.open({
                 type: 2
-                , title: '消息中心'
-                , shadeClose: true
-                , shade: 0.2
-                , area: ['396px', '505px']
-                , offset: 'auto'
-                , content: '/sendMsg?receiveId=' + data.id + '&sendType=ADMIN' + '&mName=' + data.mname + '&receiveType=MERCHANT'
+                ,
+                title: '消息中心'
+                ,
+                shadeClose: true
+                ,
+                shade: 0.2
+                ,
+                area: ['396px', '505px']
+                ,
+                offset: 'auto'
+                ,
+                content: '/sendMsg?receiveId=' + data.id + '&sendType=ADMIN' + '&mName=' + data.mname + '&receiveType=MERCHANT'
             });
-        }else if (obj.event == 'msgHistory') {
+        } else if (obj.event == 'msgHistory') {
             layer.open({
                 type: 2
-                , title: '消息中心'
+                ,
+                title: '消息中心'
+                ,
+                shadeClose: true
+                ,
+                shade: 0.2
+                ,
+                area: ['742px', '350px']
+                ,
+                offset: 'auto'
+                ,
+                content: '/toMsgHistory?receiveId=' + data.id + '&sendType=ADMIN' + '&mName=' + data.mname + '&receiveType=MERCHANT'
+            });
+        } else if (obj.event == 'editMerchant') {
+            layer.open({
+                type: 2
+                , title: '编辑'
                 , shadeClose: true
                 , shade: 0.2
-                , area: ['742px', '350px']
+                , area: ['600px', '790px']
                 , offset: 'auto'
-                , content: '/toMsgHistory?receiveId=' + data.id + '&sendType=ADMIN' + '&mName=' + data.mname + '&receiveType=MERCHANT'
+                , content: 'editMerchant?id=' + data.id
             });
         }
     });

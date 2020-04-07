@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="${base}/plugins/layui/css/layui.css">
     <!--css-->
     <link rel="stylesheet" href="${base}/plugins/layuiadmin/style/admin.css" media="all">
+    <!-- Font Awesome CSS-->
+    <link rel="stylesheet" href="${base}/plugins/font-awesome/css/font-awesome.min.css">
 </head>
 <body>
 <div class="layui-fluid layui-anim layui-anim-scale" style="padding: 30px;">
@@ -53,6 +55,15 @@
     }).use(['index', 'merchantAudit']);
 </script>
 <style>
+    .layui-table-cell {
+        height: auto;
+        line-height: 28px;
+    }
+
+    .layui-btn {
+        border: none;
+    }
+
     .look {
         cursor: pointer;
         color: #d8d694;

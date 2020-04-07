@@ -84,11 +84,15 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     return d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-bg-red layui-btn-sm" lay-event="audit">审核</a>'
-                        : '<a class="layui-btn layui-bg-lightsteelblue layui-btn-sm" lay-event="lookHis">查看</a>';
+                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" title="审核"><i class="fa fa-glass" style="color: red"></i></a>'
+                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" title="审核历史"><i class="fa fa-eye"></i></a>';
                 }
             }
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            tableList = res.data;
+            $('th').css({'background-color': '#86b6c6', 'color': '#fff', 'font-weight': 'bold'})
+        }
     });
 
     /**
@@ -152,7 +156,8 @@ layui.define(["form", "table", "element"], function (exports) {
             }
             layer.open({
                 type: 0
-                , title: '内容详情'
+                , title: ''
+                , btn:[]
                 , offset: 'auto'
                 , shadeClose: true
                 , id: 'layerDemo' + data.id

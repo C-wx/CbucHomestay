@@ -49,6 +49,15 @@
     .layui-layer-setwin > .layui-layer-ico {
         display: none;
     }
+
+    .layui-table-cell {
+        height: auto;
+        line-height: 28px;
+    }
+
+    .layui-btn {
+        border: none;
+    }
 </style>
 <script>
     layui.config({
