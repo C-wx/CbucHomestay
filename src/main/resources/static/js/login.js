@@ -23,6 +23,33 @@ $(window, document, undefined).ready(function () {
         $(this).removeClass('is-active');
     });
 });
+window.callback = function (res) {
+    if (res.ret === 0) {
+        let account = $("#maccount").val();
+        let pwd = $("#mpwd").val();
+        let code = $("#verifyCode").val();
+        if (!account) {
+            $("#maccount").focus();
+            Base.openError("请输入账号", "#maccount");
+            return
+        } else if (!pwd) {
+            $("#mpwd").focus();
+            Base.openError("请输入密码", "#mpwd");
+            return
+        } else {
+            Base.ajax('/doLogin', 'POST', $(".formDate").serialize(), (e) => {
+                if (e.code == Base.status.success) {
+                    layer.msg("登录成功", {icon: 6, time: 800});
+                    setTimeout(() => {
+                        location.href = "/home/" + e.data.mlevel;
+                    }, 1000);
+                } else {
+                    layer.msg(e.msg, {icon: 5, time: 800, anim: 6});
+                }
+            })
+        }
+    }
+}
 $(() => {
     /**
      * 提交登录
@@ -39,25 +66,8 @@ $(() => {
             $("#mpwd").focus();
             Base.openError("请输入密码", "#mpwd");
             return
-        } else if (!code) {
-            $("#verifyCode").focus();
-            Base.openError("请输入验证码", "#verifyCode");
-            return
         } else {
-            Base.ajax('/doLogin', 'POST', $(".formDate").serialize(), (e) => {
-                if (e.code == Base.status.success) {
-                    layer.msg("登录成功", {icon: 6, time: 800});
-                    setTimeout(() => {
-                        location.href = "/home/" + e.data.mlevel;
-                    }, 1000);
-                } else {
-                    layer.msg(e.msg, {icon: 5, time: 800, anim: 6});
-                    setTimeout(function () {
-                        $("#verifyCode").val("");
-                        captchaRefresh($("#vercode"));
-                    }, 1000);
-                }
-            })
+            $("#TencentCaptcha").click();
         }
     });
     $("body").on("change", "#maccount", () => {

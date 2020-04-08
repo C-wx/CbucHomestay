@@ -1,7 +1,7 @@
 * { box-sizing:border-box; }
 body {font-family: Helvetica;-webkit-font-smoothing: antialiased;padding: 3em 0;background: url(../img/bg.jpg) fixed;background-size: cover;}
 hgroup {text-align:center;margin-top: 4em;}
-h1 { color: #102135;font-weight: 400;font-size: 38px;font-family: 'kaiti';}
+h1 { color: #102135;font-weight: 400;font-size: 45px;font-family: 'kaiti';}
 form {width: 380px;margin: 4em auto;padding: 3em 2em 2em 2em;background: none;border: 1px solid #ebebeb;border-radius:30px;box-shadow: rgba(0,0,0,1) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;}
 .group {position: relative;margin-bottom: 45px;}
 input {font-size: 18px;padding: 10px 10px 10px 5px;-webkit-appearance: none;display: block;background: none;color: #636363;width: 100%;border: none;border-radius: 0;border-bottom: 1px solid #757575;}
@@ -32,6 +32,7 @@ button:focus { outline: 0; }
 /* Button modifiers */
 .buttonBlue {background: #4a89dc;text-shadow: 1px 1px 0 rgba(39, 110, 204, .5);}
 .buttonBlue:hover { background: #357bd8; }
+.disabled{cursor: not-allowed;}
 /* Get Code*/
 #getCode.on {background-color: #eee;color: #ccc;cursor: not-allowed;}
 /* Ripples container */

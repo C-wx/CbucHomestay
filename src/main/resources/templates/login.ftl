@@ -13,6 +13,8 @@
     <!--login-->
     <link rel="stylesheet" href="${base}/css/login.css">
     <script src="${base}/js/login.js"></script>
+    <!-- 验证码 -->
+    <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
 </head>
 <body>
 <hgroup>
@@ -28,22 +30,10 @@
         <input type="password" name="mpwd" id="mpwd"><span class="highlight"></span><span class="bar"></span>
         <label>密码</label>
     </div>
-    <div class="group">
-        <div class="row">
-            <div class="layui-col-xs8">
-                <input type="text" name="verifyCode" id="verifyCode"><span class="highlight"></span><span
-                    class="bar"></span>
-                <label>验证码</label>
-            </div>
-            <div class="layui-col-xs4" style="margin-top: -9px">
-                <img src="/image/code" class="layadmin-user-login-codeimg" id="vercode"
-                     onclick="captchaRefresh(this)">
-            </div>
-        </div>
-    </div>
-    <button type="button" class="button buttonBlue" id="login">登录
+    <button type="button" class="button buttonBlue" id="login" data-appid="1300603860" data-cbfn="callback">登录
         <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
     </button>
+    <button type="button" style="display: none" id="TencentCaptcha" data-appid="1300603860" data-cbfn="callback">登录</button>
     <h4 class="forget">忘记密码</h4>
 </form>
 <form class="forgetForm" style="display: none">

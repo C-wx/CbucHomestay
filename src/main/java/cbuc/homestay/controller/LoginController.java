@@ -75,14 +75,9 @@ public class LoginController {
                 Merchant merchant = merchantService.queryDetail(userEvt);
                 if (error_count != null && error_count > 3) {
                     return Result.error(500, "您输入密码已经错误超过3次，请1分钟后尝试!");
-                } else if (StringUtils.isBlank((String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY))) {
-                    return Result.error(510, "验证码已过期,请重新输入验证码!");
-                } else if (StringUtils.isBlank(userEvt.getVerifyCode())
-                        || StringUtils.isBlank(userEvt.getMaccount())
+                } else if (StringUtils.isBlank(userEvt.getMaccount())
                         || StringUtils.isBlank(userEvt.getMpwd())) {
                     return Result.error(511, "请输入必填字段！");
-                } else if (!session.getAttribute(Constants.KAPTCHA_SESSION_KEY).equals(userEvt.getVerifyCode())) {
-                    return Result.error(512, "验证码不正确,请重新输入");
                 } else if (Objects.isNull(merchant)) {
                     error_count = null == error_count ? 1 : error_count + 1;
                     cacheUtil.set("login_error_count", error_count, 60);
