@@ -124,7 +124,11 @@ layui.define(["form", "table", "element"], function (exports) {
                     return delHtml + opeHtml;
                 }
             }
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            tableList = res.data;
+            $('th').css({'background-color': '#87c6be', 'color': '#fff', 'font-weight': 'bold'})
+        }
     });
 
     /**

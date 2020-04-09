@@ -58,6 +58,10 @@
     .layui-btn {
         border: none;
     }
+
+    .layui-table-page {
+        text-align: center;
+    }
 </style>
 <script>
     layui.config({

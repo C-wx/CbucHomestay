@@ -90,7 +90,11 @@ layui.define(["form", "table", "element"], function (exports) {
                     return ableHtml + detail;
                 }
             }
-        ]]
+        ]],
+        done: function (res, curr, count) {
+            tableList = res.data;
+            $('th').css({'background-color': '#9cc5c6', 'color': '#fff', 'font-weight': 'bold'})
+        }
     });
 
     /**

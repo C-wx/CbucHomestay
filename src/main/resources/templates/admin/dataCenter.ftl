@@ -126,59 +126,68 @@
                 <div class="layui-card-header">
                     <strong style="font-size: 20px;font-family: 'kaiti';letter-spacing: 2px">最新订单</strong>
                 </div>
-                <div class="layui-card-body layadmin-takerates">
-                    <p>
-                        <span class="layui-word-aux">房间名称：</span>
-                        <span>${lastMap.lastOrder.roomInfo.title!}</span>
-                    </p>
-                    <hr>
-                    <p>
-                        <span class="layui-word-aux">订单号：</span>
-                        <span>${lastMap.lastOrder.orderCode!}</span>
-                    </p>
-                    <hr>
-                    <p>
-                        <span class="layui-word-aux">买家名称：</span>
-                        <span>${lastMap.lastOrder.name!}</span>
-                    </p>
-                    <hr>
-                    <p>
-                        <span class="layui-word-aux">买家电话：</span>
-                        <span>${lastMap.lastOrder.phone!}</span>
-                    </p>
-                    <hr>
-                    <p>
-                        <span class="layui-word-aux">买家身份证：</span>
-                        <span>${lastMap.lastOrder.cardno!}</span>
-                    </p>
-                    <hr>
-                    <p>
-                        <span class="layui-word-aux">时间：</span>
-                        <span>${lastMap.lastOrder.createTime?string('yyyy-MM-dd hh:mm:ss')}</span>
-                    </p>
-                </div>
+                <#if lastMap.lastOrder??>
+                    <div class="layui-card-body layadmin-takerates">
+                        <p>
+                            <span class="layui-word-aux">房间名称：</span>
+                            <span>${lastMap.lastOrder.roomInfo.title!}</span>
+                        </p>
+                        <hr>
+                        <p>
+                            <span class="layui-word-aux">订单号：</span>
+                            <span>${lastMap.lastOrder.orderCode!}</span>
+                        </p>
+                        <hr>
+                        <p>
+                            <span class="layui-word-aux">买家名称：</span>
+                            <span>${lastMap.lastOrder.name!}</span>
+                        </p>
+                        <hr>
+                        <p>
+                            <span class="layui-word-aux">买家电话：</span>
+                            <span>${lastMap.lastOrder.phone!}</span>
+                        </p>
+                        <hr>
+                        <p>
+                            <span class="layui-word-aux">买家身份证：</span>
+                            <span>${lastMap.lastOrder.cardno!}</span>
+                        </p>
+                        <hr>
+                        <p>
+                            <span class="layui-word-aux">时间：</span>
+                            <span>${lastMap.lastOrder.createTime?string('yyyy-MM-dd hh:mm:ss')}</span>
+                        </p>
+                    </div>
+                <#else >
+                     <span style="margin-left: 40%;font-size: 16px;color: #F00;">暂无订单数据</span>
+                </#if>
+
             </div>
 
             <div class="layui-card">
                 <div class="layui-card-header">
                     <strong style="font-size: 20px;font-family: 'kaiti';letter-spacing: 2px">最新评论</strong>
                 </div>
-                <div class="layui-card-body layadmin-takerates">
-                    <p>
-                        <span class="layui-word-aux">用户名称：</span>
-                        <span>${lastMap.lastComment.publishName!}</span>
-                    </p>
-                    <hr>
-                    <p style="word-break: break-all;">
-                        <span class="layui-word-aux">评论内容：</span>
-                        <span>${lastMap.lastComment.content!}</span>
-                    </p>
-                    <hr>
-                    <p th:inline="text">
-                        <span class="layui-word-aux">时间：</span>
-                        <span>${lastMap.lastComment.createTime?string('yyyy-MM-dd hh:mm:ss')}</span>
-                    </p>
-                </div>
+                <#if lastMap.lastComment??>
+                    <div class="layui-card-body layadmin-takerates">
+                        <p>
+                            <span class="layui-word-aux">用户名称：</span>
+                            <span>${lastMap.lastComment.publishName!}</span>
+                        </p>
+                        <hr>
+                        <p style="word-break: break-all;">
+                            <span class="layui-word-aux">评论内容：</span>
+                            <span>${lastMap.lastComment.content!}</span>
+                        </p>
+                        <hr>
+                        <p th:inline="text">
+                            <span class="layui-word-aux">时间：</span>
+                            <span>${lastMap.lastComment.createTime?string('yyyy-MM-dd hh:mm:ss')}</span>
+                        </p>
+                    </div>
+                <#else >
+                    <span style="margin-left: 40%;font-size: 16px;color: #F00;">暂无评论数据</span>
+                </#if>
             </div>
 
             <div class="layui-card">

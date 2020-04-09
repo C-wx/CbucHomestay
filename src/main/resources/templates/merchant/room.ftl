@@ -46,6 +46,11 @@
         </div>
     </div>
 </div>
+<style>
+    .layui-table-page{
+        text-align: center;
+    }
+</style>
 <script>
     layui.config({
         base: '/plugins/layuiadmin/' //静态资源所在路径
