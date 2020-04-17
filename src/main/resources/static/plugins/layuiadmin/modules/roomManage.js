@@ -90,12 +90,12 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     var auditHtml = d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" title="审核"><i class="fa fa-glass" style="color: red"></i></a>'
-                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" title="审核历史"><i class="fa fa-eye"></i></a>';
+                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" lay-tips="审核"><i class="fa fa-glass" style="color: red"></i></a>'
+                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" lay-tips="审核历史"><i class="fa fa-eye"></i></a>';
                     var ableHtml = d.status == 'D'
-                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" title="启用"><i class="fa fa-check" style="color: #ffa022"></i></a>'
-                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="disable" title="禁用"><i class="fa fa-minus-circle" style="color: #ff6017"></i></a>';
-                    var detail = '<a lay-href="/admin/roomDetail?rid='+d.id+'" class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" ><i class="fa fa-navicon"></i></a>';
+                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" lay-tips="启用"><i class="fa fa-check" style="color: #ffa022"></i></a>'
+                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="disable" lay-tips="禁用"><i class="fa fa-minus-circle" style="color: #ff6017"></i></a>';
+                    var detail = '<a lay-tips="房源信息" lay-href="/admin/roomDetail?rid='+d.id+'" class="layui-btn layui-btn-primary layui-btn-sm" href="javascript:;" >查看</a>';
                     return auditHtml + ableHtml + detail;
                 }
             }

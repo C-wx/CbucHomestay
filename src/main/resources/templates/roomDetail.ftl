@@ -103,8 +103,10 @@
                     <#else >
                         <#if roomInfo.status == 'FR'>
                             <span>空闲中</span>
-                        <#elseif rooomInfo.status == 'B'>
+                        <#elseif roomInfo.status == 'B'>
                             <span>已预订</span>
+                        <#elseif roomInfo.status == 'D'>
+                            <span>已禁用</span>
                         <#else >
                             <span>已下架</span>
                         </#if>

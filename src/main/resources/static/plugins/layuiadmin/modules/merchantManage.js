@@ -101,12 +101,12 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     var html = '';
-                    d.status == 'E' ? html += '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="disable" title="禁用商家"><i class="fa fa-minus-circle" style="color: #ff6017"></i></a>'
-                        : html += '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" title="启用商家"><i class="fa fa-check" style="color: #ffa022"></i></a>'
-                    return '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="notify" title="通知"><i class="fa fa-bullhorn"></i></a>'
-                        + '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="msgHistory" title="通知记录"><i class="fa fa-ellipsis-h"></i></a>'
+                    d.status == 'E' ? html += '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="disable" lay-tips="禁用商家"><i class="fa fa-minus-circle" style="color: #ff6017"></i></a>'
+                        : html += '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" lay-tips="启用商家"><i class="fa fa-check" style="color: #ffa022"></i></a>'
+                    return '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="notify" lay-tips="通知"><i class="fa fa-bullhorn"></i></a>'
+                        + '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="msgHistory" lay-tips="通知记录"><i class="fa fa-ellipsis-h"></i></a>'
                         + html
-                        + '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="editMerchant" title="编辑商家"><i class="fa fa-pencil-square-o"></i></a>';
+                        + '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="editMerchant" lay-tips="编辑商家"><i class="fa fa-pencil-square-o"></i></a>';
                 }
             }
         ]],

@@ -84,8 +84,8 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     return d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" title="审核"><i class="fa fa-glass" style="color: red"></i></a>'
-                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" title="审核历史"><i class="fa fa-eye"></i></a>';
+                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" lay-tips="审核"><i class="fa fa-glass" style="color: red"></i></a>'
+                        : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" lay-tips="审核历史"><i class="fa fa-eye"></i></a>';
                 }
             }
         ]],
