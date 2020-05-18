@@ -454,15 +454,15 @@
     t1 LEFT JOIN ms_roominfo t2 on t1.RID = t2.ID where t2.MID = #{mid}
   </select>
   <select id="getUnreadOrderCount" resultType="java.lang.Integer">
-    SELECT count(1) FROM `ms_order` t1
+    SELECT count(*) FROM `ms_order` t1
     LEFT JOIN
     ms_roominfo t2
     on t1.RID = t2.ID
-    where t2.MID = 8
+    where t2.MID = #{mid}
     AND t1.READ_STATUS = 'N'
-    AND t1.STATUS = 'WR'
+--     AND t1.STATUS = 'WR'
   </select>
   <update id="doUpdateReadStatus">
-    UPDATE ms_order t1 set t1.READ_STATUS = "Y" WHERE RID in(SELECT ID from ms_roominfo where MID = #{mid}) AND t1.STATUS = 'WR'
+    UPDATE ms_order t1 set t1.READ_STATUS = "Y" WHERE RID in(SELECT ID from ms_roominfo where MID = #{mid})
   </update>
 </mapper>

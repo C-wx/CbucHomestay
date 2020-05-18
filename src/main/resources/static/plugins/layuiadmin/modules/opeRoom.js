@@ -116,6 +116,8 @@ layui.define(['form'], function (exports) {
         $.each(imgFile, function (i, file) {
             formFile.append('myFiles', file);
         });
+        data.field.isActive = $("#active").val();
+        console.log(data.field);
         formFile.append("roomInfo", JSON.stringify(data.field));
         $.ajax({
             url: "/merchant/doSaveRoom"
@@ -126,7 +128,7 @@ layui.define(['form'], function (exports) {
             , dataType: 'json'
             , success: function (result) {
                 if (result.code == Base.status.success) {
-                    layer.msg("发布成功!", {icon: 6, time: 2000});
+                    layer.msg("操作成功!", {icon: 6, time: 2000});
                     setTimeout(() => {
                         parent.layui.admin.events.closeThisTabs()
                     }, 2000);

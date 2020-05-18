@@ -262,7 +262,7 @@
                     , area: ['300px','200px']
                     , shade: 0
                     , id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                    , btn: ['立即前往', '我知道了']
+                    , btn: ['查看', '我知道了']
                     , btnAlign: 'c'
                     , moveType: 1 //拖拽模式，0或者1
                     , content: '<div style="padding: 60px 10px;font-size: 18px;letter-spacing: 5px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 800;text-align: center">您有<span style="color: #f00;">'+res.data+'</span>条客服消息待处理</div>'

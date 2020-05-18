@@ -126,9 +126,9 @@ public class RoomInfoService {
         RoomInfo roomInfo = new RoomInfo();
         BeanUtils.copyProperties(roomInfoEvt, roomInfo);
         if ("on".equals(roomInfoEvt.getIsActive())) {
-            roomInfo.setIsActive("N");
-        } else {
             roomInfo.setIsActive("Y");
+        } else {
+            roomInfo.setIsActive("N");
         }
         roomInfo.setMid(mid);
         if (id != null) {

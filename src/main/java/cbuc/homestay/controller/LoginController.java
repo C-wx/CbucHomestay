@@ -63,7 +63,7 @@ public class LoginController {
                 Apply apply = applyService.queryDetail(merchant.getAuditId());
                 merchant.setApply(apply);
                 if (Objects.isNull(merchant)) {
-                    return Result.error(513, "用户名或密码错误");
+                    return Result.error(513, "账号或密码错误");
                 } else {
                     session.setAttribute("LOGIN_MERCHANT", merchant);
                     session.setMaxInactiveInterval(30 * 60);
@@ -111,8 +111,8 @@ public class LoginController {
             session.setAttribute("MESSAGE_CODE", randomCode);
             session.setMaxInactiveInterval(1000 * 60);
             SessionContext.addSession(session);
-//            Integer resultCode = SendMessageUtil.send(uid, sendMsg, smsMob, "您的短信验证码为:" + randomCode);    //TODO 实际启用短信
-            Integer resultCode = 1;
+            Integer resultCode = SendMessageUtil.send(uid, sendMsg, smsMob, "您的短信验证码为:" + randomCode);    //TODO 实际启用短信
+//            Integer resultCode = 1;
             log.info(SendMessageUtil.getMessage(resultCode) + "--验证码为：" + randomCode);
             if (resultCode > 0) {
                 return Result.success(session.getId());
