@@ -135,13 +135,13 @@ public class ForeRoomController {
     @RequestMapping("/getRoomInfo")
     public Object getRoomInfo(Long id, String openId) {
         RoomInfo roomInfo = roomInfoService.queryDetail(id);
-        List<Comment> commentList = commentService.queryList(Comment.builder().rid(roomInfo.getId()).type("1").build());    //当前房间的评论列表
+        List<Comment> commentList = commentService.queryList(Comment.builder().rid(roomInfo.getId()).type("1").status("D").build());    //当前房间的评论列表
         List<Comment> allComment = commentService.getSelfComment(roomInfo.getMid());    //获取当前房东下的所有评论列表
         commentList.forEach(comment -> {
-            List<Comment> comments = commentService.queryList(Comment.builder().rid(comment.getId()).type("2").build());
+            List<Comment> comments = commentService.queryList(Comment.builder().oid(comment.getId()).type("2").build());
             Comment replyComment = comments.size() > 0 ? comments.get(0) : null;
             if (!Objects.isNull(replyComment)) {
-                Merchant merchant = merchantService.queryDetail(replyComment.getRid());
+                Merchant merchant = merchantService.queryDetail(replyComment.getCommentor());
                 replyComment.setPublishName(merchant.getMname());
                 comment.setChildComment(replyComment);
             }

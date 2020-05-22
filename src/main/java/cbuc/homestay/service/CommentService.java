@@ -39,6 +39,9 @@ public class CommentService {
         if (comment.getOid() != null) {
             criteria.andOidEqualTo(comment.getOid());
         }
+        if (StringUtils.isNotBlank(comment.getStatus())) {
+            criteria.andStatusNotEqualTo(comment.getStatus());
+        }
         commentExample.setOrderByClause("ID DESC");
         List<Comment> commentList = commentMapper.selectByExample(commentExample);
         return commentList;
@@ -63,7 +66,7 @@ public class CommentService {
     public List<Comment> getCommentList(Long id) {
         CommentExample commentExample = new CommentExample();
         CommentExample.Criteria criteria = commentExample.createCriteria();
-        criteria.andCommentorEqualTo(id).andTypeEqualTo("1");
+        criteria.andCommentorEqualTo(id).andTypeEqualTo("1").andStatusNotEqualTo("D");
         return commentMapper.selectByExample(commentExample);
     }
 

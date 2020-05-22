@@ -26,7 +26,7 @@ layui.define(["form", "table", "element"], function (exports) {
         , cols: [[
             {
                 field: 'publishName'
-                , title: '发布人名称'
+                , title: '商家名称'
                 , align: 'center'
                 , Width: 242
             }
@@ -90,7 +90,7 @@ layui.define(["form", "table", "element"], function (exports) {
                 , fixed: 'right'
                 , templet: (d) => {
                     var auditHtml = d.auditStatus == 'WA'
-                        ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="audit" lay-tips="审核"><i class="fa fa-glass" style="color: red"></i></a>'
+                        ? '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="audit" lay-tips="审核">审核</a>'
                         : '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="lookHis" lay-tips="审核历史"><i class="fa fa-eye"></i></a>';
                     var ableHtml = d.status == 'D'
                         ? '<a class="layui-btn layui-btn-primary layui-btn-sm" lay-event="enable" lay-tips="启用"><i class="fa fa-check" style="color: #ffa022"></i></a>'
