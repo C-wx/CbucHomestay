@@ -87,7 +87,8 @@ layui.define(["form", "table", "element"], function (exports) {
                         ? '<a class="layui-btn layui-btn-normal layui-btn-sm" lay-event="enable">上架</a>'
                         : '<a class="layui-btn layui-btn-danger layui-btn-sm" lay-event="disable">下架</a>';
                     var detail = '<a lay-href="/merchant/toOpeRoom?type=Edit&rid='+d.id+'" class="layui-btn layui-bg-cyan layui-btn-sm" href="javascript:;" >编辑</a>';
-                    return ableHtml + detail;
+                    var deleteHtml = '<a class="layui-btn layui-btn-warm layui-btn-sm" lay-event="delete">删除</a>';
+                    return ableHtml + detail + deleteHtml;
                 }
             }
         ]],
@@ -184,6 +185,20 @@ layui.define(["form", "table", "element"], function (exports) {
         } else if (obj.event == 'enable') {
             layer.confirm('是否上架该房源?', {icon: 3, title: '提示'}, function (index) {
                 Base.ajax("/admin/opeRoom", "POST", {'id': data.id, 'status': 'FR'}, (res) => {
+                    if (res.code === Base.status.success) {
+                        layer.msg("操作成功", {icon: 6, time: 800});
+                        setTimeout(() => {
+                            layer.close(index);
+                            $(".layui-icon-refresh").click();
+                        }, 800)
+                    } else {
+                        layer.msg(res.msg, {icon: 5, time: 500});
+                    }
+                })
+            });
+        }else if (obj.event == 'delete') {
+            layer.confirm('是否删除该房源?', {icon: 3, title: '提示'}, function (index) {
+                Base.ajax("/admin/opeRoom", "POST", {'id': data.id, 'status': 'delete'}, (res) => {
                     if (res.code === Base.status.success) {
                         layer.msg("操作成功", {icon: 6, time: 800});
                         setTimeout(() => {

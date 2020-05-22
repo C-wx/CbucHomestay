@@ -74,7 +74,7 @@
                     <label class="layui-form-label"><em>*</em>&nbsp;&nbsp;是否参加活动：</label>
                     <div class="layui-input-block">
                         <input type="checkbox" name="isActive" id="active"
-                               lay-skin="switch" ${(ri.isActive=='Y')?string('checked','')} lay-text="是|否">
+                               lay-skin="switch" ${(ri.isActive=='Y')???string('checked','')} lay-text="是|否">
                     </div>
                 </div>
                 <blockquote class="layui-elem-quote layui-text" style="width: 300px">

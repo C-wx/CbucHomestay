@@ -13,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,9 +78,14 @@ public class AdminRoomController {
     @PostMapping("/opeRoom")
     public Object opeRoom(UserEvt evt) {
         try {
+            int res;
             RoomInfo roomInfo = new RoomInfo();
             BeanUtils.copyProperties(evt, roomInfo);
-            int res = roomInfoService.doEdit(roomInfo);
+            if (StringUtils.equals("delete", evt.getStatus())) {
+                res = roomInfoService.doDelete(evt.getId());
+            }else{
+                res = roomInfoService.doEdit(roomInfo);
+            }
             return res > 0 ? Result.success() : Result.error("操作失败");
         } catch (Exception e) {
             e.printStackTrace();

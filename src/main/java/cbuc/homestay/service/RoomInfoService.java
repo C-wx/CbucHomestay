@@ -190,4 +190,8 @@ public class RoomInfoService {
         propertyExample.createCriteria().andRidEqualTo(roomInfo.getId());
         propertyMapper.deleteByExample(propertyExample);
     }
+
+    public int doDelete(Long id) {
+        return roomInfoMapper.deleteByPrimaryKey(id);
+    }
 }
